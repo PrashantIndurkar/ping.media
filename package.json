@@ -1,0 +1,27 @@
+{
+  "name": "ping",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.2.3"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3"
+  },
+  "packageManager": "pnpm@9.1.0+sha512.67f5879916a9293e5cf059c23853d571beaf4f753c707f40cb22bed5fb1578c6aad3b6c4107ccb3ba0b35be003eb621a16471ac836c87beb53f9d54bb4612724"
+}
