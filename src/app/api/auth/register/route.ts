@@ -1,10 +1,68 @@
+import { CustomErrorReporter } from "./../../../../validations/CustomErrorReporter";
 import { registerSchema } from "@/validations/registerSchema";
-import vine from "@vinejs/vine";
+import vine, { errors } from "@vinejs/vine";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt, { hashSync } from "bcryptjs";
+import prisma from "@/DB/db.config";
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-  const validator = vine.compile(registerSchema);
+  try {
+    const data = await request.json();
 
-  const payload = await validator.validate(data);
+    vine.errorReporter = () => new CustomErrorReporter();
+
+    const validator = vine.compile(registerSchema);
+    const payload = await validator.validate(data);
+
+    // * Check email
+    const isEmailExist = await prisma.user.findUnique({
+      where: {
+        email: payload.email,
+      },
+    });
+
+    if (isEmailExist) {
+      return NextResponse.json({
+        status: 400,
+        errors: {
+          email: "Email already exist",
+        },
+      });
+    }
+
+    // * Check username
+    const isUsernameExist = await prisma.user.findUnique({
+      where: {
+        username: payload.username,
+      },
+    });
+
+    if (isUsernameExist) {
+      return NextResponse.json({
+        status: 400,
+        errors: {
+          username: "Username already exist",
+        },
+      });
+    }
+
+    // TODO: hash password
+    const salt = bcrypt.genSaltSync(10);
+    payload.password = hashSync(payload.password, salt);
+
+    // * Inset user into database
+    await prisma.user.create({
+      data: payload,
+    });
+
+    return NextResponse.json({
+      status: 200,
+      message: "Account created successfully!",
+    });
+  } catch (error) {
+    if (error instanceof errors.E_VALIDATION_ERROR) {
+      console.log("error.messages", error.messages);
+      return NextResponse.json({ status: 400, error: error.messages });
+    }
+  }
 }
