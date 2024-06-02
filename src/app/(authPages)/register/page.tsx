@@ -5,8 +5,14 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
+  const [errors, setErrors] = useState<AuthErrorType>({});
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+
   const [authState, setAuthState] = useState<AuthStateType>({
     email: "",
     password: "",
@@ -16,6 +22,23 @@ const Register = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(authState);
+    setLoading(true);
+    axios
+      .post("/api/auth/register", authState)
+      .then((res) => {
+        setLoading(false);
+        const response = res.data;
+
+        if (response.status === 200) {
+          console.log("Successfully registered");
+          router.push(`/login?message=${response.message}`);
+        } else if (response.status === 400) {
+          setErrors(response.error);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -49,7 +72,7 @@ const Register = () => {
                     setAuthState({ ...authState, name: event.target.value })
                   }
                 />
-                {/* <span className="text-red-400 font-bold">{errors.name}</span> */}
+                <span className="text-red-400 font-bold">{errors.name}</span>
               </div>
               <div className="mt-5">
                 <Label htmlFor="username">Username</Label>
@@ -62,7 +85,7 @@ const Register = () => {
                   }
                 />
                 <span className="text-red-400 font-bold">
-                  {/* {errors.username} */}
+                  {errors.username}
                 </span>
               </div>
               <div className="mt-5">
@@ -75,7 +98,7 @@ const Register = () => {
                     setAuthState({ ...authState, email: event.target.value })
                   }
                 />
-                {/* <span className="text-red-400 font-bold">{errors.email}</span> */}
+                <span className="text-red-400 font-bold">{errors.email}</span>
               </div>
               <div className="mt-5">
                 <Label htmlFor="password">Password</Label>
@@ -88,15 +111,14 @@ const Register = () => {
                   }
                 />
                 <span className="text-red-400 font-bold">
-                  {/* {errors.password}
-                   */}
+                  {errors.password}
                 </span>
               </div>
               <div className="mt-5">
-                <Label htmlFor="cpassword">Confirm Password</Label>
+                <Label htmlFor="confirm_password">Confirm Password</Label>
                 <Input
                   type="password"
-                  id="cpassword"
+                  id="confirm_password"
                   placeholder="Confirm password.."
                   onChange={(event) =>
                     setAuthState({
@@ -107,13 +129,8 @@ const Register = () => {
                 />
               </div>
               <div className="mt-5">
-                <Button
-                  className="w-full"
-                  variant="outline"
-                  // disabled={loading}
-                >
-                  {/* {loading ? "Processing..." : "Register"} */}
-                  Register
+                <Button className="w-full" variant="outline" disabled={loading}>
+                  {loading ? "Processing..." : "Register"}
                 </Button>
               </div>
               <div className="mt-5 text-white">
