@@ -54,7 +54,7 @@ const Register = () => {
             />
           </div>
           <form onSubmit={onSubmit}>
-            <div className="mt-5">
+            <div className="mt-5 space-y-2">
               <div className="flex justify-between items-center">
                 <div>
                   <h1 className="text-2xl font-bold">Register</h1>
@@ -62,8 +62,10 @@ const Register = () => {
                 </div>
               </div>
 
-              <div className="mt-5">
-                <Label htmlFor="name">Name</Label>
+              <div className="mt-5 space-y-2">
+                <Label className="text-gray-200" htmlFor="name">
+                  Name
+                </Label>
                 <Input
                   type="text"
                   id="name"
@@ -74,8 +76,10 @@ const Register = () => {
                 />
                 <span className="text-red-400 font-bold">{errors.name}</span>
               </div>
-              <div className="mt-5">
-                <Label htmlFor="username">Username</Label>
+              <div className="mt-5 space-y-2">
+                <Label className="text-gray-200" htmlFor="username">
+                  Username
+                </Label>
                 <Input
                   type="text"
                   id="username"
@@ -88,8 +92,10 @@ const Register = () => {
                   {errors.username}
                 </span>
               </div>
-              <div className="mt-5">
-                <Label htmlFor="email">Email</Label>
+              <div className="mt-5 space-y-2">
+                <Label className="text-gray-200" htmlFor="email">
+                  Email
+                </Label>
                 <Input
                   type="email"
                   id="email"
@@ -100,8 +106,10 @@ const Register = () => {
                 />
                 <span className="text-red-400 font-bold">{errors.email}</span>
               </div>
-              <div className="mt-5">
-                <Label htmlFor="password">Password</Label>
+              <div className="mt-5 space-y-2">
+                <Label className="text-gray-200" htmlFor="password">
+                  Password
+                </Label>
                 <Input
                   type="password"
                   id="password"
@@ -114,8 +122,10 @@ const Register = () => {
                   {errors.password}
                 </span>
               </div>
-              <div className="mt-5">
-                <Label htmlFor="confirm_password">Confirm Password</Label>
+              <div className="mt-5 space-y-2">
+                <Label className="text-gray-200" htmlFor="confirm_password">
+                  Confirm Password
+                </Label>
                 <Input
                   type="password"
                   id="confirm_password"
@@ -128,8 +138,12 @@ const Register = () => {
                   }
                 />
               </div>
-              <div className="mt-5">
-                <Button className="w-full" variant="outline" disabled={loading}>
+              <div className="mt-10">
+                <Button
+                  className="w-full mt-5"
+                  variant="outline"
+                  disabled={loading}
+                >
                   {loading ? "Processing..." : "Register"}
                 </Button>
               </div>

@@ -7,13 +7,16 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const Login = () => {
   const params = useSearchParams();
+  const { status } = useSession();
   const [loading, setLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState<AuthErrorType>({});
   const router = useRouter();
+  const [errors, setErrors] = useState<AuthErrorType>({});
 
   const [authState, setAuthState] = useState<AuthStateType>({
     email: "",
@@ -30,7 +33,12 @@ const Login = () => {
         setLoading(false);
         const response = res.data;
         if (response.status === 200) {
-          alert("Successfully logged in");
+          signIn("credentials", {
+            email: authState.email,
+            password: authState.password,
+            callbackUrl: "/",
+            redirect: true,
+          });
         } else if (response.status === 400) {
           setErrors(response.errors as AuthErrorType);
         }
@@ -39,6 +47,13 @@ const Login = () => {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [status]);
+
   return (
     <div className="bg-black">
       <div className=" h-screen w-screen flex justify-center items-center">
@@ -66,8 +81,10 @@ const Login = () => {
                 <p className="inline-block text-neutral-400">Welcome back</p>
               </div>
 
-              <div className="mt-5">
-                <Label htmlFor="email">Email</Label>
+              <div className="mt-5 space-y-2">
+                <Label htmlFor="email" className="text-gray-200">
+                  Email
+                </Label>
                 <Input
                   type="email"
                   id="email"
@@ -78,8 +95,10 @@ const Login = () => {
                 />
                 <span className="text-red-400 font-bold">{errors?.email}</span>
               </div>
-              <div className="mt-5">
-                <Label htmlFor="password">Password</Label>
+              <div className="mt-5 space-y-2">
+                <Label htmlFor="password" className="text-gray-200">
+                  Password
+                </Label>
                 <Input
                   type="password"
                   id="password"
