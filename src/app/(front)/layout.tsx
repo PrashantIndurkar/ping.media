@@ -20,7 +20,7 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      <div className="max-w-6xl mx-auto overflow-hidden"> {children}</div>
     </ThemeProvider>
   );
 }
