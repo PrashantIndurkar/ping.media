@@ -100,7 +100,7 @@ export default function RootLayout({
                     Notifications
                     <Badge
                       variant="outline"
-                      className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+                      className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full "
                     >
                       6
                     </Badge>
@@ -115,7 +115,7 @@ export default function RootLayout({
 
                   <Link
                     href="/profile"
-                    className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-zinc-700 font-bold text-lg transition-all hover:text-primary hover:gap-4"
+                    className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-zinc-700 dark:text-zinc-300 font-bold text-lg transition-all hover:text-primary hover:gap-4"
                   >
                     <Avatar className="h-7 w-7 ">
                       <AvatarImage

@@ -15,7 +15,8 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
-        profileBadge: "px-3 py-1 text-md font-semibold gap-1",
+        profileBadge:
+          "px-3 py-1 text-md font-medium gap-1 text-zinc-500 dark:text-zinc-400",
       },
     },
     defaultVariants: {
