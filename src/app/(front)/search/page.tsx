@@ -1,4 +1,5 @@
 "use client";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import Logo from "@/components/common/Logo";
 import MobileSidebar from "@/components/common/MobileSidebar";
 import SearchCard from "@/components/common/SearchCard";
@@ -29,6 +30,7 @@ const Search = () => {
           </div>
         ) : (
           <>
+            <HeaderTitle />
             <button
               onClick={() => setSearch(true)}
               className=" text-lg font-medium hidden md:block md:pointer-events-none"

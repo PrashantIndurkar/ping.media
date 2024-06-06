@@ -16,6 +16,7 @@ import {
 import { Link as LinkIcon, MapPin, Pencil, UserRoundCog } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import HeaderTitle from "@/components/common/HeaderTitle";
 
 const Profile = () => {
   return (
@@ -32,7 +33,7 @@ const Profile = () => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </h3>
-          <h3 className="font-semibold">Prashant Indurkar</h3>
+          <HeaderTitle back title="Prashant Indurkar" />
         </div>
 
         <Badge variant="profileBadge" className="cursor-pointer">

@@ -106,7 +106,7 @@ export default function RootLayout({
                     </Badge>
                   </Link>
                   <Link
-                    href="#"
+                    href="/bookmarks"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
                     <Bookmark className="h-4 w-4" />
@@ -115,9 +115,9 @@ export default function RootLayout({
 
                   <Link
                     href="/profile"
-                    className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
+                    className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-zinc-700 font-bold text-lg transition-all hover:text-primary hover:gap-4"
                   >
-                    <Avatar className="h-6 w-6">
+                    <Avatar className="h-7 w-7 ">
                       <AvatarImage
                         src="https://github.com/shadcn.png"
                         alt="@shadcn"
