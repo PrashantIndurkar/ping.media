@@ -29,7 +29,7 @@ const MobileSidebar = () => {
       <SheetContent side="left" className="flex flex-col">
         <nav className="grid gap-2 text-lg font-medium">
           <Link
-            href="#"
+            href="/"
             className="flex items-center gap-2 text-lg font-semibold"
           >
             <Image
@@ -49,14 +49,14 @@ const MobileSidebar = () => {
             Scroll
           </Link>
           <Link
-            href="#"
+            href="/messages"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
             <MessageCircle className="h-5 w-5" />
-            Inbox
+            Messages
           </Link>
           <Link
-            href="#"
+            href="/jobs"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
             <BriefcaseBusiness className="h-5 w-5" />
@@ -70,7 +70,7 @@ const MobileSidebar = () => {
             Search
           </Link>
           <Link
-            href="#"
+            href="/my-network"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
             <UserRoundSearch className="h-5 w-5" />

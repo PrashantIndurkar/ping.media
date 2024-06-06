@@ -65,14 +65,14 @@ export default function RootLayout({
                     Scroll
                   </Link>
                   <Link
-                    href="#"
+                    href="/messages"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
                     <MessageCircle className="h-4 w-4" />
-                    Inbox
+                    Messages
                   </Link>
                   <Link
-                    href="#"
+                    href="/jobs"
                     className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 my-2 text-primary transition-all hover:text-primary"
                   >
                     <BriefcaseBusiness className="h-4 w-4" />
@@ -86,7 +86,7 @@ export default function RootLayout({
                     Search
                   </Link>
                   <Link
-                    href="#"
+                    href="/my-network"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
                     <UserRoundSearch className="h-4 w-4" />
