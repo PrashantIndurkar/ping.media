@@ -42,7 +42,7 @@ const Profile = () => {
         </Badge>
       </header>
       <section className="mt-12 flex items-center justify-center">
-        <Card className="border-none w-full rounded-none flex flex-col items-center justify-center">
+        <Card className="border-none w-full rounded-none flex flex-col items-center justify-center shadow-none">
           <CardHeader>
             <Avatar className="h-20 w-20">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -57,7 +57,7 @@ const Profile = () => {
                 @Prashant
               </CardDescription>
               <CardDescription>Full Stack Developer</CardDescription>
-              <div className="space-x-2 mt-6 text-zinc-400">
+              <div className="space-x-2 mt-6 text-zinc-500 dark:text-zinc-400">
                 <span className="items-center inline-flex">
                   <UserRoundCog className="h-4 w-4 inline mr-1" />
                   Member since 2021
