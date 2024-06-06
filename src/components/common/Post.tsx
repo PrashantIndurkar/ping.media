@@ -8,7 +8,7 @@ import PostContent from "./PostContent";
 
 const Post = () => {
   return (
-    <Card className="shadow-none rounded-none border-b border-x-0 border-t-0   border-zinc-200 dark:border-zinc-700">
+    <Card className="shadow-none rounded-none border-b border-x-0 border-t-0 dark:hover:bg-zinc-900/50 hover:bg-zinc-50 border-zinc-200 dark:border-zinc-700">
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="flex items-center flex-row gap-x-2">
           <Avatar className="h-10 w-10">
