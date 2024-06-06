@@ -1,9 +1,10 @@
+import HeaderTitle from "@/components/common/HeaderTitle";
 import Logo from "@/components/common/Logo";
 import MobileSidebar from "@/components/common/MobileSidebar";
 import NotificationsCard from "@/components/common/NotificationsCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardDescription } from "@/components/ui/card";
-import { UserRoundPlus } from "lucide-react";
+import { ArrowLeft, UserRoundPlus } from "lucide-react";
 import React from "react";
 
 const Notifications = () => {
@@ -14,7 +15,7 @@ const Notifications = () => {
           <MobileSidebar />
           <Logo />
         </>
-        <h3 className="text-lg font-medium ml-auto md:ml-0">Notifications</h3>
+        <HeaderTitle title="Notifications" />
       </header>
       <section>
         <NotificationsCard />

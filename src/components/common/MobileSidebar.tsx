@@ -87,7 +87,7 @@ const MobileSidebar = () => {
             </Badge>
           </Link>
           <Link
-            href="#"
+            href="/bookmarks"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
             <Bookmark className="h-5 w-5" />
