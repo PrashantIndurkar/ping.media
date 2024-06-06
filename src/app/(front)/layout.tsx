@@ -5,6 +5,7 @@ import {
   Bell,
   Bookmark,
   BriefcaseBusiness,
+  Dot,
   HomeIcon,
   Menu,
   MessageCircle,
@@ -16,7 +17,7 @@ import Link from "next/link";
 import ThemeToggleBtn from "@/components/common/ThemeToggleBtn";
 import Image from "next/image";
 
-import MobileSidebar from "@/components/common/MobileSidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",
@@ -111,10 +112,33 @@ export default function RootLayout({
                     <Bookmark className="h-4 w-4" />
                     Bookmarks
                   </Link>
+
+                  <Link
+                    href="/profile"
+                    className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
+                  >
+                    <Avatar className="h-6 w-6">
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="@shadcn"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    Prashant
+                  </Link>
                 </nav>
               </div>
-              <div className="mt-auto p-4">
+              <div className="mt-auto p-4 space-y-8">
                 <ThemeToggleBtn />
+                <div className="text-xs text-zinc-400 font-medium">
+                  <span>Blog</span> <Dot className="inline text-gray-600" />
+                  <span>Support</span> <Dot className="inline text-gray-600" />
+                  <span>Help</span> <Dot className="inline text-gray-600" />
+                  <span>T&C</span> <Dot className="inline text-gray-600" />{" "}
+                  <span>Code of Conduct</span>{" "}
+                  <Dot className="inline text-gray-600" />
+                  <span>Privacy</span>
+                </div>
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import {
   Bell,
   Bookmark,
   BriefcaseBusiness,
+  Dot,
   HomeIcon,
   Menu,
   MessageCircle,
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 import ThemeToggleBtn from "./ThemeToggleBtn";
 import { Badge } from "../ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const MobileSidebar = () => {
   return (
@@ -91,11 +93,30 @@ const MobileSidebar = () => {
             <Bookmark className="h-5 w-5" />
             Bookmarks
           </Link>
+          <Link
+            href="/profile"
+            className="mx-[-0.65rem] flex items-center mt-12 gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
+          >
+            <Avatar className="h-6 w-6">
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            Prashant
+          </Link>
         </nav>
 
         <div className="mt-auto">
-          <div className="mt-auto p-4">
+          <div className="mt-auto p-4 space-y-8">
             <ThemeToggleBtn />
+            <div className="text-xs text-zinc-400 font-medium">
+              <span>Blog</span> <Dot className="inline text-gray-600" />
+              <span>Support</span> <Dot className="inline text-gray-600" />
+              <span>Help</span> <Dot className="inline text-gray-600" />
+              <span>T&C</span> <Dot className="inline text-gray-600" />{" "}
+              <span>Code of Conduct</span>{" "}
+              <Dot className="inline text-gray-600" />
+              <span>Privacy</span>
+            </div>
           </div>
         </div>
       </SheetContent>
