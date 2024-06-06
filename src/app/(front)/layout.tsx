@@ -37,7 +37,7 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
-      <div className="max-w-6xl mx-auto overflow-hidden">
+      <div className="xl:max-w-6xl mx-auto overflow-hidden">
         <div className="flex h-screen">
           {/* left sidebar */}
           <div className="hidden border-r md:block">
@@ -143,13 +143,13 @@ export default function RootLayout({
             </div>
           </div>
           {/* main content */}
-          <div className="flex-1 flex flex-col border-r">
+          <div className="flex-1 flex flex-col">
             <section className="flex-1 overflow-y-auto hide-scrollbar ">
               {children}
             </section>
           </div>
           {/* right sidebar */}
-          <div className="hidden md:block">Top picks</div>
+          <div className="hidden xl:block  border-l">Top picks</div>
         </div>
       </div>
     </ThemeProvider>
