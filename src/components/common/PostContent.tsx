@@ -48,7 +48,7 @@ const PostContent = () => {
           debitis odio omnis?
         </p>
       </CardContent>
-      <CardFooter className="flex-col px-[4.5rem]">
+      <CardFooter className="flex-col pl-[4.5rem]">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center justify-between gap-x-10">
             <button onClick={() => setShow(true)}>
