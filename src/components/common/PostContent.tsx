@@ -4,42 +4,30 @@ import { CardContent, CardFooter } from "../ui/card";
 import {
   ArrowUp,
   Bookmark,
-  Github,
-  Heart,
   Link as LinkIcon,
   Linkedin,
-  Mail,
   MessageSquare,
-  Plus,
-  PlusCircle,
   Share,
-  User,
-  UserPlus,
-  Users,
   X,
 } from "lucide-react";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Link from "next/link";
 
 const PostContent = () => {
   const [show, setShow] = React.useState(false);
-  const [votes, setVotes] = React.useState(true);
+  const [vote, setVote] = React.useState(true);
+  const [bookmark, setBookmark] = React.useState(true);
+
   return (
     <>
       <CardContent className="-mt-2 px-[4.5rem]">
@@ -54,27 +42,46 @@ const PostContent = () => {
       <CardFooter className="flex-col pl-[4.5rem]">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center justify-between gap-x-10">
-            <button className="border px-3 py-1.5 rounded-full flex items-center justify-center">
-              <Heart />
+            <button
+              onClick={() => setVote(!vote)}
+              className={`border px-3 py-1.5 rounded-full flex items-center text-zinc-400 transition duration-150 ease-in-out ${
+                vote &&
+                "bg-rose-50/90 dark:bg-red-800/10 dark:text-rose-300 text-rose-400 group"
+              }`}
+            >
+              {vote ? (
+                <IoHeart className="h-5 w-5 group-hover:scale-125 transition duration-200 ease-in-out" />
+              ) : (
+                <IoHeartOutline className="h-5 w-5 group-hover:scale-125 transition duration-200 ease-in-out" />
+              )}{" "}
+              <span className="ml-2 font-medium ">1</span>
             </button>
             <button
               onClick={() => setShow(!show)}
-              className={`border px-3 py-1.5 rounded-full flex items-center justify-center ${
+              className={`border px-3 py-1.5 rounded-full flex items-center text-zinc-400 justify-center group ${
                 show && " bg-zinc-100 dark:bg-zinc-800"
               }`}
             >
-              <MessageSquare className="h-5 w-5" />
+              <MessageSquare className="h-5 w-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
+              <span className="ml-2 font-medium">1</span>
             </button>
           </div>
           <div className="flex items-center justify-between gap-10">
-            <button className="border px-3 py-1.5 rounded-full flex items-center justify-center">
-              <Bookmark className="h-5 w-5" />
+            {/* add sound when clicked */}
+            <button
+              onClick={() => setBookmark(!bookmark)}
+              className={`border px-3 py-1.5 rounded-full flex items-center text-zinc-400 transition duration-150 ease-in-out group ${
+                bookmark &&
+                "bg-emerald-100/90 border-emerald-100 dark:bg-emerald-900/40 dark:border-0 text-green-700"
+              }`}
+            >
+              <Bookmark className="h-5 w-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
             </button>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="border px-3 py-1.5 rounded-full flex items-center justify-center">
-                  <Share className="h-5 w-5" />
+                <button className="border px-3 py-1.5 rounded-full flex items-center text-zinc-400 justify-center group">
+                  <Share className="h-5 w-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
@@ -96,7 +103,7 @@ const PostContent = () => {
             </DropdownMenu>
           </div>
         </div>
-        {votes && (
+        {vote && (
           <div className="mr-auto mt-4">
             <div className="flex items-center justify-between w-full gap-x-2 text-gray-500 text-sm">
               <Avatar className="h-4 w-4">
@@ -123,7 +130,7 @@ const PostContent = () => {
               type="email"
               placeholder="Post your comment"
             />
-            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 border p-1 rounded-full bg-green-700/80 dark:bg-green-700/550 flex items-center justify-center text-gray-50">
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 border p-1 rounded-full bg-green-700/80 dark:bg-green-700/550 flex items-center justify-center text-gray-50 hover:bg-green-700/90">
               <ArrowUp className="h-5 w-5" />
             </button>
           </div>
