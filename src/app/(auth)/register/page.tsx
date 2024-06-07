@@ -74,7 +74,7 @@ const Register = () => {
                     setAuthState({ ...authState, name: event.target.value })
                   }
                 />
-                <span className="text-red-400 font-bold">{errors.name}</span>
+                <span className="text-red-400 font-bold">{errors?.name}</span>
               </div>
               <div className="mt-5 space-y-2">
                 <Label className="text-gray-200" htmlFor="username">
