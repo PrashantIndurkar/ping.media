@@ -7,7 +7,6 @@ import {
   BriefcaseBusiness,
   Dot,
   HomeIcon,
-  Menu,
   MessageCircle,
   Search,
   UserRoundSearch,
@@ -18,6 +17,7 @@ import ThemeToggleBtn from "@/components/common/ThemeToggleBtn";
 import Image from "next/image";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",
@@ -37,7 +37,7 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
-      <div className="xl:max-w-6xl mx-auto overflow-hidden">
+      <div className="xl:max-w-[85rem] mx-auto overflow-hidden">
         <div className="flex h-screen">
           {/* left sidebar */}
           <div className="hidden border-r md:block">
@@ -149,7 +149,57 @@ export default function RootLayout({
             </section>
           </div>
           {/* right sidebar */}
-          <div className="hidden xl:block  border-l">Top picks</div>
+          <div className="hidden xl:block border-l pl-6">
+            {/* Catalog  */}
+            {/* Top picks */}
+            {/* Your bookmarks */}
+            {/* Treading Posts / Treading Jobs */}
+            {/* Pined things show here */}
+
+            {/* User Profile  */}
+            <section className="mt-4 space-y-8">
+              <Card className="rounded-2xl flex items-center gap-4 px-3 py-2.5 my-2 transition-all hover:text-primary ">
+                <Link href="/profile">
+                  <div className="flex gap-2 items-center">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="@shadcn"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+
+                    <div className="space-y-1">
+                      <span className="text-zinc-700 dark:text-zinc-300 font-bold text-sm block">
+                        @prashantindurkar
+                      </span>
+                      <span className="block text-sm dark:text-zinc-400 text-zinc-500">
+                        Prashant Indurkar
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+                <button className="text-zinc-400 hover:text-zinc-500 transition duration-150 ease-in-out text-sm">
+                  Log Out
+                </button>
+              </Card>
+
+              <Card className="rounded-2xl">
+                <CardHeader className="flex flex-row items-center space-y-0 p-6 gap-x-3">
+                  <div className="flex items-center">
+                    <div className="relative inline-flex">
+                      <div className="w-2.5 h-2.5 bg-pink-500 rounded-full"></div>
+                      <div className="w-2.5 h-2.5 bg-pink-500 rounded-full absolute top-0 left-0 animate-ping"></div>
+                      <div className="w-2.5 h-2.5 bg-pink-500 rounded-full absolute top-0 left-0 animate-pulse"></div>
+                    </div>
+                  </div>
+                  <h2 className="font-semibold text-zinc-700 dark:text-zinc-300">
+                    Active on Ping
+                  </h2>
+                </CardHeader>
+              </Card>
+            </section>
+          </div>
         </div>
       </div>
     </ThemeProvider>
