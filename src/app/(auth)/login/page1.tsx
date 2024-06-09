@@ -2,17 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import axios from "axios";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { FaGithub, FaGoogle } from "react-icons/fa";
-
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
@@ -63,33 +55,36 @@ const Login = () => {
 
   return (
     <Suspense>
-      <div className="grid w-full h-screen grow items-center px-4 sm:justify-center">
-        <form onSubmit={onSubmit}>
-          <Card className="w-full sm:w-96">
-            <CardHeader>
-              <CardTitle>Login in to Ping.media</CardTitle>
-              <CardDescription>
-                Welcome back! Please sign in to continue
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-y-4">
-              <div className="grid grid-cols-2 gap-x-4">
-                <Button>
-                  <FaGithub className="mr-2 size-4" />
-                  Github
-                </Button>
-                <Button>
-                  <FaGithub className="mr-2 size-4" />
-                  Github
-                </Button>
+      <div className="bg-black">
+        <div className=" h-screen w-screen flex justify-center items-center">
+          <div className="w-full mx-2 md:w-1/3 md:mx-0 bg-neutral-900/30 shadow-lg p-6 rounded-lg">
+            <div className="flex justify-center mt-10">
+              <Image
+                src="/images/PingLogo.png"
+                width={100}
+                height={100}
+                alt="Logo"
+              />
+            </div>
+            {params.get("message") ? (
+              <div className="bg-green-100 text-sm p-5 rounded-lg font-bold my-4 text-green-600">
+                <strong>Success!</strong> {params.get("message")}
               </div>
-              <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
-                or
-              </p>
+            ) : (
+              <></>
+            )}
+            {/* TODO: add React hook for form validation with zod */}
+            <form onSubmit={onSubmit}>
+              <div className="mt-5">
+                <div className="flex justify-center items-center flex-col">
+                  <h1 className="text-2xl font-bold text-white">Login</h1>
+                  <p className="inline-block text-neutral-400">Welcome back</p>
+                </div>
 
-              <section>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                <div className="mt-5 space-y-2">
+                  <Label htmlFor="email" className="text-gray-200">
+                    Email
+                  </Label>
                   <Input
                     type="email"
                     id="email"
@@ -98,10 +93,14 @@ const Login = () => {
                       setAuthState({ ...authState, email: event.target.value })
                     }
                   />
-                  <span className="text-red-400 font-bold">{errors.email}</span>
+                  <span className="text-red-400 font-bold">
+                    {errors?.email}
+                  </span>
                 </div>
                 <div className="mt-5 space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-gray-200">
+                    Password
+                  </Label>
                   <Input
                     type="password"
                     id="password"
@@ -114,26 +113,31 @@ const Login = () => {
                     }
                   />
                   <span className="text-red-400 font-bold">
-                    {errors.password}
+                    {errors?.password}
                   </span>
                 </div>
-                <div>
-                  <Button className="w-full mt-5" disabled={loading}>
-                    {loading ? "Processing..." : "Continue"}
+                <div className="mt-5">
+                  <Button
+                    className="w-full"
+                    variant="outline"
+                    disabled={loading}
+                  >
+                    {loading ? "Processing ..." : "Login"}
                   </Button>
                 </div>
-                <div className="flex items-center justify-center mt-4">
+                <div className="mt-5 text-white">
+                  <span>Dont Have an account ? </span>
                   <Link
                     href="/register"
-                    className="text-sm cursor-pointer hover:underline"
+                    className="text-indigo-500 cursor-pointer font-bold"
                   >
-                    Don't have an account? Register
+                    Register
                   </Link>
                 </div>
-              </section>
-            </CardContent>
-          </Card>
-        </form>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </Suspense>
   );

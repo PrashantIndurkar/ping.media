@@ -2,18 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import Link from "next/link";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import React, { useState } from "react";
-import { FaGithub, FaGoogle } from "react-icons/fa";
 
 const Register = () => {
   const [errors, setErrors] = useState<AuthErrorType>({});
@@ -49,39 +42,34 @@ const Register = () => {
   };
 
   return (
-    <div className="grid w-full h-screen grow items-center px-4 sm:justify-center">
-      <form onSubmit={onSubmit}>
-        <Card className="w-full sm:w-96">
-          <CardHeader>
-            <CardTitle>Create your account</CardTitle>
-            <CardDescription>
-              Welcome! Please fill in the details to get started.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-y-4">
-            <div className="grid grid-cols-2 gap-x-4">
-              <Button>
-                <FaGithub className="mr-2 size-4" />
-                Github
-              </Button>
-              <Button>
-                <FaGithub className="mr-2 size-4" />
-                Github
-              </Button>
-            </div>
-            <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
-              or
-            </p>
+    <div className="bg-black py-36">
+      <div className=" h-screen w-screen flex justify-center items-center">
+        <div className="w-full lg:w-1/3 text-zinc-100 shadow-lg p-6 rounded-lg ">
+          {/* <div className="flex justify-center">
+            <Image
+              src="/images/PingLogo.png"
+              width={200}
+              height={200}
+              alt="Logo"
+            />
+          </div> */}
+          <form onSubmit={onSubmit}>
+            <div className="mt-5 space-y-2">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h1 className="text-2xl font-bold">Register</h1>
+                  <p>Welcome to the threads</p>
+                </div>
+              </div>
 
-            <section>
               <div className="mt-5 space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label className="text-gray-200" htmlFor="name">
+                  Name
+                </Label>
                 <Input
                   type="text"
                   id="name"
                   placeholder="Type your name.."
-                  autoFocus
-                  autoComplete="name"
                   onChange={(event) =>
                     setAuthState({ ...authState, name: event.target.value })
                   }
@@ -89,11 +77,12 @@ const Register = () => {
                 <span className="text-red-400 font-bold">{errors?.name}</span>
               </div>
               <div className="mt-5 space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label className="text-gray-200" htmlFor="username">
+                  Username
+                </Label>
                 <Input
                   type="text"
                   id="username"
-                  autoComplete="username"
                   placeholder="Type your unique username"
                   onChange={(event) =>
                     setAuthState({ ...authState, username: event.target.value })
@@ -104,7 +93,9 @@ const Register = () => {
                 </span>
               </div>
               <div className="mt-5 space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label className="text-gray-200" htmlFor="email">
+                  Email
+                </Label>
                 <Input
                   type="email"
                   id="email"
@@ -116,7 +107,9 @@ const Register = () => {
                 <span className="text-red-400 font-bold">{errors.email}</span>
               </div>
               <div className="mt-5 space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label className="text-gray-200" htmlFor="password">
+                  Password
+                </Label>
                 <Input
                   type="password"
                   id="password"
@@ -130,7 +123,9 @@ const Register = () => {
                 </span>
               </div>
               <div className="mt-5 space-y-2">
-                <Label htmlFor="confirm_password">Confirm Password</Label>
+                <Label className="text-gray-200" htmlFor="confirm_password">
+                  Confirm Password
+                </Label>
                 <Input
                   type="password"
                   id="confirm_password"
@@ -143,24 +138,28 @@ const Register = () => {
                   }
                 />
               </div>
-
-              <div>
-                <Button className="w-full mt-5" disabled={loading}>
-                  {loading ? "Processing..." : "Continue"}
+              <div className="mt-10">
+                <Button
+                  className="w-full mt-5"
+                  variant="outline"
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "Register"}
                 </Button>
               </div>
-              <div className="flex items-center justify-center mt-4">
+              <div className="mt-5 text-white">
+                <span>Already Have an account ? </span>
                 <Link
                   href="/login"
-                  className="text-sm cursor-pointer hover:underline"
+                  className="text-indigo-500 cursor-pointer font-bold"
                 >
-                  Don't have an account? Log in
+                  Login
                 </Link>
               </div>
-            </section>
-          </CardContent>
-        </Card>
-      </form>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
