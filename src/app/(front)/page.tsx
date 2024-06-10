@@ -1,7 +1,7 @@
 import Post from "@/components/common/Post";
 import MobileSidebar from "@/components/common/MobileSidebar";
 import Logo from "@/components/common/Logo";
-import CreatePost from "@/components/CreatePost";
+import CreatePost from "@/components/ping/CreatePost";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/options";
 

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,26 +7,36 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+} from "../ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { IoAdd } from "react-icons/io5";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { ImagePlus, Plus } from "lucide-react";
-import ImagePreviewCard from "./common/ImagePreviewCard";
+import ImagePreviewCard from "../common/ImagePreviewCard";
+import axios from "axios";
+import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const CreatePost = ({ button }: { button?: boolean }) => {
-  const imageRef = React.useRef<HTMLInputElement | null>(null);
-  const [image, setImage] = React.useState<File | null>(null);
-  // const [isImageUploaded, setIsImageUploaded] = React.useState<boolean>(false);
-  const [previewUrl, setPreviewUrl] = React.useState<string | undefined>();
-  const [content, setContent] = React.useState<string>("");
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const imageRef = useRef<HTMLInputElement | null>(null);
+
+  const [image, setImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>();
+  const [content, setContent] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<PostErrorType>({});
 
   const handleClick = () => {
     if (imageRef.current) {
       imageRef.current.click();
     }
   };
+
+  // Handle the image change
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -36,10 +46,51 @@ const CreatePost = ({ button }: { button?: boolean }) => {
     }
   };
 
+  // Remove the preview image
   const removePreviewImage = () => {
     setImage(null);
     setPreviewUrl(undefined);
   };
+
+  // Submit the post
+  const submitPost = async () => {
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("content", content);
+    if (image) formData.append("image", image!);
+
+    axios
+      .post("/api/post", formData)
+      .then((res) => {
+        setIsLoading(false);
+        const response = res.data;
+        if (response.status == 400) {
+          setIsError(response.errors);
+        } else if (response.status == 200) {
+          setContent("");
+          setImage(null);
+          setPreviewUrl(undefined);
+          setIsError({});
+          toast({
+            title: "Success",
+            description: response.message,
+            className: "bg-green-400",
+          });
+          router.refresh();
+        } else if (response.status == 500) {
+          toast({
+            title: "Error",
+            description: response.message,
+            className: "bg-red-300",
+          });
+        }
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log("Error in Creating post", err);
+      });
+  };
+
   return (
     <Dialog>
       <DialogTrigger className="w-full">
@@ -77,6 +128,7 @@ const CreatePost = ({ button }: { button?: boolean }) => {
             <Textarea
               placeholder="Type your message here."
               className="focus-visible:ring-0 text-lg text-zinc-200 min-h-60 focus-visible:ring-offset-0 border-none max-h-[60vh] overflow-y-auto"
+              value={content}
               onChange={(e) => setContent(e.target.value)}
             />
             {previewUrl && (
@@ -86,6 +138,7 @@ const CreatePost = ({ button }: { button?: boolean }) => {
               />
             )}
           </DialogDescription>
+          {isError && <span className="text-red-500">{isError.content}</span>}
         </DialogHeader>
         <footer className="border-t p-3 flex items-center justify-between">
           <div
@@ -101,11 +154,12 @@ const CreatePost = ({ button }: { button?: boolean }) => {
             <ImagePlus className="h-5 inline-block w-5 text-emerald-700 group-hover:rotate-180 dark:text-zinc-50 transition duration-500 ease-in-out group-hover:text-zinc-50" />
           </div>
           <Button
-            disabled={content?.length < 1 ? true : false}
+            disabled={content?.length < 1 || isLoading ? true : false}
             variant="primary"
             className={`rounded-full px-5 ${
               content?.length < 1 ? "disabled !bg-gray-200" : ""
             }`}
+            onClick={submitPost}
           >
             Post
           </Button>
