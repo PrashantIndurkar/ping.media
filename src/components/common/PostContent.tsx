@@ -46,7 +46,7 @@ const PostContent = () => {
               onClick={() => setVote(!vote)}
               className={`border px-3 py-1.5 rounded-full flex items-center text-zinc-400 transition duration-150 ease-in-out ${
                 vote &&
-                "bg-rose-50/90 dark:bg-red-800/10 dark:text-rose-300 text-rose-400 group"
+                "bg-rose-50/90 dark:bg-red-800/10 dark:text-rose-300 text-rose-400/90 group"
               }`}
             >
               {vote ? (
@@ -72,7 +72,7 @@ const PostContent = () => {
               onClick={() => setBookmark(!bookmark)}
               className={`border px-3 py-1.5 rounded-full flex items-center text-zinc-400 transition duration-150 ease-in-out group ${
                 bookmark &&
-                "bg-emerald-100/90 border-emerald-100 dark:bg-emerald-900/40 dark:border-0 text-green-700 dark:text-green-100/90"
+                "bg-emerald-100/90 border-emerald-100 dark:bg-emerald-900/40 dark:border-0 text-green-700/90 dark:text-green-100/90"
               }`}
             >
               <Bookmark className="h-5 w-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
