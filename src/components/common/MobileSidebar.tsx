@@ -93,16 +93,27 @@ const MobileSidebar = () => {
             <Bookmark className="h-5 w-5" />
             Bookmarks
           </Link>
-          <Link
-            href="/profile"
-            className="mx-[-0.65rem] flex items-center mt-12 gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
-          >
-            <Avatar className="h-6 w-6">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            Prashant
-          </Link>
+          <div className="flex items-center justify-between mt-12 ">
+            <Link
+              href="/profile"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
+            >
+              <Avatar className="h-6 w-6">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              Prashant
+            </Link>
+            <Button
+              variant="outline"
+              className="text-zinc-400 hover:text-zinc-500 transition duration-150 ease-in-out text-sm"
+            >
+              Log Out
+            </Button>
+          </div>
         </nav>
 
         <div className="mt-auto">
