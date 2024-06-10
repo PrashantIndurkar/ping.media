@@ -19,8 +19,11 @@ import Image from "next/image";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import CreatePost from "@/components/CreatePost";
+import CreatePost from "@/components/ping/CreatePost";
 import { AlertDialogLogout } from "@/components/common/AlertDialogLogout";
+
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",
@@ -205,6 +208,7 @@ export default function RootLayout({
           </div>
         </div>
       </div>
+      <Toaster />
     </ThemeProvider>
   );
 }
