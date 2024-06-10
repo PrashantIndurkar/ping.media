@@ -9,6 +9,10 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "engines": {
+    "node": ">=20.13.1",
+    "pnpm": ">=9.1.0"
+  },
   "dependencies": {
     "@prisma/client": "^5.14.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
