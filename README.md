@@ -1,5 +1,7 @@
 
-# Ping.media
+# Ping.media 
+
+🟢  [LIVE](ping-media.vercel.app) 🚀
 
 ### Your Second Social and Job hunting Platform for Developer and designers
 
