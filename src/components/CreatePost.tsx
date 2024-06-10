@@ -1,9 +1,9 @@
+"use client";
 import React from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -12,9 +12,34 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IoAdd } from "react-icons/io5";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "./ui/button";
-import { Plus } from "lucide-react";
+import { ImagePlus, Plus } from "lucide-react";
+import ImagePreviewCard from "./common/ImagePreviewCard";
 
 const CreatePost = ({ button }: { button?: boolean }) => {
+  const imageRef = React.useRef<HTMLInputElement | null>(null);
+  const [image, setImage] = React.useState<File | null>(null);
+  // const [isImageUploaded, setIsImageUploaded] = React.useState<boolean>(false);
+  const [previewUrl, setPreviewUrl] = React.useState<string | undefined>();
+  const [content, setContent] = React.useState<string>("");
+
+  const handleClick = () => {
+    if (imageRef.current) {
+      imageRef.current.click();
+    }
+  };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setImage(selectedFile);
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setPreviewUrl(imageUrl);
+    }
+  };
+
+  const removePreviewImage = () => {
+    setImage(null);
+    setPreviewUrl(undefined);
+  };
   return (
     <Dialog>
       <DialogTrigger className="w-full">
@@ -51,15 +76,40 @@ const CreatePost = ({ button }: { button?: boolean }) => {
           <DialogDescription>
             <Textarea
               placeholder="Type your message here."
-              className="focus-visible:ring-0 text-lg text-zinc-200 min-h-60 focus-visible:ring-offset-0 border-none "
+              className="focus-visible:ring-0 text-lg text-zinc-200 min-h-60 focus-visible:ring-offset-0 border-none max-h-[60vh] overflow-y-auto"
+              onChange={(e) => setContent(e.target.value)}
             />
+            {previewUrl && (
+              <ImagePreviewCard
+                image={previewUrl}
+                callback={removePreviewImage}
+              />
+            )}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="border-t px-3 py-4 flex items-center justify-end">
-          <Button variant="primary" className="rounded-full">
+        <footer className="border-t p-3 flex items-center justify-between">
+          <div
+            className="h-10 w-10 border-r border-b border-l border-t border-zinc-200 dark:border-zinc-700 flex items-center justify-center rounded-full cursor-pointer hover:bg-emerald-200/70 dark:hover:bg-emerald-300/50 transition duration-500 ease-in-out"
+            onClick={handleClick}
+          >
+            <input
+              type="file"
+              ref={imageRef}
+              className="hidden"
+              onChange={handleImageChange}
+            />
+            <ImagePlus className="h-5 inline-block w-5 text-emerald-700 group-hover:rotate-180 dark:text-zinc-50 transition duration-500 ease-in-out group-hover:text-zinc-50" />
+          </div>
+          <Button
+            disabled={content?.length < 1 ? true : false}
+            variant="primary"
+            className={`rounded-full px-5 ${
+              content?.length < 1 ? "disabled !bg-gray-200" : ""
+            }`}
+          >
             Post
           </Button>
-        </DialogFooter>
+        </footer>
       </DialogContent>
     </Dialog>
   );

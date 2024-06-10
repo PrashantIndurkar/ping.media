@@ -16,6 +16,7 @@ import {
 import ThemeToggleBtn from "./ThemeToggleBtn";
 import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { AlertDialogLogout } from "./AlertDialogLogout";
 
 const MobileSidebar = () => {
   return (
@@ -107,12 +108,7 @@ const MobileSidebar = () => {
               </Avatar>
               Prashant
             </Link>
-            <Button
-              variant="outline"
-              className="text-zinc-400 hover:text-zinc-500 transition duration-150 ease-in-out text-sm"
-            >
-              Log Out
-            </Button>
+            <AlertDialogLogout />
           </div>
         </nav>
 

@@ -20,6 +20,7 @@ import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import CreatePost from "@/components/CreatePost";
+import { AlertDialogLogout } from "@/components/common/AlertDialogLogout";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",
@@ -181,9 +182,7 @@ export default function RootLayout({
                     </div>
                   </div>
                 </Link>
-                <button className="text-zinc-400 hover:text-zinc-500 transition duration-150 ease-in-out text-xs">
-                  Log Out
-                </button>
+                <AlertDialogLogout />
               </Card>
 
               <Card className="rounded-2xl">
