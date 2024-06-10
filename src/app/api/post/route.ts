@@ -8,7 +8,7 @@ import { getRandomNumber } from "@/lib/utils";
 import { writeFile } from "fs/promises";
 import prisma from "@/DB/db.config";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
-import { imageValidator } from "@/validations/ImageValidator";
+import { imageValidator } from "@/validations/imageValidator";
 
 // only authenticated users can access this endpoint
 export async function POST(request: NextRequest) {
