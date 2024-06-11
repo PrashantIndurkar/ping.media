@@ -21,6 +21,8 @@ import { useRouter } from "next/navigation";
 const CreatePost = ({ button }: { button?: boolean }) => {
   const { toast } = useToast();
   const router = useRouter();
+  // State to control dialog visibility
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const imageRef = useRef<HTMLInputElement | null>(null);
 
@@ -77,6 +79,7 @@ const CreatePost = ({ button }: { button?: boolean }) => {
             className: "bg-green-400",
           });
           router.refresh();
+          setIsDialogOpen(false);
         } else if (response.status == 500) {
           toast({
             title: "Error",
@@ -92,7 +95,7 @@ const CreatePost = ({ button }: { button?: boolean }) => {
   };
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className="w-full">
         {button ? (
           <section className="absolute right-16 bottom-16 flex items-center justify-center w-24 h-20 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-200 hover:text-zinc-500 transition duration-150 ease-in-out border border-zinc-200 hover:scale-110 dark:border-zinc-700 cursor-pointer">
