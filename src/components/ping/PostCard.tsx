@@ -7,10 +7,7 @@ import Link from "next/link";
 import PostContent from "./PostContent";
 import { formateDate } from "@/lib/utils";
 
-const PostCard = async ({ posts }: { posts: Array<PostType> | [] }) => {
-  console.log("posts,", posts);
-  // settimeout for testing run this for 2 seconds to see the loading
-
+const PostCard = ({ posts }: { posts: Array<PostType> | [] }) => {
   return (
     <>
       {posts?.map((post) => {

@@ -12,6 +12,7 @@ export type CustomUser = {
   name?: string | null;
   username?: string | null;
   email?: string | null;
+  created_at: ISODateString;
 };
 
 export const authOptions: AuthOptions = {
@@ -22,14 +23,14 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.user = user;
+        token.user = {
+          ...user,
+        };
       }
       return token;
     },
-    async session(params) {
-      const { session, token } = params;
+    async session({ session, token }) {
       session.user = token.user as CustomUser;
-
       return session;
     },
   },
@@ -54,9 +55,9 @@ export const authOptions: AuthOptions = {
             email: true,
             name: true,
             username: true,
+            created_at: true,
           },
         });
-
         if (user) {
           return { ...user, id: user.id.toString() };
         } else {

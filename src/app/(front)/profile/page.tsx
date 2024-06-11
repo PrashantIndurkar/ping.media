@@ -15,13 +15,25 @@ import {
 } from "@/components/ui/card";
 import { Link as LinkIcon, MapPin, Pencil, UserRoundCog } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 import HeaderTitle from "@/components/common/HeaderTitle";
+import { getServerSession } from "next-auth/next";
+import { formateDate, getAvatarFallbackName } from "@/lib/utils";
+import {
+  CustomSession,
+  authOptions,
+} from "@/app/api/auth/[...nextauth]/options";
+import { getUserPosts } from "@/lib/getUserPosts";
+import PostCard from "@/components/ping/PostCard";
+import Await from "@/components/ping/await";
+import PostCardSkeleton from "@/components/ping/post-card-skeleton";
 
-const Profile = () => {
+const Profile = async () => {
+  const session: CustomSession | null = await getServerSession(authOptions);
+  const postsPromise = getUserPosts();
   return (
     <>
-      <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-gray-900/15 z-10 flex items-center justify-between w-full ">
+      <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center justify-between w-full ">
         <div className="flex items-center justify-betweens md:hidden">
           <MobileSidebar />
           <Logo />
@@ -29,8 +41,13 @@ const Profile = () => {
         <div className=" items-center gap-2 hidden md:flex">
           <h3 className="text-lg font-medium ml-auto md:ml-0">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage
+                src="https://github.com/shadcn.png"
+                alt={session?.user?.name + " avatar"}
+              />
+              <AvatarFallback className="text-xs">
+                {getAvatarFallbackName(session?.user?.name ?? "")}
+              </AvatarFallback>
             </Avatar>
           </h3>
           <HeaderTitle back title="Prashant Indurkar" />
@@ -46,21 +63,23 @@ const Profile = () => {
           <CardHeader>
             <Avatar className="h-20 w-20">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback className="text-lg">
+                {getAvatarFallbackName(session?.user?.name ?? "")}
+              </AvatarFallback>
             </Avatar>
           </CardHeader>
           <CardContent className="text-center">
             {/* Description main  */}
             <div className="flex items-center justify-center flex-col gap-2">
-              <CardTitle>Prashant Indurkar</CardTitle>
+              <CardTitle>{session?.user?.name}</CardTitle>
               <CardDescription className="cursor-pointer  hover:underline text-pink-400 w-fit">
-                @Prashant
+                {session?.user?.username ?? "asdf"}
               </CardDescription>
               <CardDescription>Full Stack Developer</CardDescription>
               <div className="space-x-2 mt-6 text-zinc-500 dark:text-zinc-400">
                 <span className="items-center inline-flex">
                   <UserRoundCog className="h-4 w-4 inline mr-1" />
-                  Member since 2021
+                  Member since {formateDate(session?.user?.created_at ?? "")}
                 </span>
                 <span className="items-center inline-flex">
                   <MapPin className="h-4 w-4 inline mr-1" />
@@ -109,7 +128,7 @@ const Profile = () => {
 
           {/* Footer or Tabs for About, Posts, Comments */}
           <CardFooter className="mt-8 w-full">
-            <Tabs defaultValue="about" className="w-full">
+            <Tabs defaultValue="posts" className="w-full">
               <TabsList className="flex flex-wrap gap-2 bg-transparent rounded-none border-b gap-x-12">
                 <TabsTrigger value="about" className="text-md">
                   About
@@ -121,9 +140,22 @@ const Profile = () => {
                   Comments
                 </TabsTrigger>
               </TabsList>
-              <section className="mt-12">
+              <section className="">
                 <TabsContent value="about">Change your about here.</TabsContent>
-                <TabsContent value="posts">Change your posts here.</TabsContent>
+                <TabsContent value="posts">
+                  {/* {postsPromise && posts.length < 1 && <h1>Posts not found</h1>} */}
+                  <Suspense fallback={<PostCardSkeleton />}>
+                    <Await promise={postsPromise}>
+                      {(data) =>
+                        data?.length > 0 ? (
+                          <PostCard posts={data} />
+                        ) : (
+                          <h1>Posts not found</h1>
+                        )
+                      }
+                    </Await>
+                  </Suspense>
+                </TabsContent>
                 <TabsContent value="comments">
                   Change your comments here.
                 </TabsContent>

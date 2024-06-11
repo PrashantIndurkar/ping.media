@@ -8,7 +8,6 @@ import {
   Dot,
   HomeIcon,
   MessageCircle,
-  Plus,
   Search,
   UserRoundSearch,
 } from "lucide-react";
@@ -18,11 +17,14 @@ import ThemeToggleBtn from "@/components/common/ThemeToggleBtn";
 import Image from "next/image";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import CreatePost from "@/components/ping/CreatePost";
 import { AlertDialogLogout } from "@/components/common/AlertDialogLogout";
 
 import { Toaster } from "@/components/ui/toaster";
+import { CustomSession } from "../api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
+import { getAvatarFallbackName } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",
@@ -30,11 +32,13 @@ export const metadata: Metadata = {
     "Social media as it should be. Find your community among millions of users, unleash your creativity, and have some fun again.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session: CustomSession | null = await getServerSession();
+  const user = session?.user;
   return (
     <ThemeProvider
       attribute="class"
@@ -127,7 +131,9 @@ export default function RootLayout({
                         src="https://github.com/shadcn.png"
                         alt="@shadcn"
                       />
-                      <AvatarFallback>CN</AvatarFallback>
+                      <AvatarFallback>
+                        {getAvatarFallbackName(user?.name ?? "")}
+                      </AvatarFallback>
                     </Avatar>
                     Prashant
                   </Link>
@@ -171,7 +177,9 @@ export default function RootLayout({
                         src="https://github.com/shadcn.png"
                         alt="@shadcn"
                       />
-                      <AvatarFallback>CN</AvatarFallback>
+                      <AvatarFallback>
+                        {getAvatarFallbackName(user?.name ?? "")}
+                      </AvatarFallback>
                     </Avatar>
 
                     <div className="space-y-1">

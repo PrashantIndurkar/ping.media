@@ -21,3 +21,11 @@ export function formateDate(date: string): string {
 // export async function wait(ms: number) {
 //   return new Promise((resolve) => setTimeout(resolve, ms));
 // }
+
+export function generateUsernameFromEmail(email: string): string {
+  return email.split("@")[0];
+}
+// getOnlyTwoCharsFromNameForAvatar
+export function getAvatarFallbackName(name: string): string {
+  return name.split(" ")[0].slice(0, 2).toUpperCase();
+}
