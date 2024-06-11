@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { CardContent, CardFooter } from "../ui/card";
+import { Card, CardContent, CardFooter } from "../ui/card";
 import {
   ArrowUp,
   Bookmark,
@@ -22,6 +22,9 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Link from "next/link";
+import Image from "next/image";
+import { AspectRatio } from "../ui/aspect-ratio";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 
 const PostContent = () => {
   const [show, setShow] = React.useState(false);
@@ -38,6 +41,26 @@ const PostContent = () => {
           quaerat cupiditate doloremque, dolorum labore excepturi facilis
           debitis odio omnis?
         </p>
+        <Dialog>
+          <DialogTrigger asChild>
+            <AspectRatio ratio={16 / 9} className="bg-muted mt-5">
+              <Image
+                src="https://images.unsplash.com/photo-1717764873047-aed4cb59c7e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8"
+                alt="Photo by Drew Beamer"
+                fill
+                className="rounded-lg object-cover cursor-pointer"
+              />
+            </AspectRatio>
+          </DialogTrigger>
+          <DialogContent className="h-[90vh] w-[60vw]">
+            <Image
+              src="https://images.unsplash.com/photo-1717764873047-aed4cb59c7e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8"
+              alt="Photo by Drew Beamer"
+              fill
+              className="rounded-lg object-cover"
+            />
+          </DialogContent>
+        </Dialog>
       </CardContent>
       <CardFooter className="flex-col pl-[4.5rem]">
         <div className="flex items-center justify-between w-full">
