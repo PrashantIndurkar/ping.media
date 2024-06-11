@@ -7,6 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model Keyword {
+//   id    Int           @id @default(autoincrement())
+//   name  String        @unique
+//   users UserKeyword[]
+// }
+
+// model UserKeyword {
+//   id        Int @id @default(autoincrement())
+//   userId    Int
+//   keywordId Int
+
+//   user    User    @relation(fields: [userId], references: [id])
+//   keyword Keyword @relation(fields: [keywordId], references: [id])
+
+//   @@unique([userId, keywordId]) // Ensure that each user can have each keyword only once
+// }
+
 model User {
   id         Int      @id @default(autoincrement())
   name       String   @db.VarChar(70)
@@ -14,6 +31,12 @@ model User {
   email      String   @unique @db.VarChar(100)
   password   String?
   created_at DateTime @default(now())
+  // updated_at DateTime      @updatedAt
+  // city       String?
+  // country    String?
+  // bio        String?
+  // avatar     String?
+  // keywords   UserKeyword[]
   Post       Post[]
 }
 

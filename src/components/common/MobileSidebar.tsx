@@ -17,8 +17,14 @@ import ThemeToggleBtn from "./ThemeToggleBtn";
 import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { AlertDialogLogout } from "./AlertDialogLogout";
+import { getAvatarFallbackName } from "@/lib/utils";
+import { CustomSession } from "@/app/api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
 
-const MobileSidebar = () => {
+const MobileSidebar = async () => {
+  const session: CustomSession | null = await getServerSession();
+  const user = session?.user;
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -104,7 +110,9 @@ const MobileSidebar = () => {
                   src="https://github.com/shadcn.png"
                   alt="@shadcn"
                 />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>
+                  {getAvatarFallbackName(user?.name ?? "")}
+                </AvatarFallback>
               </Avatar>
               Prashant
             </Link>
