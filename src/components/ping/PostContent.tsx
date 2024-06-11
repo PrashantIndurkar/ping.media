@@ -25,8 +25,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { AspectRatio } from "../ui/aspect-ratio";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import Env from "@/config/env";
 
-const PostContent = () => {
+const PostContent = ({ post }: { post: PostType }) => {
   const [show, setShow] = React.useState(false);
   const [vote, setVote] = React.useState(true);
   const [bookmark, setBookmark] = React.useState(true);
@@ -34,31 +35,30 @@ const PostContent = () => {
   return (
     <>
       <CardContent className="-mt-2 px-[4.5rem]">
-        <div className=""></div>
-        <p className="prose text-zinc-800 dark:text-zinc-300">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
-          officia ea quo iste rem ipsam voluptas hic voluptate sapiente, autem
-          quaerat cupiditate doloremque, dolorum labore excepturi facilis
-          debitis odio omnis?
-        </p>
+        <p className="prose text-zinc-800 dark:text-zinc-300">{post.content}</p>
+        {/* Popup for image */}
         <Dialog>
           <DialogTrigger asChild>
-            <AspectRatio ratio={16 / 9} className="bg-muted mt-5">
-              <Image
-                src="https://images.unsplash.com/photo-1717764873047-aed4cb59c7e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8"
-                alt="Photo by Drew Beamer"
-                fill
-                className="rounded-lg object-cover cursor-pointer"
-              />
-            </AspectRatio>
+            {post?.image && (
+              <AspectRatio ratio={16 / 9} className="bg-muted mt-5 rounded-lg">
+                <Image
+                  src={`${Env.APP_URL}/uploads/${post.image}`}
+                  alt="Photo by Drew Beamer"
+                  fill
+                  className="rounded-lg object-cover cursor-pointer"
+                />
+              </AspectRatio>
+            )}
           </DialogTrigger>
           <DialogContent className="h-[90vh] w-[60vw]">
-            <Image
-              src="https://images.unsplash.com/photo-1717764873047-aed4cb59c7e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8"
-              alt="Photo by Drew Beamer"
-              fill
-              className="rounded-lg object-cover"
-            />
+            {post?.image && (
+              <Image
+                src={`${Env.APP_URL}/uploads/${post.image}`}
+                alt="Photo by Drew Beamer"
+                fill
+                className="rounded-lg object-contain"
+              />
+            )}
           </DialogContent>
         </Dialog>
       </CardContent>
