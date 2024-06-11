@@ -22,7 +22,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import CreatePost from "@/components/ping/CreatePost";
 import { AlertDialogLogout } from "@/components/common/AlertDialogLogout";
 
-import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {

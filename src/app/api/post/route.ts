@@ -10,6 +10,36 @@ import prisma from "@/DB/db.config";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { imageValidator } from "@/validations/imageValidator";
 
+// GET /api/post
+export async function GET(request: NextRequest) {
+  const session: CustomSession | null = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({
+      status: 401,
+      message: "You are not logged in",
+    });
+  }
+  const posts = await prisma.post.findMany({
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+        },
+      },
+    },
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  return NextResponse.json({
+    status: 200,
+    data: posts,
+  });
+}
+
 // only authenticated users can access this endpoint
 export async function POST(request: NextRequest) {
   try {
