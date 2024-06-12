@@ -17,7 +17,13 @@ import ThemeToggleBtn from "@/components/common/ThemeToggleBtn";
 import Image from "next/image";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import CreatePost from "@/components/ping/CreatePost";
 import { AlertDialogLogout } from "@/components/common/AlertDialogLogout";
 
@@ -25,6 +31,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { CustomSession } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import { getAvatarFallbackName } from "@/lib/utils";
+import SuggestedFollowersCard from "@/components/follow/suggest-followers-card";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",
@@ -39,6 +46,7 @@ export default async function RootLayout({
 }>) {
   const session: CustomSession | null = await getServerSession();
   const user = session?.user;
+
   return (
     <ThemeProvider
       attribute="class"
@@ -50,7 +58,7 @@ export default async function RootLayout({
         <div className="flex h-screen">
           {/* left sidebar */}
           <div className="hidden border-r md:block">
-            <div className="flex h-full max-h-screen flex-col gap-2  w-64">
+            <div className="flex h-full max-h-screen flex-col gap-2 w-64">
               <div className="flex h-14 items-center  px-4 lg:h-[60px] lg:px-6">
                 <Link
                   href="/"
@@ -160,7 +168,7 @@ export default async function RootLayout({
             </section>
           </div>
           {/* right sidebar */}
-          <div className="hidden xl:block border-l pl-6">
+          <div className="hidden xl:block border-l pl-6 w-80">
             {/* Catalog  */}
             {/* Top picks */}
             {/* Your bookmarks */}
@@ -195,6 +203,20 @@ export default async function RootLayout({
                 <AlertDialogLogout />
               </Card>
 
+              {/* In the rotes filter the users those who are most active
+                filter who has posted the most followers > posts > Comments > likes  
+                and then show top 3 users 
+              */}
+              <Card>
+                <CardHeader>
+                  <h2 className="font-semibold text-zinc-700 dark:text-zinc-300">
+                    Most Active Users
+                  </h2>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <SuggestedFollowersCard />
+                </CardContent>
+              </Card>
               <Card className="rounded-2xl">
                 <CardHeader className="flex flex-row items-center space-y-0 p-6 gap-x-3">
                   <div className="flex items-center">
@@ -205,9 +227,32 @@ export default async function RootLayout({
                     </div>
                   </div>
                   <h2 className="font-semibold text-zinc-700 dark:text-zinc-300">
-                    Active on Ping
+                    Active Discussions
                   </h2>
                 </CardHeader>
+                <CardContent>
+                  <div className="flex flex-row gap-x-2">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="profile image"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <div className="">
+                      <CardTitle className="text-md font-medium ">
+                        jone doe <Dot className="inline text-gray-600" />{" "}
+                        <span className="text-zinc-500 text-xs">
+                          3 days ago
+                        </span>
+                      </CardTitle>
+                      <CardDescription className="space-x-1 text-sm">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Deserunt, rerum.
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardContent>
               </Card>
             </section>
 

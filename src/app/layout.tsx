@@ -20,7 +20,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         {/* wrapping the whole app in a session provider to get the session */}
-        <CustomProvider>{children}</CustomProvider>
+        <CustomProvider>
+          <header className="w-full bg-orange-400 text-white text-center p-1 text-xs">
+            🔴 Application in development. Please note that some features are
+            currently in progress.
+          </header>
+          {children}
+        </CustomProvider>
       </body>
     </html>
   );
