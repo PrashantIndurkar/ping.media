@@ -2,7 +2,6 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import {
-  ArrowUp,
   Bookmark,
   Link as LinkIcon,
   Linkedin,
@@ -13,7 +12,6 @@ import {
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Input } from "../ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,6 +24,7 @@ import Image from "next/image";
 import { AspectRatio } from "../ui/aspect-ratio";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import Env from "@/config/env";
+import AddComment from "../comment/add-comment";
 
 const PostContent = ({ post }: { post: PostType }) => {
   const [show, setShow] = React.useState(false);
@@ -67,25 +66,25 @@ const PostContent = ({ post }: { post: PostType }) => {
           <div className="flex items-center justify-between gap-x-10">
             <button
               onClick={() => setVote(!vote)}
-              className={`border px-3 py-1.5 rounded-full flex items-center text-zinc-400 transition duration-150 ease-in-out ${
+              className={`bg-gray-50 px-3 py-1 rounded-full flex items-center transition duration-100 ease-in-out ${
                 vote &&
-                "bg-rose-50/90 dark:bg-red-800/10 dark:text-rose-300 text-rose-400/90 group"
+                "bg-rose-50 dark:bg-red-800/10 dark:text-rose-300 text-rose-400/90 group"
               }`}
             >
               {vote ? (
-                <IoHeart className="h-5 w-5 group-hover:scale-125 transition duration-200 ease-in-out" />
+                <IoHeart className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
               ) : (
-                <IoHeartOutline className="h-5 w-5 group-hover:scale-125 transition duration-200 ease-in-out" />
+                <IoHeartOutline className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
               )}{" "}
               <span className="ml-2 font-medium ">1</span>
             </button>
             <button
               onClick={() => setShow(!show)}
-              className={`border px-3 py-1.5 rounded-full flex items-center text-zinc-400 justify-center group ${
-                show && " bg-zinc-100 dark:bg-zinc-800"
+              className={`bg-gray-50 dark:bg-zinc-800/50 text-zinc-500 px-3 py-1 rounded-full flex items-center transition duration-100 ease-in-out group ${
+                show && "bg-zinc-200/35 dark:text-zinc-300 dark:bg-zinc-800"
               }`}
             >
-              <MessageSquare className="h-5 w-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
+              <MessageSquare className="size-5  group-hover:-rotate-12 transition duration-200 ease-in-out" />
               <span className="ml-2 font-medium">1</span>
             </button>
           </div>
@@ -93,33 +92,33 @@ const PostContent = ({ post }: { post: PostType }) => {
             {/* add sound when clicked */}
             <button
               onClick={() => setBookmark(!bookmark)}
-              className={`border px-3 py-1.5 rounded-full flex items-center text-zinc-400 transition duration-150 ease-in-out group ${
+              className={`bg-gray-50 dark:bg-zinc-800/50 text-zinc-500 px-3 py-1 rounded-full flex items-center transition duration-100 ease-in-out group ${
                 bookmark &&
-                "bg-emerald-100/90 border-emerald-100 dark:bg-emerald-900/40 dark:border-0 text-green-700/90 dark:text-green-100/90"
+                "bg-emerald-100 border-emerald-100  dark:bg-emerald-900/40 dark:border-0 text-green-600/95 dark:text-green-100/90"
               }`}
             >
-              <Bookmark className="h-5 w-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
+              <Bookmark className="size-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
             </button>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="border px-3 py-1.5 rounded-full flex items-center text-zinc-400 justify-center group">
-                  <Share className="h-5 w-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
+                <button className="bg-gray-50 dark:bg-zinc-800/50 px-3 py-1 rounded-full flex items-center text-zinc-400 justify-center group">
+                  <Share className="size-5 group-hover:-rotate-12 transition duration-200 ease-in-out" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuItem className="cursor-pointer">
-                  <X className="mr-2 h-4 w-4" />
+                  <X className="mr-2 size-4" />
                   <span>twitter.com / x.com</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer">
-                  <Linkedin className="mr-2 h-4 w-4" />
+                  <Linkedin className="mr-2 size-4" />
                   <span>Linkedin</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer">
-                  <LinkIcon className="mr-2 h-4 w-4" />
+                  <LinkIcon className="mr-2 size-4" />
                   <span>GitHub</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -142,22 +141,7 @@ const PostContent = ({ post }: { post: PostType }) => {
             </div>
           </div>
         )}
-        {show && (
-          <div className="relative mx-10 w-full max-w-full mt-4">
-            <Avatar className="absolute left-2 top-1/2 transform -translate-y-1/2 h-6 w-6">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Input
-              className="h-10 pl-12 rounded-full w-full focus-visible:ring-0 focus-visible:ring-offset-0 bg-zinc-50 dark:bg-zinc-900"
-              type="email"
-              placeholder="Post your comment"
-            />
-            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 border p-1 rounded-full bg-green-700/80 dark:bg-green-700/550 flex items-center justify-center text-gray-50 hover:bg-green-700/90">
-              <ArrowUp className="h-5 w-5" />
-            </button>
-          </div>
-        )}
+        {show && <AddComment post={post} />}
       </CardFooter>
     </>
   );

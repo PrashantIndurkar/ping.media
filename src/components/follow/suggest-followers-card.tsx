@@ -44,7 +44,7 @@ const SuggestedFollowersCard = async () => {
       })}
       {users?.length > 0 && (
         <Link
-          className="hover:text-indigo-400 text-indigo-400/90 transition duration-150 mt-4 inline-block "
+          className="hover:text-indigo-400 text-indigo-400/90 transition duration-150 mt-4 text-sm inline-block "
           href="/search"
         >
           Show more

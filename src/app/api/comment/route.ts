@@ -4,6 +4,8 @@ import vine, { errors } from "@vinejs/vine";
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import { commentSchema } from "@/validations/commentSchema";
+import prisma from "@/DB/db.config";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,10 +19,37 @@ export async function POST(request: NextRequest) {
 
     const data = await request.json();
 
-    //   validation
+    // validation
     vine.errorReporter = () => new CustomErrorReporter();
-    const validator = vine.compile(postSchema);
+    const validator = vine.compile(commentSchema);
     const payload = await validator.validate(data);
+
+    // we need to increment the post comment count
+    await prisma.post.update({
+      where: {
+        id: Number(payload.post_id),
+      },
+      data: {
+        comment_count: {
+          increment: 1,
+        },
+      },
+    });
+
+    // add comment in the database
+
+    await prisma.comment.create({
+      data: {
+        user_id: Number(session?.user?.id),
+        post_id: Number(session?.user?.id),
+        content: payload.content,
+      },
+    });
+
+    return NextResponse.json({
+      status: 200,
+      message: "Comment added successfully",
+    });
   } catch (error) {
     if (error instanceof errors.E_VALIDATION_ERROR) {
       console.log("error.messages", error.messages);
