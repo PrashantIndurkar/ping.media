@@ -15,7 +15,10 @@ const HeaderTitle = ({
     <div className="flex items-center justify">
       {!back && (
         <button
-          onClick={() => router.back()}
+          onClick={() => {
+            router.back();
+            router.refresh();
+          }}
           className="hidden md:flex items-center border border-zinc-200 dark:border-zinc-700 rounded-full p-1.5 mr-4"
         >
           <ArrowLeft className="text-zinc-700 dark:text-zinc-300" />

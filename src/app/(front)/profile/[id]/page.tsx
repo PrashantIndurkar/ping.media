@@ -27,12 +27,14 @@ import { getUserPosts } from "@/lib/getUserPosts";
 import PostCard from "@/components/ping/PostCard";
 import Await from "@/components/ping/await";
 import PostCardSkeleton from "@/components/ping/post-card-skeleton";
+import { getUserComments } from "@/lib/getUserComments";
+import Comments from "@/components/comment/comments";
 
 const Profile = async () => {
   const session: CustomSession | null = await getServerSession(authOptions);
   const postsPromise = getUserPosts();
+  const commentsPromise = getUserComments();
 
-  console.log("session PROFILE ===>", session);
   return (
     <>
       <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center justify-between w-full ">
@@ -159,7 +161,19 @@ const Profile = async () => {
                   </Suspense>
                 </TabsContent>
                 <TabsContent value="comments">
-                  Change your comments here.
+                  <Suspense fallback={<PostCardSkeleton />}>
+                    <Await promise={commentsPromise}>
+                      {(data) =>
+                        data?.length > 0 ? (
+                          data.map((comment: CommentType) => (
+                            <Comments comment={comment} />
+                          ))
+                        ) : (
+                          <h1>Comments not found</h1>
+                        )
+                      }
+                    </Await>
+                  </Suspense>
                 </TabsContent>
               </section>
             </Tabs>

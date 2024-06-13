@@ -1,21 +1,31 @@
 "use client";
 import { Dot, EllipsisVertical } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
 import PostContent from "./PostContent";
 import { formateDate, getAvatarFallbackName } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { AlertDeletePost } from "../common/AlertDeletePost";
 
 const PostCard = ({
   posts,
   noRedirect,
+  isAuthenticated,
 }: {
   posts: Array<PostType> | [];
   noRedirect?: boolean;
+  isAuthenticated?: boolean;
 }) => {
   const router = useRouter();
+
   return (
     <>
       {posts?.map((post) => {
@@ -66,7 +76,27 @@ const PostCard = ({
                 </div>
               </div>
               {/* Report button / Report Icon */}
-              <EllipsisVertical className="h-5 w-5 text-gray-500" />
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="-space-x-1 dark:hover:bg-zinc-800 rounded-full"
+                    aria-label="more options"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    <span className="text-xs font-semibold">
+                      <EllipsisVertical className="h-5 w-5 text-gray-500" />
+                    </span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-fit h-fit">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <AlertDeletePost postId={post.id} noRedirect={noRedirect} />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </CardHeader>
             <PostContent post={post} noRedirect={noRedirect} />
           </Card>

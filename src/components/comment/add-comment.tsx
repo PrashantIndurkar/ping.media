@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { getAvatarFallbackName } from "@/lib/utils";
 import axios from "axios";
 import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const AddComment = ({
   post,
@@ -20,6 +21,7 @@ const AddComment = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<PostErrorType>({});
   const { toast } = useToast();
+  const router = useRouter();
 
   const submitComment = async () => {
     setIsLoading(true);
@@ -34,12 +36,13 @@ const AddComment = ({
         if (response.status == 400) {
           setIsError(response.error);
         } else if (response.status == 200) {
+          router.refresh();
           setIsError({});
           setContent("");
           toast({
             title: "Comment added successfully",
             description: response.message,
-            className: "bg-green-500 text-white",
+            className: "bg-zinc-500 text-white h-12 min-h-fit w-fit",
           });
         }
       })
