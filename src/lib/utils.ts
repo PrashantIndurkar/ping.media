@@ -17,7 +17,9 @@ export function getRandomNumber(min: number, max: number): string {
 export function formateDate(date: string): string {
   return moment(date).fromNow();
 }
-
+export function formateYears(date: string): string {
+  return moment(date).format("ll");
+}
 // export async function wait(ms: number) {
 //   return new Promise((resolve) => setTimeout(resolve, ms));
 // }
@@ -28,5 +30,5 @@ export function generateUsernameFromEmail(email: string): string {
 
 // getOnlyTwoCharsFromNameForAvatar
 export function getAvatarFallbackName(name: string): string {
-  return name.split(" ")[0].slice(0, 2).toUpperCase();
+  return name?.split(" ")[0].slice(0, 2).toUpperCase();
 }

@@ -1,5 +1,4 @@
 import { CustomErrorReporter } from "@/validations/CustomErrorReporter";
-import { postSchema } from "@/validations/postSchema";
 import vine, { errors } from "@vinejs/vine";
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
@@ -41,7 +40,7 @@ export async function POST(request: NextRequest) {
     await prisma.comment.create({
       data: {
         user_id: Number(session?.user?.id),
-        post_id: Number(session?.user?.id),
+        post_id: Number(payload.post_id),
         content: payload.content,
       },
     });

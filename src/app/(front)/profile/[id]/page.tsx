@@ -18,7 +18,7 @@ import Link from "next/link";
 import React, { Suspense } from "react";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import { getServerSession } from "next-auth/next";
-import { formateDate, getAvatarFallbackName } from "@/lib/utils";
+import { formateDate, formateYears, getAvatarFallbackName } from "@/lib/utils";
 import {
   CustomSession,
   authOptions,
@@ -31,6 +31,8 @@ import PostCardSkeleton from "@/components/ping/post-card-skeleton";
 const Profile = async () => {
   const session: CustomSession | null = await getServerSession(authOptions);
   const postsPromise = getUserPosts();
+
+  console.log("session PROFILE ===>", session);
   return (
     <>
       <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center justify-between w-full ">
@@ -79,7 +81,7 @@ const Profile = async () => {
               <div className="space-x-2 mt-6 text-zinc-500 dark:text-zinc-400">
                 <span className="items-center inline-flex">
                   <UserRoundCog className="h-4 w-4 inline mr-1" />
-                  Member since {formateDate(session?.user?.created_at ?? "")}
+                  Member since {formateYears(session?.user?.created_at ?? "")}
                 </span>
                 <span className="items-center inline-flex">
                   <MapPin className="h-4 w-4 inline mr-1" />
@@ -128,7 +130,7 @@ const Profile = async () => {
 
           {/* Footer or Tabs for About, Posts, Comments */}
           <CardFooter className="mt-8 w-full">
-            <Tabs defaultValue="posts" className="w-full">
+            <Tabs defaultValue="about" className="w-full">
               <TabsList className="flex flex-wrap gap-2 bg-transparent rounded-none border-b gap-x-12">
                 <TabsTrigger value="about" className="text-md">
                   About

@@ -23,6 +23,7 @@ type PostType = {
   content: string;
   image?: string;
   created_at: string;
+  comment_count: number;
   user: UserType;
 };
 
@@ -30,4 +31,13 @@ type UserType = {
   id: number;
   username: string;
   name: string;
+};
+
+type CommentType = {
+  id: number;
+  user_id: number;
+  post_id: number;
+  content: string;
+  created_at: string;
+  user: UserType;
 };
