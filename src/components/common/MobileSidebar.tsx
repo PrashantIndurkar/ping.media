@@ -18,13 +18,15 @@ import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { AlertDialogLogout } from "./AlertDialogLogout";
 import { getAvatarFallbackName } from "@/lib/utils";
-import { CustomSession } from "@/app/api/auth/[...nextauth]/options";
+import {
+  CustomSession,
+  authOptions,
+} from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 
 const MobileSidebar = async () => {
-  const session: CustomSession | null = await getServerSession();
+  const session: CustomSession | null = await getServerSession(authOptions);
   const user = session?.user;
-
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -102,10 +104,10 @@ const MobileSidebar = async () => {
           </Link>
           <div className="flex items-center justify-between mt-12 ">
             <Link
-              href="/profile"
+              href={`/profile/${user?.id}`}
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
             >
-              <Avatar className="h-6 w-6">
+              <Avatar className="size-6">
                 <AvatarImage
                   src="https://github.com/shadcn.png"
                   alt="@shadcn"
@@ -114,7 +116,7 @@ const MobileSidebar = async () => {
                   {getAvatarFallbackName(user?.name ?? "")}
                 </AvatarFallback>
               </Avatar>
-              Prashant
+              {user?.name}
             </Link>
             <AlertDialogLogout />
           </div>

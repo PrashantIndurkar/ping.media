@@ -1,1 +1,2 @@
 - [] review the file structure and improve it with the folder name standardize
+- [] add user preview on avatar

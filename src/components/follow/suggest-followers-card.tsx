@@ -8,7 +8,6 @@ import { getAvatarFallbackName } from "@/lib/utils";
 
 const SuggestedFollowersCard = async () => {
   const users: Array<UserType> = await getUsers();
-  console.log("users", users);
 
   return (
     <>

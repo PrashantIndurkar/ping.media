@@ -78,42 +78,42 @@ export default async function RootLayout({
                     href="/"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
-                    <HomeIcon className="h-4 w-4" />
+                    <HomeIcon className="size-4" />
                     Scroll
                   </Link>
                   <Link
                     href="/messages"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
-                    <MessageCircle className="h-4 w-4" />
+                    <MessageCircle className="size-4" />
                     Messages
                   </Link>
                   <Link
                     href="/jobs"
                     className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 my-2 text-primary transition-all hover:text-primary"
                   >
-                    <BriefcaseBusiness className="h-4 w-4" />
+                    <BriefcaseBusiness className="size-4" />
                     Jobs
                   </Link>
                   <Link
                     href="/search"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
-                    <Search className="h-4 w-4" />
+                    <Search className="size-4" />
                     Search
                   </Link>
                   <Link
                     href="/my-network"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
-                    <UserRoundSearch className="h-4 w-4" />
+                    <UserRoundSearch className="size-4" />
                     My Network
                   </Link>
                   <Link
                     href="/notifications"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
-                    <Bell className="h-4 w-4" />
+                    <Bell className="size-4" />
                     Notifications
                     <Badge
                       variant="outline"
@@ -126,20 +126,20 @@ export default async function RootLayout({
                     href="/bookmarks"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
-                    <Bookmark className="h-4 w-4" />
+                    <Bookmark className="size-4" />
                     Bookmarks
                   </Link>
 
                   <Link
-                    href="/profile"
-                    className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-zinc-700 dark:text-zinc-300 font-bold text-lg transition-all hover:text-primary hover:gap-4"
+                    href={`/profile/${user?.id}`}
+                    className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary hover:gap-4"
                   >
-                    <Avatar className="h-7 w-7 ">
+                    <Avatar className="size-6">
                       <AvatarImage
                         src="https://github.com/shadcn.png"
                         alt="@shadcn"
                       />
-                      <AvatarFallback>
+                      <AvatarFallback className="text-xs">
                         {getAvatarFallbackName(user?.name ?? "")}
                       </AvatarFallback>
                     </Avatar>
