@@ -21,7 +21,6 @@ const Register = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(authState);
     setLoading(true);
     axios
       .post("/api/auth/register", authState)

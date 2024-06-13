@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { CardDescription, CardFooter, CardTitle } from "../ui/card";
@@ -13,17 +14,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import axios from "axios";
+import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const Comments = ({ comment }: { comment: CommentType }) => {
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const deleteComment = () => {
+    axios.delete(`/api/comments/${comment.id}`).then((res) => {
+      const response = res.data;
+      if (response.status == 200) {
+        toast({
+          title: "Comment Deleted",
+          description: response.message,
+          className: "bg-red-500 text-white",
+        });
+        router.refresh();
+      }
+    });
+  };
+
   return (
     <div className="flex items-start flex-row gap-x-2">
-      <Avatar
-        className="size-7"
-        // onClick={(e) => {
-        //   e.stopPropagation();
-        //   router.push(`/profile/${post.user.id}`);
-        // }}
-      >
+      <Avatar className="size-7">
         <AvatarImage src="https://github.com/shadcn.png" alt="profile image" />
         {/* <AvatarFallback>{getAvatarFallbackName(post.user.name)}</AvatarFallback> */}
       </Avatar>
@@ -60,24 +75,24 @@ const Comments = ({ comment }: { comment: CommentType }) => {
           </button>
 
           <DropdownMenu>
-            <DropdownMenuTrigger
-              asChild
-              // onClick={(e) => {
-              //   e.stopPropagation();
-              // }}
-            >
+            <DropdownMenuTrigger asChild>
               <button
-                className="-space-x-1 dark:hover:bg-zinc-800 px-2 rounded-full"
+                className="-space-x-1 dark:hover:bg-zinc-800 px-0.5 rounded-full"
                 aria-label="more options"
               >
                 <span className="text-xs font-semibold">
-                  <HiDotsHorizontal />
+                  <HiDotsHorizontal className="h-5 w-5 text-gray-500" />
                 </span>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-fit h-fit">
               <DropdownMenuItem className="cursor-pointer">
-                Delete
+                <button
+                  onClick={deleteComment}
+                  className="dark:text-zinc-400 text-zinc-500 dark:hover:text-zinc-500 transition duration-150 ease-in-out text-xs w-full"
+                >
+                  Delete
+                </button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
