@@ -11,7 +11,7 @@ export default function ImagePreviewCard({
 }) {
   return (
     <div
-      className="w-full h-72 bg-cover mx-3 my-2 rounded-lg border border-zinc-200 dark:border-zinc-700 transition duration-500 ease-in-out"
+      className=" h-72 bg-cover mx-3 my-2 rounded-lg border border-zinc-200 dark:border-zinc-700 transition duration-500 ease-in-out"
       style={{
         backgroundImage: `url(${image})`,
         backgroundRepeat: "no-repeat",

@@ -7,8 +7,9 @@ import { Suspense } from "react";
 import PostCardSkeleton from "@/components/ping/post-card-skeleton";
 import Await from "@/components/ping/await";
 
-export default async function Home() {
+export default function Home() {
   const postsPromise = getPosts();
+
   return (
     <>
       {/* {session && (JSON.stringify(session) as string)} */}
