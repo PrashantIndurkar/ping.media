@@ -11,9 +11,7 @@ import Comments from "@/components/comment/comments";
 import CommentFilter from "@/components/comment/comment-filter";
 
 const ShowPost = async ({ params }: { params: { id: number } }) => {
-  console.log(params);
   const posts = await getSinglePost(params.id);
-  console.log("posts", posts);
   return (
     <div>
       <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center justify-between w-full ">
