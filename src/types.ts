@@ -52,11 +52,11 @@ type ShowUserType = {
   created_at: string;
 };
 
-// type NotificationType = {
-//   id: number;
-//   user_id: number;
-//   toUser_id: number;
-//   content: string;
-//   created_at: string;
-//   user: User;
-// };
+type NotificationType = {
+  id: number;
+  user_id: number;
+  toUser_id: number;
+  content: string;
+  created_at: string;
+  user: UserType;
+};
