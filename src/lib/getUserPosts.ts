@@ -4,9 +4,9 @@ import { headers } from "next/headers";
 export async function getUserPosts() {
   const res = await fetch(`${Env.APP_URL}/api/user/post`, {
     cache: "no-cache",
-    next: {
-      revalidate: 9000,
-    },
+    // next: {
+    //   revalidate: 9000,
+    // },
     headers: headers(),
   });
 

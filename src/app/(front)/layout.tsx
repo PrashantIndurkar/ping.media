@@ -131,7 +131,7 @@ export default async function RootLayout({
                   </Link>
 
                   <Link
-                    href={`/profile/${user?.id}`}
+                    href="/profile"
                     className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary hover:gap-4"
                   >
                     <Avatar className="size-6">

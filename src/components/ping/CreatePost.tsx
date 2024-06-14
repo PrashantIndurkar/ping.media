@@ -128,7 +128,7 @@ const CreatePost = ({ button }: { button?: boolean }) => {
           <DialogDescription>
             <Textarea
               placeholder="Type your message here."
-              className="focus-visible:ring-0 text-lg text-zinc-200 min-h-60 focus-visible:ring-offset-0 border-none max-h-[60vh] overflow-y-auto"
+              className="focus-visible:ring-0 text-lg text-zinc-700 dark:text-zinc-200 min-h-60 focus-visible:ring-offset-0 border-none max-h-[60vh] overflow-y-auto"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
