@@ -1,8 +1,7 @@
 import HeaderTitle from "@/components/common/HeaderTitle";
 import Logo from "@/components/common/Logo";
 import MobileSidebar from "@/components/common/MobileSidebar";
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft } from "lucide-react";
+
 import React from "react";
 
 const Bookmarks = () => {

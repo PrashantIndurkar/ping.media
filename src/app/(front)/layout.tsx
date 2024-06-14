@@ -96,11 +96,11 @@ export default async function RootLayout({
                     Jobs
                   </Link>
                   <Link
-                    href="/search"
+                    href="/explore"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
                     <Search className="size-4" />
-                    Search
+                    Explore
                   </Link>
                   <Link
                     href="/my-network"

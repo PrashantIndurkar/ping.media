@@ -2,8 +2,7 @@ import HeaderTitle from "@/components/common/HeaderTitle";
 import Logo from "@/components/common/Logo";
 import MobileSidebar from "@/components/common/MobileSidebar";
 import NotificationsCard from "@/components/common/NotificationsCard";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardDescription } from "@/components/ui/card";
+
 import { getNotifications } from "@/lib/getNotifications";
 import { ArrowLeft, UserRoundPlus } from "lucide-react";
 import React from "react";
