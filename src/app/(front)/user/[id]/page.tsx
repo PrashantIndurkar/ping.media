@@ -149,7 +149,7 @@ const ShowUser = async ({ params }: { params: { id: number } }) => {
                   <Suspense fallback={<PostCardSkeleton />}>
                     {(user?.Comment ?? []).length > 0 ? (
                       user?.Comment?.map((comment: CommentType) => (
-                        <Comments comment={comment} />
+                        <Comments comment={comment} key={comment.id} />
                       ))
                     ) : (
                       <h1>Comments not found</h1>

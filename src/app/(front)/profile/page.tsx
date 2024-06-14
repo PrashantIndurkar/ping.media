@@ -166,7 +166,7 @@ const Profile = async () => {
                       {(data) =>
                         data?.length > 0 ? (
                           data.map((comment: CommentType) => (
-                            <Comments comment={comment} />
+                            <Comments comment={comment} key={comment.id} />
                           ))
                         ) : (
                           <h1>Comments not found</h1>
