@@ -23,26 +23,38 @@ export async function POST(request: NextRequest) {
     const validator = vine.compile(commentSchema);
     const payload = await validator.validate(data);
 
-    // we need to increment the post comment count
-    await prisma.post.update({
-      where: {
-        id: Number(payload.post_id),
-      },
-      data: {
-        comment_count: {
-          increment: 1,
+    await prisma.$transaction(async (prisma) => {
+      // we need to increment the post comment count
+      await prisma.post.update({
+        where: {
+          id: Number(payload.post_id),
         },
-      },
-    });
+        data: {
+          comment_count: {
+            increment: 1,
+          },
+        },
+      });
 
-    // add comment in the database
+      // * Add Notification
 
-    await prisma.comment.create({
-      data: {
-        user_id: Number(session?.user?.id),
-        post_id: Number(payload.post_id),
-        content: payload.content,
-      },
+      await prisma.notification.create({
+        data: {
+          user_id: Number(session?.user?.id),
+          toUser_id: Number(payload.toUserId),
+          content: "Commented on your post.",
+        },
+      });
+
+      // add comment in the database
+
+      await prisma.comment.create({
+        data: {
+          user_id: Number(session?.user?.id),
+          post_id: Number(payload.post_id),
+          content: payload.content,
+        },
+      });
     });
 
     return NextResponse.json({

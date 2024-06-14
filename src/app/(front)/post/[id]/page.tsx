@@ -14,7 +14,7 @@ const ShowPost = async ({ params }: { params: { id: number } }) => {
   const posts = await getSinglePost(params.id);
   return (
     <div>
-      <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center justify-between w-full ">
+      <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center bg-white justify-between w-full ">
         <div className="flex items-center justify-betweens md:hidden">
           <MobileSidebar />
           <Logo />

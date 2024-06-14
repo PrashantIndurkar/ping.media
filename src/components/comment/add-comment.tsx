@@ -28,7 +28,8 @@ const AddComment = ({
     axios
       .post("/api/comments", {
         content: content,
-        post_id: post.id.toString(),
+        post_id: post.id,
+        toUserId: post.user.id,
       })
       .then((res) => {
         const response = res.data;
