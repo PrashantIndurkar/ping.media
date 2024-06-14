@@ -41,3 +41,22 @@ type CommentType = {
   created_at: string;
   user: UserType;
 };
+type ShowUserType = {
+  name: string;
+  id: string;
+  email: string;
+  username: string;
+  image: string;
+  Post: Array<PostType> | [];
+  Comment: Array<CommentType> | [];
+  created_at: string;
+};
+
+// type NotificationType = {
+//   id: number;
+//   user_id: number;
+//   toUser_id: number;
+//   content: string;
+//   created_at: string;
+//   user: User;
+// };

@@ -18,7 +18,7 @@ import Link from "next/link";
 import React, { Suspense } from "react";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import { getServerSession } from "next-auth/next";
-import { formateDate, formateYears, getAvatarFallbackName } from "@/lib/utils";
+import { formateYears, getAvatarFallbackName } from "@/lib/utils";
 import {
   CustomSession,
   authOptions,

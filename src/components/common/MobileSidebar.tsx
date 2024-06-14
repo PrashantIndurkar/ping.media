@@ -104,7 +104,7 @@ const MobileSidebar = async () => {
           </Link>
           <div className="flex items-center justify-between mt-12 ">
             <Link
-              href={`/profile/${user?.id}`}
+              href="/profile"
               className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
             >
               <Avatar className="size-6">

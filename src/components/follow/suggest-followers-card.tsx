@@ -17,7 +17,7 @@ const SuggestedFollowersCard = async () => {
             key={user.id}
             className="flex flex-row items-center justify-between space-y-0 gap-x-3"
           >
-            <Link href={`/profile/${user.username}`} className="flex gap-x-2">
+            <Link href={`/user/${user.id}`} className="flex gap-x-2">
               <Avatar className="h-8 w-8">
                 <AvatarImage
                   src="https://github.com/shadcn.png"
