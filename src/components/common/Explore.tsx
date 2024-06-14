@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const SearchCard = () => {
+const ExploreCard = ({ user }: { user: UserType }) => {
   return (
     <Card className="hover:bg-neutral-50 dark:hover:bg-neutral-900 cursor-pointer group transition duration-150 ease-in-out">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -25,7 +23,7 @@ const SearchCard = () => {
       </CardHeader>
       <CardContent className="-mt-2">
         <CardTitle className="group-hover:underline outline-offset-2 text-lg font-medium">
-          Prashant Indurkar
+          {user.name}
         </CardTitle>
         <CardDescription className="w-1/2 md:w-3/4">
           Computer Engineering Student @ Universidade Potiguar
@@ -35,4 +33,4 @@ const SearchCard = () => {
   );
 };
 
-export default SearchCard;
+export default ExploreCard;

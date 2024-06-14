@@ -31,7 +31,7 @@ const MobileSidebar = async () => {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-          <Menu className="h-5 w-5" />
+          <Menu className="size-5" />
           <span className="sr-only">Toggle navigation menu</span>
         </Button>
       </SheetTrigger>
@@ -54,42 +54,42 @@ const MobileSidebar = async () => {
             href="/"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
-            <HomeIcon className="h-5 w-5" />
+            <HomeIcon className="size-5" />
             Scroll
           </Link>
           <Link
             href="/messages"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
-            <MessageCircle className="h-5 w-5" />
+            <MessageCircle className="size-5" />
             Messages
           </Link>
           <Link
             href="/jobs"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
-            <BriefcaseBusiness className="h-5 w-5" />
+            <BriefcaseBusiness className="size-5" />
             Jobs
           </Link>
           <Link
-            href="/search"
-            className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
+            href="/explore"
+            className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 my-2 text-foreground hover:text-foreground"
           >
-            <Search className="h-5 w-5" />
-            Search
+            <Search className="size-5" />
+            Explore
           </Link>
           <Link
             href="/my-network"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
-            <UserRoundSearch className="h-5 w-5" />
+            <UserRoundSearch className="size-5" />
             My Network
           </Link>
           <Link
             href="/notifications"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 my-2 text-foreground hover:text-foreground"
           >
-            <Bell className="h-5 w-5" />
+            <Bell className="size-5" />
             Notifications
             <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
               6
@@ -99,7 +99,7 @@ const MobileSidebar = async () => {
             href="/bookmarks"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
-            <Bookmark className="h-5 w-5" />
+            <Bookmark className="size-5" />
             Bookmarks
           </Link>
           <div className="flex items-center justify-between mt-12 ">
