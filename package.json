@@ -27,7 +27,9 @@
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "framer-motion": "^11.2.10",
     "lucide-react": "^0.381.0",
+    "mini-svg-data-uri": "^1.4.4",
     "moment": "^2.30.1",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
@@ -35,6 +37,7 @@
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-element-to-jsx-string": "^15.0.0",
     "react-icons": "^5.2.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"

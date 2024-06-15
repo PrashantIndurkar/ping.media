@@ -56,7 +56,7 @@ const Login = () => {
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.push("/");
+      router.push("/feed");
     }
   }, [status, router]);
 

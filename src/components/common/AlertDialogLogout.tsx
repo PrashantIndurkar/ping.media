@@ -15,7 +15,7 @@ import { signOut } from "next-auth/react";
 
 export function AlertDialogLogout() {
   const logout = () => {
-    signOut({ callbackUrl: "/login", redirect: true });
+    signOut({ callbackUrl: "/", redirect: true });
   };
   return (
     <AlertDialog>
