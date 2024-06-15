@@ -36,6 +36,12 @@ export async function GET(
           },
         },
       },
+      Likes: {
+        take: 1,
+        where: {
+          user_id: Number(session?.user?.id),
+        },
+      },
     },
   });
 

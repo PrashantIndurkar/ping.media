@@ -24,6 +24,12 @@ export async function GET(req: NextRequest) {
           username: true,
         },
       },
+      Likes: {
+        take: 1,
+        where: {
+          user_id: Number(session?.user?.id),
+        },
+      },
     },
     orderBy: {
       id: "desc",

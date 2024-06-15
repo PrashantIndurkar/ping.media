@@ -24,7 +24,9 @@ type PostType = {
   image?: string;
   created_at: string;
   comment_count: number;
+  likes_count: number;
   user: UserType;
+  Likes: Array<PostLikeType> | [];
 };
 
 type UserType = {
@@ -59,4 +61,16 @@ type NotificationType = {
   content: string;
   created_at: string;
   user: UserType;
+};
+
+type PostLikeType = {
+  id: number;
+  post_id: number;
+  user_id: number;
+};
+
+type LikeType = {
+  post_id: string;
+  toUserId: string;
+  status: string;
 };
