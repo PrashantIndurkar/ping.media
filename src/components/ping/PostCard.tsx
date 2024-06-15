@@ -18,7 +18,6 @@ import { AlertDeletePost } from "../common/AlertDeletePost";
 const PostCard = ({
   posts,
   noRedirect,
-  isAuthenticated,
 }: {
   posts: Array<PostType> | [];
   noRedirect?: boolean;

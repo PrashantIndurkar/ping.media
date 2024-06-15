@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { CardContent, CardFooter } from "../ui/card";
 import {
   Bookmark,
@@ -35,6 +35,7 @@ import {
 } from "next-share";
 import { useToast } from "../ui/use-toast";
 import { FaRegCircleCheck } from "react-icons/fa6";
+import axios from "axios";
 
 const PostContent = ({
   post,
@@ -43,9 +44,10 @@ const PostContent = ({
   post: PostType;
   noRedirect?: boolean;
 }) => {
-  const [show, setShow] = React.useState(false);
-  const [vote, setVote] = React.useState(true);
-  const [bookmark, setBookmark] = React.useState(true);
+  const [show, setShow] = useState(false);
+  const [status, setStatus] = useState<string>("");
+
+  const [bookmark, setBookmark] = useState(true);
   const { toast } = useToast();
 
   const shareUrl = `${Env.APP_URL}/post/${post.id}`;
@@ -62,6 +64,22 @@ const PostContent = ({
       className:
         "bg-emerald-50 dark:bg-emerald-900/40 dark:text-emerald-300 text-emerald-700 z-100 !h-6 w-fit",
     });
+  };
+  const likeDislike = (status: string) => {
+    setStatus(status);
+    axios
+      .post("/api/like", {
+        status: status,
+        post_id: post.id,
+        toUserId: post.user_id,
+      })
+      .then((res) => {
+        const response = res.data;
+        console.log("The response is", response);
+      })
+      .catch((err) => {
+        console.log("The error is", err);
+      });
   };
   return (
     <div>
@@ -110,19 +128,26 @@ const PostContent = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setVote(!vote);
               }}
-              className={`bg-gray-50 px-3 py-1 rounded-full flex items-center transition duration-100 ease-in-out ${
-                vote &&
-                "bg-rose-50 dark:bg-red-800/10 dark:text-rose-300 text-rose-400/90 group"
+              className={`bg-gray-50 dark:bg-zinc-800/50 text-zinc-500 px-3 py-1 rounded-full flex items-center transition duration-100 ease-in-out ${
+                (post?.Likes?.length > 0 || status == "1") &&
+                "bg-rose-50  dark:bg-red-800/10 dark:text-rose-300 text-rose-400/90 group"
               }`}
             >
-              {vote ? (
-                <IoHeart className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
+              {post?.Likes?.length > 0 || status == "1" ? (
+                <>
+                  <IoHeart
+                    onClick={() => likeDislike("0")}
+                    className="size-5 group-hover:scale-125 transition duration-200 ease-in-out"
+                  />
+                  <span className="ml-2 font-medium">{post.likes_count}</span>
+                </>
               ) : (
-                <IoHeartOutline className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
+                <IoHeartOutline
+                  onClick={() => likeDislike("1")}
+                  className="size-5 group-hover:scale-125 transition duration-200 ease-in-out"
+                />
               )}{" "}
-              <span className="ml-2 font-medium ">1</span>
             </button>
             <button
               onClick={(e) => {
@@ -229,24 +254,23 @@ const PostContent = ({
             </DropdownMenu>
           </div>
         </div>
-        {vote ||
-          (noRedirect && (
-            <div className="mr-auto mt-4">
-              <div className="flex items-center justify-between w-full gap-x-2 text-gray-500 text-sm">
-                {/* TODO: add the who liked this post  */}
-                <Avatar className="h-4 w-4">
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>C</AvatarFallback>
-                </Avatar>
-                <Link href="/">
-                  <strong className="font-medium">Prashant</strong> Liked
-                </Link>
-              </div>
+        {post?.Likes?.length > 0 && (
+          <div className="mr-auto mt-4">
+            <div className="flex items-center justify-between w-full gap-x-2 text-gray-500 text-sm">
+              {/* TODO: add the who liked this post  */}
+              <Avatar className="h-4 w-4">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>C</AvatarFallback>
+              </Avatar>
+              <Link href="/">
+                <strong className="font-medium">Prashant</strong> Liked
+              </Link>
             </div>
-          ))}
+          </div>
+        )}
 
         {(show || noRedirect) && (
           <AddComment post={post} noRedirect={noRedirect} />
