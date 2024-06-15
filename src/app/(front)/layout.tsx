@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 import "../globals.css";
 import {
@@ -48,12 +47,7 @@ export default async function RootLayout({
   const user = session?.user;
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
+    <>
       <div className="xl:max-w-[85rem] mx-auto overflow-hidden">
         <div className="flex h-screen">
           {/* left sidebar */}
@@ -61,7 +55,7 @@ export default async function RootLayout({
             <div className="flex h-full max-h-screen flex-col gap-2 w-64">
               <div className="flex h-14 items-center  px-4 lg:h-[60px] lg:px-6">
                 <Link
-                  href="/"
+                  href="/feed"
                   className="flex items-center gap-2 font-semibold"
                 >
                   <Image
@@ -75,11 +69,11 @@ export default async function RootLayout({
               <div className="flex-1">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                   <Link
-                    href="/"
+                    href="/feed"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
                     <HomeIcon className="size-4" />
-                    Scroll
+                    Feed
                   </Link>
                   <Link
                     href="/messages"
@@ -148,7 +142,6 @@ export default async function RootLayout({
                 </nav>
               </div>
               <div className="mt-auto p-4 space-y-8">
-                <ThemeToggleBtn />
                 <div className="text-xs text-zinc-400 font-medium">
                   <span>Blog</span> <Dot className="inline text-gray-600" />
                   <span>Support</span> <Dot className="inline text-gray-600" />
@@ -261,6 +254,6 @@ export default async function RootLayout({
         </div>
       </div>
       <Toaster />
-    </ThemeProvider>
+    </>
   );
 }

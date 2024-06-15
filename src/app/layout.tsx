@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import CustomProvider from "./CustomProvider";
+import { ThemeProvider } from "@/components/theme-provider";
+import ThemeToggleBtn from "@/components/common/ThemeToggleBtn";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,14 +21,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* wrapping the whole app in a session provider to get the session */}
-        <CustomProvider>
-          <header className="w-full bg-orange-400 text-white text-center p-1 text-xs">
-            🔴 Application in development. Please note that some features are
-            currently in progress.
-          </header>
-          {children}
-        </CustomProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="absolute bottom-20 left-48 z-50 hidden md:block">
+            <ThemeToggleBtn />
+          </div>
+          <CustomProvider>{children}</CustomProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

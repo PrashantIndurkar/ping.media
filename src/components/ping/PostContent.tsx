@@ -265,7 +265,7 @@ const PostContent = ({
                 />
                 <AvatarFallback>C</AvatarFallback>
               </Avatar>
-              <Link href="/">
+              <Link href="#">
                 <strong className="font-medium">Prashant</strong> Liked
               </Link>
             </div>

@@ -51,11 +51,11 @@ const MobileSidebar = async () => {
           </Link>
 
           <Link
-            href="/"
+            href="/feed"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
             <HomeIcon className="size-5" />
-            Scroll
+            Feed
           </Link>
           <Link
             href="/messages"
