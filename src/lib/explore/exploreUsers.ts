@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 export const exploreUsers = async (query: string) => {
   const res = await fetch(`${Env.APP_URL}/api/explore?query=${query}`, {
     cache: "no-cache",
-    headers: headers(),
+    headers: new Headers(headers()),
   });
 
   if (!res.ok) {

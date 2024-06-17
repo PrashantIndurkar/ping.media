@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 export async function getUsers() {
   const res = await fetch(`${Env.APP_URL}/api/user`, {
     cache: "no-cache",
-    headers: headers(),
+    headers: new Headers(headers()),
   });
 
   if (!res.ok) {

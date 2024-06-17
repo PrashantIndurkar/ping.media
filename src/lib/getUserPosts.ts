@@ -7,7 +7,7 @@ export async function getUserPosts() {
     // next: {
     //   revalidate: 9000,
     // },
-    headers: headers(),
+    headers: new Headers(headers()),
   });
 
   if (!res.ok) {

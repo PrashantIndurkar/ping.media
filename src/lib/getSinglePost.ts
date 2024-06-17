@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 export async function getSinglePost(id: number) {
   const res = await fetch(`${Env.APP_URL}/api/post/${id}`, {
     cache: "no-cache",
-    headers: headers(),
+    headers: new Headers(headers()),
   });
 
   if (!res.ok) {

@@ -131,21 +131,20 @@ const Profile = async () => {
           </CardContent>
 
           {/* Footer or Tabs for About, Posts, Comments */}
-          <CardFooter className="mt-8 w-full">
-            <Tabs defaultValue="about" className="w-full">
+          <CardFooter className="mt-8 w-full p-0">
+            <Tabs defaultValue="posts" className="w-full">
               <TabsList className="flex flex-wrap gap-2 bg-transparent rounded-none border-b gap-x-12">
-                <TabsTrigger value="about" className="text-md">
-                  About
-                </TabsTrigger>
                 <TabsTrigger value="posts" className="text-md">
                   Posts
                 </TabsTrigger>
                 <TabsTrigger value="comments" className="text-md">
                   Comments
                 </TabsTrigger>
+                <TabsTrigger value="about" className="text-md">
+                  About
+                </TabsTrigger>
               </TabsList>
-              <section className="">
-                <TabsContent value="about">Change your about here.</TabsContent>
+              <section>
                 <TabsContent value="posts">
                   {/* {postsPromise && posts.length < 1 && <h1>Posts not found</h1>} */}
                   <Suspense fallback={<PostCardSkeleton />}>
@@ -175,6 +174,7 @@ const Profile = async () => {
                     </Await>
                   </Suspense>
                 </TabsContent>
+                <TabsContent value="about">Change your about here.</TabsContent>
               </section>
             </Tabs>
           </CardFooter>

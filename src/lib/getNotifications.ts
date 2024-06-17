@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 export const getNotifications = async () => {
   const res = await fetch(`${Env.APP_URL}/api/notifications`, {
     cache: "no-cache",
-    headers: headers(),
+    headers: new Headers(headers()),
   });
 
   if (!res.ok) {

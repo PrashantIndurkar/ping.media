@@ -42,7 +42,7 @@ const Login = () => {
           signIn("credentials", {
             email: authState.email,
             password: authState.password,
-            callbackUrl: "/",
+            callbackUrl: "/feed",
             redirect: true,
           });
         } else if (response.status === 400) {

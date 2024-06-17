@@ -79,7 +79,7 @@ const MobileSidebar = async () => {
             Explore
           </Link>
           <Link
-            href="/my-network"
+            href="/network"
             className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
           >
             <UserRoundSearch className="size-5" />

@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import ThemeToggleBtn from "@/components/common/ThemeToggleBtn";
 import Image from "next/image";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -27,7 +26,7 @@ import CreatePost from "@/components/ping/CreatePost";
 import { AlertDialogLogout } from "@/components/common/AlertDialogLogout";
 
 import { Toaster } from "@/components/ui/toaster";
-import { CustomSession } from "../api/auth/[...nextauth]/options";
+import { CustomSession, authOptions } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import { getAvatarFallbackName } from "@/lib/utils";
 import SuggestedFollowersCard from "@/components/follow/suggest-followers-card";
@@ -43,7 +42,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session: CustomSession | null = await getServerSession();
+  const session: CustomSession | null = await getServerSession(authOptions);
   const user = session?.user;
 
   return (
@@ -97,7 +96,7 @@ export default async function RootLayout({
                     Explore
                   </Link>
                   <Link
-                    href="/my-network"
+                    href="/network"
                     className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
                   >
                     <UserRoundSearch className="size-4" />
@@ -137,7 +136,7 @@ export default async function RootLayout({
                         {getAvatarFallbackName(user?.name ?? "")}
                       </AvatarFallback>
                     </Avatar>
-                    Prashant
+                    {user?.name ?? ""}
                   </Link>
                 </nav>
               </div>
@@ -170,25 +169,22 @@ export default async function RootLayout({
 
             {/* User Profile  */}
             <section className="mt-4 space-y-8">
-              <Card className="rounded-2xl flex items-center gap-4 px-3 py-2.5 my-2 transition-all hover:text-primary ">
+              <Card className="rounded-2xl flex items-center gap-4 px-3 py-2.5 my-2 transition-all hover:text-primary justify-between">
                 <Link href="/profile">
                   <div className="flex gap-2 items-center">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        alt="@shadcn"
-                      />
-                      <AvatarFallback>
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage alt="@shadcn" />
+                      <AvatarFallback className="text-sm">
                         {getAvatarFallbackName(user?.name ?? "")}
                       </AvatarFallback>
                     </Avatar>
 
                     <div className="space-y-1">
                       <span className="text-zinc-700 dark:text-zinc-300 font-bold text-sm block">
-                        @prashantindurkar
+                        {user?.username}
                       </span>
                       <span className="block text-sm dark:text-zinc-400 text-zinc-500">
-                        Prashant Indurkar
+                        {user?.name ?? ""}
                       </span>
                     </div>
                   </div>

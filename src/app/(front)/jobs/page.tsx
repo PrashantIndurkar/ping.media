@@ -11,11 +11,11 @@ const Messages = () => {
           <MobileSidebar />
           <Logo />
         </div>
-        <HeaderTitle title="Messages" />
+        <HeaderTitle title="Jobs" />
       </header>
       <section className="flex flex-col items-center justify-center h-screen w-full">
         <h1 className="md:text-muted text-center text-lg font-bold">
-          Messaging page Coming Soon...
+          Jobs page Coming Soon...
         </h1>
       </section>
     </>

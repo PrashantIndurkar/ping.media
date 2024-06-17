@@ -131,7 +131,7 @@ const PostContent = ({
               }}
               className={`bg-gray-50 dark:bg-zinc-800/50 text-zinc-500 px-3 py-1 rounded-full flex items-center transition duration-100 ease-in-out ${
                 (post?.Likes?.length > 0 || status == "1") &&
-                "bg-rose-50  dark:bg-red-800/10 dark:text-rose-300 text-rose-400/90 group"
+                "bg-rose-50  dark:bg-red-800/10 dark:text-rose-300 text-rose-400 group"
               }`}
             >
               {post?.Likes?.length > 0 || status == "1" ? (
