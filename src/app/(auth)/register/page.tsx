@@ -52,28 +52,14 @@ const Register = () => {
       <form onSubmit={onSubmit}>
         <Card className="w-full sm:w-96">
           <CardHeader>
-            <CardTitle>Create your account</CardTitle>
-            <CardDescription>
+            <CardTitle>Register your account</CardTitle>
+            {/* <CardDescription>
               Welcome! Please fill in the details to get started.
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
           <CardContent className="grid gap-y-4">
-            <div className="grid grid-cols-2 gap-x-4">
-              <Button className="cursor-not-allowed" type="button">
-                <FcGoogle className="mr-2 size-4" />
-                Google
-              </Button>
-              <Button className="cursor-not-allowed" type="button">
-                <LuGithub className="mr-2 size-4" />
-                Github
-              </Button>
-            </div>
-            <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
-              or
-            </p>
-
             <section>
-              <div className="mt-5 space-y-2">
+              <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
                   type="text"
@@ -117,7 +103,7 @@ const Register = () => {
                 <Input
                   type="email"
                   id="email"
-                  placeholder="Type your email.."
+                  placeholder="example@youremail.com"
                   onChange={(event) =>
                     setAuthState({ ...authState, email: event.target.value })
                   }
@@ -157,17 +143,40 @@ const Register = () => {
 
               <div>
                 <Button className="w-full mt-5" disabled={loading}>
-                  {loading ? "Processing..." : "Continue"}
+                  {loading ? "Processing..." : "Register"}
                 </Button>
               </div>
-              <div className="flex items-center justify-center mt-4">
+              <div className="flex items-center justify-center mt-4 text-muted-foreground">
                 <Link
                   href="/login"
                   className="text-sm cursor-pointer hover:underline"
                 >
-                  Already have an account? Log in
+                  Already have an profile?{" "}
+                  <span className="text-zinc-300">Log in</span>
                 </Link>
               </div>
+
+              <footer className="space-y-4 mt-6">
+                <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
+                  Or continue with
+                </p>
+
+                <div className="grid grid-cols-2 gap-x-4">
+                  <Button className="cursor-not-allowed" type="button">
+                    <FcGoogle className="mr-2 size-4" />
+                    Google
+                  </Button>
+                  <Button className="cursor-not-allowed" type="button">
+                    <LuGithub className="mr-2 size-4" />
+                    Github
+                  </Button>
+                </div>
+
+                <p className="text-muted-foreground text-xs text-center !mt-8">
+                  By clicking on register, you agree to our Terms of Service and
+                  Privacy Policy
+                </p>
+              </footer>
             </section>
           </CardContent>
         </Card>

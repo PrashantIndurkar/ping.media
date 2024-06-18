@@ -61,30 +61,16 @@ const Login = () => {
   }, [status, router]);
 
   return (
-    <div className="grid w-full h-screen grow items-center px-4 sm:justify-center">
+    <div className="w-full h-screen flex flex-col items-center justify-center px-4 sm:justify-center">
       <form onSubmit={onSubmit}>
         <Card className="w-full sm:w-96">
           <CardHeader>
-            <CardTitle>Login in to Ping.media</CardTitle>
-            <CardDescription>
+            <CardTitle>Login in</CardTitle>
+            {/* <CardDescription>
               Welcome back! Please sign in to continue
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
           <CardContent className="grid gap-y-4">
-            <div className="grid grid-cols-2 gap-x-4">
-              <Button className="cursor-not-allowed" type="button">
-                <FcGoogle className="mr-2 size-4" />
-                Google
-              </Button>
-              <Button className="cursor-not-allowed" type="button">
-                <LuGithub className="mr-2 size-4" />
-                Github
-              </Button>
-            </div>
-            <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
-              or
-            </p>
-
             <section>
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
@@ -125,17 +111,40 @@ const Login = () => {
                   className="w-full mt-5"
                   disabled={loading}
                 >
-                  {loading ? "Processing..." : "Continue"}
+                  {loading ? "Processing..." : "Log in"}
                 </Button>
               </div>
-              <div className="flex items-center justify-center mt-4">
+              <div className="flex items-center justify-center mt-4 text-zinc-400">
                 <Link
                   href="/register"
-                  className="text-sm cursor-pointer hover:underline"
+                  className="text-sm cursor-pointer hover:underline text-muted-foreground"
                 >
-                  Don't have an account? Register
+                  Don't have an profile?{" "}
+                  <span className="text-zinc-300">Join</span>
                 </Link>
               </div>
+
+              <footer className="space-y-4 mt-6">
+                <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
+                  Or continue with
+                </p>
+
+                <div className="grid grid-cols-2 gap-x-4">
+                  <Button className="cursor-not-allowed" type="button">
+                    <FcGoogle className="mr-2 size-4" />
+                    Google
+                  </Button>
+                  <Button className="cursor-not-allowed" type="button">
+                    <LuGithub className="mr-2 size-4" />
+                    Github
+                  </Button>
+                </div>
+
+                <p className="text-muted-foreground text-xs text-center !mt-8">
+                  By clicking on log in, you agree to our Terms of Service and
+                  Privacy Policy
+                </p>
+              </footer>
             </section>
           </CardContent>
         </Card>
