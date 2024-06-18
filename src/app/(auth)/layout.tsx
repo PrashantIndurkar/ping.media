@@ -64,12 +64,14 @@ export default function RootLayout({
         <h1 className="text-4xl font-semibold max-w-lg leading-relaxed">
           Connect with top-tier Engineers & designers!
         </h1>
-        <div className="flex flex-row items-center justify-center">
-          <AnimatedTooltip items={people} />
+        <div className="flex items-start justify-center flex-col space-y-6">
+          <div className="flex flex-row items-center justify-center">
+            <AnimatedTooltip items={people} />
+          </div>
+          <span className="text-sm inline-block text-zinc-400">
+            Join our community of 50+ Ping members!
+          </span>
         </div>
-        <span className="text-sm text-zinc-400">
-          Join our community of 50+ Ping members!
-        </span>
       </div>
       <div className="flex-1">{children}</div>
     </div>
