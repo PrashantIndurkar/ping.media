@@ -13,7 +13,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import React, { useState } from "react";
-import { FaGithub, FaGoogle } from "react-icons/fa";
+import { LuGithub } from "react-icons/lu";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
   const [errors, setErrors] = useState<AuthErrorType>({});
@@ -23,7 +24,7 @@ const Register = () => {
   const [authState, setAuthState] = useState<AuthStateType>({
     email: "",
     password: "",
-    password_confirmation: "",
+    // password_confirmation: "",
   });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,7 +37,6 @@ const Register = () => {
         const response = res.data;
 
         if (response.status === 200) {
-          console.log("Successfully registered");
           router.push(`/login?message=${response.message}`);
         } else if (response.status === 400) {
           setErrors(response.error);
@@ -59,12 +59,12 @@ const Register = () => {
           </CardHeader>
           <CardContent className="grid gap-y-4">
             <div className="grid grid-cols-2 gap-x-4">
-              <Button>
-                <FaGithub className="mr-2 size-4" />
-                Github
+              <Button className="cursor-not-allowed" type="button">
+                <FcGoogle className="mr-2 size-4" />
+                Google
               </Button>
-              <Button>
-                <FaGithub className="mr-2 size-4" />
+              <Button className="cursor-not-allowed" type="button">
+                <LuGithub className="mr-2 size-4" />
                 Github
               </Button>
             </div>
@@ -74,36 +74,46 @@ const Register = () => {
 
             <section>
               <div className="mt-5 space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">Full Name</Label>
                 <Input
                   type="text"
                   id="name"
-                  placeholder="Type your name.."
+                  placeholder="Prashant Indurkar"
                   autoFocus
                   autoComplete="name"
                   onChange={(event) =>
                     setAuthState({ ...authState, name: event.target.value })
                   }
                 />
-                <span className="text-red-400 font-bold">{errors?.name}</span>
+                <span className="text-xs text-zinc-900 dark:text-zinc-400">
+                  {errors?.name}
+                </span>
               </div>
               <div className="mt-5 space-y-2">
                 <Label htmlFor="username">Username</Label>
-                <Input
-                  type="text"
-                  id="username"
-                  autoComplete="username"
-                  placeholder="Type your unique username"
-                  onChange={(event) =>
-                    setAuthState({ ...authState, username: event.target.value })
-                  }
-                />
-                <span className="text-red-400 font-bold">
+                <div className="flex items-center gap-x-2 relative">
+                  <span className="absolute inset-y-0 left-0 flex items-center px-3 pointer-events-none text-zinc-500 dark:text-zinc-400 border-r ">
+                    @
+                  </span>
+                  <Input
+                    type="text"
+                    id="username"
+                    placeholder="prashantindurkar"
+                    className="pl-12"
+                    onChange={(event) =>
+                      setAuthState({
+                        ...authState,
+                        username: event.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <span className="text-xs text-zinc-900 dark:text-zinc-400">
                   {errors.username}
                 </span>
               </div>
               <div className="mt-5 space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Email Address</Label>
                 <Input
                   type="email"
                   id="email"
@@ -112,23 +122,25 @@ const Register = () => {
                     setAuthState({ ...authState, email: event.target.value })
                   }
                 />
-                <span className="text-red-400 font-bold">{errors.email}</span>
+                <span className="text-xs text-zinc-900 dark:text-zinc-400">
+                  {errors.email}
+                </span>
               </div>
               <div className="mt-5 space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   type="password"
                   id="password"
-                  placeholder="Type your password.."
+                  placeholder="********"
                   onChange={(event) =>
                     setAuthState({ ...authState, password: event.target.value })
                   }
                 />
-                <span className="text-red-400 font-bold">
+                <span className="text-xs text-zinc-900 dark:text-zinc-400">
                   {errors.password}
                 </span>
               </div>
-              <div className="mt-5 space-y-2">
+              {/* <div className="mt-5 space-y-2">
                 <Label htmlFor="confirm_password">Confirm Password</Label>
                 <Input
                   type="password"
@@ -141,7 +153,7 @@ const Register = () => {
                     })
                   }
                 />
-              </div>
+              </div> */}
 
               <div>
                 <Button className="w-full mt-5" disabled={loading}>
@@ -153,7 +165,7 @@ const Register = () => {
                   href="/login"
                   className="text-sm cursor-pointer hover:underline"
                 >
-                  Don't have an account? Log in
+                  Already have an account? Log in
                 </Link>
               </div>
             </section>

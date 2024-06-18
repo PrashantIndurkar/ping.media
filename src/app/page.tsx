@@ -36,17 +36,22 @@ const Web = () => {
             for <FlipWords words={words} />
           </div>
           <div className="flex items-center justify-center gap-x-12">
-            <button className="rounded-full border py-2 px-8 border-zinc-600 hover:border-zinc-700  hover:text-zinc-700 text-zinc-500 dark:bg-zinc-950 dark:text-zinc-400 transition group duration-200">
+            <button
+              disabled
+              className="rounded-full border py-2 px-8 border-zinc-600 hover:border-zinc-700  hover:text-zinc-700 text-zinc-500 dark:bg-zinc-950 dark:text-zinc-400 transition group duration-200 cursor-not-allowed"
+            >
               Skip login{" "}
               <GrFormNextLink className="inline group-hover:translate-x-1 transition-transform duration-200" />
             </button>
-            <HoverBorderGradient
-              containerClassName="rounded-full"
-              as="button"
-              className="dark:!text-pink-100 !px-10"
-            >
-              <Link href="/login">Login</Link>
-            </HoverBorderGradient>
+            <Link href="/login">
+              <HoverBorderGradient
+                containerClassName="rounded-full"
+                as="button"
+                className="dark:!text-pink-100 !px-10"
+              >
+                Login
+              </HoverBorderGradient>
+            </Link>
           </div>
         </div>
       </div>
