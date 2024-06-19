@@ -1,8 +1,8 @@
 import ExploreCard from "@/components/common/Explore";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import Logo from "@/components/common/Logo";
-import MobileSidebar from "@/components/common/MobileSidebar";
 import SearchBar from "@/components/search/search-bar";
+import { MobileSidebar } from "@/components/sidebar";
 import { exploreUsers } from "@/lib/explore/exploreUsers";
 
 const Explore = async ({

@@ -1,11 +1,11 @@
 import PostCard from "@/components/ping/PostCard";
-import MobileSidebar from "@/components/common/MobileSidebar";
 import Logo from "@/components/common/Logo";
 import CreatePost from "@/components/ping/CreatePost";
 import { getPosts } from "@/lib/getPosts";
 import { Suspense } from "react";
 import PostCardSkeleton from "@/components/ping/post-card-skeleton";
 import Await from "@/components/ping/await";
+import { MobileSidebar } from "@/components/sidebar";
 
 export default function Home() {
   const postsPromise = getPosts();

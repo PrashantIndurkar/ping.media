@@ -1,6 +1,6 @@
 import HeaderTitle from "@/components/common/HeaderTitle";
 import Logo from "@/components/common/Logo";
-import MobileSidebar from "@/components/common/MobileSidebar";
+import { MobileSidebar } from "@/components/sidebar";
 import PostCard from "@/components/ping/PostCard";
 import { getSinglePost } from "@/lib/getSinglePost";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

@@ -1,19 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import {
-  Bell,
-  Bookmark,
-  BriefcaseBusiness,
-  Dot,
-  HomeIcon,
-  MessageCircle,
-  Search,
-  UserRoundSearch,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Dot } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -24,12 +12,12 @@ import {
 } from "@/components/ui/card";
 import CreatePost from "@/components/ping/CreatePost";
 import { AlertDialogLogout } from "@/components/common/AlertDialogLogout";
-
 import { Toaster } from "@/components/ui/toaster";
 import { CustomSession, authOptions } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import { getAvatarFallbackName } from "@/lib/utils";
 import SuggestedFollowersCard from "@/components/follow/suggest-followers-card";
+import { Sidebar } from "@/components/sidebar";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",
@@ -50,109 +38,7 @@ export default async function RootLayout({
       <div className="xl:max-w-[85rem] mx-auto overflow-hidden">
         <div className="flex h-screen">
           {/* left sidebar */}
-          <div className="hidden border-r md:block">
-            <div className="flex h-full max-h-screen flex-col gap-2 w-64">
-              <div className="flex h-14 items-center  px-4 lg:h-[60px] lg:px-6">
-                <Link
-                  href="/feed"
-                  className="flex items-center gap-2 font-semibold"
-                >
-                  <Image
-                    src="/images/PingLogo.png"
-                    width={100}
-                    height={100}
-                    alt="Ping Logo"
-                  />
-                </Link>
-              </div>
-              <div className="flex-1">
-                <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                  <Link
-                    href="/feed"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
-                  >
-                    <HomeIcon className="size-4" />
-                    Feed
-                  </Link>
-                  <Link
-                    href="/messages"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
-                  >
-                    <MessageCircle className="size-4" />
-                    Messages
-                  </Link>
-                  <Link
-                    href="/jobs"
-                    className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 my-2 text-primary transition-all hover:text-primary"
-                  >
-                    <BriefcaseBusiness className="size-4" />
-                    Jobs
-                  </Link>
-                  <Link
-                    href="/explore"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
-                  >
-                    <Search className="size-4" />
-                    Explore
-                  </Link>
-                  <Link
-                    href="/network"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
-                  >
-                    <UserRoundSearch className="size-4" />
-                    My Network
-                  </Link>
-                  <Link
-                    href="/notifications"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
-                  >
-                    <Bell className="size-4" />
-                    Notifications
-                    <Badge
-                      variant="outline"
-                      className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full "
-                    >
-                      6
-                    </Badge>
-                  </Link>
-                  <Link
-                    href="/bookmarks"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
-                  >
-                    <Bookmark className="size-4" />
-                    Bookmarks
-                  </Link>
-
-                  <Link
-                    href="/profile"
-                    className="flex mt-8 items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary hover:gap-4"
-                  >
-                    <Avatar className="size-6">
-                      <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        alt="@shadcn"
-                      />
-                      <AvatarFallback className="text-xs">
-                        {getAvatarFallbackName(user?.name ?? "")}
-                      </AvatarFallback>
-                    </Avatar>
-                    {user?.name ?? ""}
-                  </Link>
-                </nav>
-              </div>
-              <div className="mt-auto p-4 space-y-8">
-                <div className="text-xs text-zinc-400 font-medium">
-                  <span>Blog</span> <Dot className="inline text-gray-600" />
-                  <span>Support</span> <Dot className="inline text-gray-600" />
-                  <span>Help</span> <Dot className="inline text-gray-600" />
-                  <span>T&C</span> <Dot className="inline text-gray-600" />{" "}
-                  <span>Code of Conduct</span>{" "}
-                  <Dot className="inline text-gray-600" />
-                  <span>Privacy</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Sidebar session={session} />
           {/* main content */}
           <div className="flex-1 flex flex-col">
             <section className="flex-1 overflow-y-auto hide-scrollbar ">
@@ -161,13 +47,6 @@ export default async function RootLayout({
           </div>
           {/* right sidebar */}
           <div className="hidden xl:block border-l pl-6 w-80">
-            {/* Catalog  */}
-            {/* Top picks */}
-            {/* Your bookmarks */}
-            {/* Treading Posts / Treading Jobs */}
-            {/* Pined things show here */}
-
-            {/* User Profile  */}
             <section className="mt-4 space-y-8">
               <Card className="rounded-2xl flex items-center gap-4 px-3 py-2.5 my-2 transition-all hover:text-primary justify-between">
                 <Link href="/profile">
@@ -206,6 +85,7 @@ export default async function RootLayout({
                   <SuggestedFollowersCard />
                 </CardContent>
               </Card>
+
               <Card className="rounded-2xl">
                 <CardHeader className="flex flex-row items-center space-y-0 p-6 gap-x-3">
                   <div className="flex items-center">
@@ -245,6 +125,7 @@ export default async function RootLayout({
               </Card>
             </section>
 
+            {/* Model */}
             <CreatePost button />
           </div>
         </div>

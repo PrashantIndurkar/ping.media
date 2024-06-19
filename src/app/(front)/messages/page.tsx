@@ -1,6 +1,6 @@
 import HeaderTitle from "@/components/common/HeaderTitle";
 import Logo from "@/components/common/Logo";
-import MobileSidebar from "@/components/common/MobileSidebar";
+import { MobileSidebar } from "@/components/sidebar";
 import React from "react";
 
 const Messages = () => {

@@ -98,8 +98,8 @@ const CreatePost = ({ button }: { button?: boolean }) => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className="w-full">
         {button ? (
-          <section className="absolute right-16 bottom-16 flex items-center justify-center w-24 h-20 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-200 hover:text-zinc-500 transition duration-150 ease-in-out border border-zinc-200 hover:scale-110 dark:border-zinc-700 cursor-pointer">
-            <Plus className="h-8 w-8" />
+          <section className="absolute right-16 bottom-16 flex items-center justify-center size-16 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-200 hover:text-zinc-500 transition duration-150 ease-in-out border border-zinc-200 hover:scale-110 dark:border-zinc-700 cursor-pointer">
+            <Plus className="size-6" />
           </section>
         ) : (
           <div className="relative rounded-full mx-10 transition duration-200 ease-in-out group-hover:shadow-xl  ">

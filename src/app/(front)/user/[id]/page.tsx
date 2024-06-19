@@ -1,5 +1,5 @@
 import Logo from "@/components/common/Logo";
-import MobileSidebar from "@/components/common/MobileSidebar";
+import { MobileSidebar } from "@/components/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { FaReact } from "react-icons/fa";
