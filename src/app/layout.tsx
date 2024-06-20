@@ -4,6 +4,7 @@ import "./globals.css";
 import CustomProvider from "./CustomProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import ThemeToggleBtn from "@/components/common/ThemeToggleBtn";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NextTopLoader color="#e45070" showSpinner={false} />
           <div className="absolute bottom-20 left-48 z-50 hidden md:block">
             <ThemeToggleBtn />
           </div>

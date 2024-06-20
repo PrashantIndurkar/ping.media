@@ -64,13 +64,13 @@ const Comments = ({ comment }: { comment: CommentType }) => {
         </CardTitle>
         <CardDescription className="text-sm">{comment.content}</CardDescription>
         <CardFooter className="px-0 mt-2 gap-x-8">
-          <button className="-space-x-1 dark:hover:bg-zinc-800 px-2 rounded-full">
+          <button className="-space-x-1 dark:hover:bg-zinc-800 px-2 rounded-full disabled:cursor-not-allowed">
             <span className="text-xs font-semibold">Like</span>
             <Dot className="inline text-gray-600" />
             <span className="text-xs">0</span>
           </button>
 
-          <button className="-space-x-1 dark:hover:bg-zinc-800 px-2 rounded-full">
+          <button className="-space-x-1 dark:hover:bg-zinc-800 px-2 rounded-full disabled:cursor-not-allowed">
             <span className="text-xs font-semibold">Reply</span>
           </button>
 

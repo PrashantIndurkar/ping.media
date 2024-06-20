@@ -15,8 +15,18 @@ const CommentFilter = () => {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="newest">Newest</SelectItem>
-          <SelectItem value="oldest">Oldest</SelectItem>
+          <SelectItem
+            value="newest"
+            className="cursor-not-allowed pointer-events-none"
+          >
+            Newest
+          </SelectItem>
+          <SelectItem
+            value="oldest"
+            className="cursor-not-allowed pointer-events-none"
+          >
+            Oldest
+          </SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
