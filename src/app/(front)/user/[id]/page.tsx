@@ -1,4 +1,4 @@
-import Logo from "@/components/common/logo";
+import { Logo } from "@/components/logo";
 import { MobileSidebar } from "@/components/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";

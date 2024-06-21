@@ -11,13 +11,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import CreatePost from "@/components/ping/create-post";
-import { AlertDialogLogout } from "@/components/common/alert-dialog-logout";
 import { Toaster } from "@/components/ui/toaster";
 import { CustomSession, authOptions } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import SuggestedFollowersCard from "@/components/follow/suggest-followers-card";
 import { Sidebar } from "@/components/sidebar";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
+import { AlertDialogLogout } from "@/components/alert/logout";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",

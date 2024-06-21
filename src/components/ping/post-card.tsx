@@ -12,9 +12,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AlertDeletePost } from "../common/alert-delete-post";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { formateDate } from "@/utils/date-format";
+import { AlertDeletePost } from "../alert/delete-post";
 
 const PostCard = ({
   posts,

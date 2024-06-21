@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
 
 export function AlertDeletePost({
   postId,

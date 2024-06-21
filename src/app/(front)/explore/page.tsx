@@ -1,6 +1,6 @@
-import ExploreCard from "@/components/common/explore-card";
+import ExploreCard from "@/app/(front)/explore/components/explore-card";
 import HeaderTitle from "@/components/common/header-title";
-import Logo from "@/components/common/logo";
+import { Logo } from "@/components/logo";
 import SearchBar from "@/components/search/search-bar";
 import { MobileSidebar } from "@/components/sidebar";
 import { exploreUsers } from "@/services/api/explore/exploreUsers";
