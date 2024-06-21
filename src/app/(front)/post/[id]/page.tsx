@@ -1,7 +1,7 @@
 import HeaderTitle from "@/components/common/header-title";
 import { Logo } from "@/components/logo";
 import { MobileSidebar } from "@/components/sidebar";
-import PostCard from "@/components/ping/post-card";
+import PostCard from "@/components/post/post-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dot } from "lucide-react";
 

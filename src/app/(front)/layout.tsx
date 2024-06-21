@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import CreatePost from "@/components/ping/create-post";
+import CreatePost from "@/components/post/create-post";
 import { Toaster } from "@/components/ui/toaster";
 import { CustomSession, authOptions } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";

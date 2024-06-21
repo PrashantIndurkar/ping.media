@@ -1,8 +1,8 @@
-import PostCard from "@/components/ping/post-card";
-import CreatePost from "@/components/ping/create-post";
+import PostCard from "@/components/post/post-card";
+import CreatePost from "@/components/post/create-post";
 import { Suspense } from "react";
-import PostCardSkeleton from "@/components/ping/post-card-skeleton";
-import Await from "@/components/ping/await";
+import PostCardSkeleton from "@/components/post/post-card-skeleton";
+import Await from "@/components/post/await";
 import { MobileSidebar } from "@/components/sidebar";
 import { getPosts } from "@/services/api/getPosts";
 import { Logo } from "@/components/logo";

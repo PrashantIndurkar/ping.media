@@ -22,9 +22,9 @@ import {
   CustomSession,
   authOptions,
 } from "@/app/api/auth/[...nextauth]/options";
-import PostCard from "@/components/ping/post-card";
-import Await from "@/components/ping/await";
-import PostCardSkeleton from "@/components/ping/post-card-skeleton";
+import PostCard from "@/components/post/post-card";
+import Await from "@/components/post/await";
+import PostCardSkeleton from "@/components/post/post-card-skeleton";
 import Comments from "@/components/comment/comments";
 import { getUserPosts } from "@/services/api/getUserPosts";
 import { getUserComments } from "@/services/api/getUserComments";
