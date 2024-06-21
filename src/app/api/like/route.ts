@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   }
 
   // * Add Notification
-  if (payload.status == "1") {
+  if (payload.status === "1") {
     await prisma.notification.create({
       data: {
         user_id: Number(session.user?.id),
@@ -29,25 +29,26 @@ export async function POST(request: NextRequest) {
     });
 
     // * In crease the post like counter
-    await prisma.post.update({
-      where: {
-        id: Number(payload.post_id),
-      },
-      data: {
-        likes_count: {
-          increment: 1,
+    await prisma.$transaction([
+      prisma.post.update({
+        where: {
+          id: Number(payload.post_id),
         },
-      },
-    });
-
-    // * Add Entry in like table
-    await prisma.likes.create({
-      data: {
-        user_id: Number(session?.user?.id),
-        post_id: Number(payload.post_id),
-      },
-    });
-  } else if (payload.status == "0") {
+        data: {
+          likes_count: {
+            increment: 1,
+          },
+        },
+      }),
+      // * Add Entry in like table
+      prisma.likes.create({
+        data: {
+          user_id: Number(session?.user?.id),
+          post_id: Number(payload.post_id),
+        },
+      }),
+    ]);
+  } else if (payload.status === "0") {
     // * In crease the post like counter
     await prisma.post.update({
       where: {

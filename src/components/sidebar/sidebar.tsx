@@ -14,10 +14,10 @@ import {
   UserRoundSearch,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { getAvatarFallbackName } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { CustomSession } from "@/app/api/auth/[...nextauth]/options";
 import { usePathname } from "next/navigation";
+import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 
 export const Sidebar = ({ session }: { session: CustomSession | null }) => {
   const pathname = usePathname();

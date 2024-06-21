@@ -1,4 +1,4 @@
-import Logo from "@/components/common/Logo";
+import Logo from "@/components/common/logo";
 import { MobileSidebar } from "@/components/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -16,13 +16,14 @@ import {
 import { Link as LinkIcon, MapPin, Pencil, UserRoundCog } from "lucide-react";
 import Link from "next/link";
 import React, { Suspense } from "react";
-import HeaderTitle from "@/components/common/HeaderTitle";
-import { formateYears, getAvatarFallbackName } from "@/lib/utils";
-import PostCard from "@/components/ping/PostCard";
+import HeaderTitle from "@/components/common/header-title";
+import PostCard from "@/components/ping/post-card";
 import Await from "@/components/ping/await";
 import PostCardSkeleton from "@/components/ping/post-card-skeleton";
 import Comments from "@/components/comment/comments";
-import { getUser } from "@/lib/getUser";
+import { getUser } from "@/services/api/getUser";
+import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
+import { formateYears } from "@/utils/date-format";
 
 const ShowUser = async ({ params }: { params: { id: number } }) => {
   const user: ShowUserType | null = await getUser(params.id);

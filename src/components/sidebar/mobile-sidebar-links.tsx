@@ -13,11 +13,11 @@ import {
 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { AlertDialogLogout } from "../common/AlertDialogLogout";
-import { getAvatarFallbackName } from "@/lib/utils";
+import { AlertDialogLogout } from "../common/alert-dialog-logout";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CustomSession } from "@/app/api/auth/[...nextauth]/options";
+import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 
 export const MobileSidebarLinks = ({
   session,

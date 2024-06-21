@@ -1,11 +1,11 @@
-import HeaderTitle from "@/components/common/HeaderTitle";
-import Logo from "@/components/common/Logo";
+import HeaderTitle from "@/components/common/header-title";
+import Logo from "@/components/common/logo";
 import { MobileSidebar } from "@/components/sidebar";
-import NotificationsCard from "@/components/common/NotificationsCard";
+import NotificationsCard from "@/components/common/notifications-card";
 
-import { getNotifications } from "@/lib/getNotifications";
 import { ArrowLeft, UserRoundPlus } from "lucide-react";
 import React from "react";
+import { getNotifications } from "@/services/api/getNotifications";
 
 const Notifications = async () => {
   const notifications: Array<NotificationType> | [] = await getNotifications();

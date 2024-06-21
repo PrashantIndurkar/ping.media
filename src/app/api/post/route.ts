@@ -4,11 +4,11 @@ import vine, { errors } from "@vinejs/vine";
 import { CustomErrorReporter } from "@/validations/CustomErrorReporter";
 import { postSchema } from "@/validations/postSchema";
 import { join } from "path";
-import { getRandomNumber } from "@/lib/utils";
 import { writeFile } from "fs/promises";
 import prisma from "@/DB/db.config";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { imageValidator } from "@/validations/imageValidator";
+import { getRandomNumber } from "@/utils/random-number";
 
 // GET /api/post
 export async function GET(request: NextRequest) {

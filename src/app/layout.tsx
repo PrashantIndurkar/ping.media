@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import CustomProvider from "./CustomProvider";
-import { ThemeProvider } from "@/components/theme-provider";
-import ThemeToggleBtn from "@/components/common/ThemeToggleBtn";
-import NextTopLoader from "nextjs-toploader";
+import { AppWrapper } from "@/context/app";
+import { CustomProvider } from "@/context/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,18 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextTopLoader color="#e45070" showSpinner={false} />
-          <div className="absolute bottom-20 left-48 z-50 hidden md:block">
-            <ThemeToggleBtn />
-          </div>
+        <AppWrapper>
           <CustomProvider>{children}</CustomProvider>
-        </ThemeProvider>
+        </AppWrapper>
       </body>
     </html>
   );

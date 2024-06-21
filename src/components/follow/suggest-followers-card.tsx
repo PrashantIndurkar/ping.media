@@ -2,9 +2,9 @@ import React from "react";
 import { CardDescription, CardTitle } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { getUsers } from "@/lib/getUsers";
 import Link from "next/link";
-import { getAvatarFallbackName } from "@/lib/utils";
+import { getUsers } from "@/services/api/getUsers";
+import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 
 const SuggestedFollowersCard = async () => {
   const users: Array<UserType> = await getUsers();

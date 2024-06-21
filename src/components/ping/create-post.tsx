@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useRef, useState } from "react";
 import {
   Dialog,
@@ -13,10 +14,10 @@ import { IoAdd } from "react-icons/io5";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "../ui/button";
 import { ImagePlus, Plus } from "lucide-react";
-import ImagePreviewCard from "../common/ImagePreviewCard";
 import axios from "axios";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
+import ImagePreviewCard from "../common/image-preview-card";
 
 const CreatePost = ({ button }: { button?: boolean }) => {
   const { toast } = useToast();

@@ -1,4 +1,4 @@
-import { bytesToMB } from "@/lib/utils";
+import { bytesToMB } from "@/utils/convert-bytes-mb";
 
 export function imageValidator(
   name: string | undefined,

@@ -1,5 +1,5 @@
-import HeaderTitle from "@/components/common/HeaderTitle";
-import Logo from "@/components/common/Logo";
+import HeaderTitle from "@/components/common/header-title";
+import Logo from "@/components/common/logo";
 import { MobileSidebar } from "@/components/sidebar";
 
 import React from "react";

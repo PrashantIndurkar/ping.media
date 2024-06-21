@@ -1,10 +1,10 @@
 "use client";
+
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarImage } from "../ui/avatar";
 import { CardDescription, CardFooter, CardTitle } from "../ui/card";
 import { Dot } from "lucide-react";
 
-import { formateDate } from "@/lib/utils";
 import Link from "next/link";
 import { HiDotsHorizontal } from "react-icons/hi";
 
@@ -17,6 +17,7 @@ import {
 import axios from "axios";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
+import { formateDate } from "@/utils/date-format";
 
 const Comments = ({ comment }: { comment: CommentType }) => {
   const { toast } = useToast();

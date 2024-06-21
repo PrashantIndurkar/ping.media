@@ -1,4 +1,5 @@
 "use client";
+
 import { Spotlight } from "@/components/ui/Spotlight";
 
 import { FlipWords } from "@/components/ui/flip-words";

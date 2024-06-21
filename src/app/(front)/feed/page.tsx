@@ -1,11 +1,11 @@
-import PostCard from "@/components/ping/PostCard";
-import Logo from "@/components/common/Logo";
-import CreatePost from "@/components/ping/CreatePost";
-import { getPosts } from "@/lib/getPosts";
+import PostCard from "@/components/ping/post-card";
+import Logo from "@/components/common/logo";
+import CreatePost from "@/components/ping/create-post";
 import { Suspense } from "react";
 import PostCardSkeleton from "@/components/ping/post-card-skeleton";
 import Await from "@/components/ping/await";
 import { MobileSidebar } from "@/components/sidebar";
+import { getPosts } from "@/services/api/getPosts";
 
 export default function Home() {
   const postsPromise = getPosts();

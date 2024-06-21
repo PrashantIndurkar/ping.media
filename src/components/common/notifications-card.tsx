@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import { formateDate } from "@/lib/utils";
+import { formateDate } from "@/utils/date-format";
 import { UserRoundPlus } from "lucide-react";
 import React from "react";
 

@@ -1,4 +1,4 @@
-import Logo from "@/components/common/Logo";
+import Logo from "@/components/common/logo";
 import { MobileSidebar } from "@/components/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -16,19 +16,20 @@ import {
 import { Link as LinkIcon, MapPin, Pencil, UserRoundCog } from "lucide-react";
 import Link from "next/link";
 import React, { Suspense } from "react";
-import HeaderTitle from "@/components/common/HeaderTitle";
+import HeaderTitle from "@/components/common/header-title";
 import { getServerSession } from "next-auth/next";
-import { formateYears, getAvatarFallbackName } from "@/lib/utils";
 import {
   CustomSession,
   authOptions,
 } from "@/app/api/auth/[...nextauth]/options";
-import { getUserPosts } from "@/lib/getUserPosts";
-import PostCard from "@/components/ping/PostCard";
+import PostCard from "@/components/ping/post-card";
 import Await from "@/components/ping/await";
 import PostCardSkeleton from "@/components/ping/post-card-skeleton";
-import { getUserComments } from "@/lib/getUserComments";
 import Comments from "@/components/comment/comments";
+import { getUserPosts } from "@/services/api/getUserPosts";
+import { getUserComments } from "@/services/api/getUserComments";
+import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
+import { formateYears } from "@/utils/date-format";
 
 const Profile = async () => {
   const session: CustomSession | null = await getServerSession(authOptions);

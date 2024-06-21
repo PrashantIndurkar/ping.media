@@ -1,13 +1,14 @@
 "use client";
+
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Input } from "../ui/input";
 import { ArrowUp } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { getAvatarFallbackName } from "@/lib/utils";
 import axios from "axios";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
+import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 
 const AddComment = ({
   post,

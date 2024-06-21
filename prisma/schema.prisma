@@ -54,6 +54,7 @@ model Post {
   created_at    DateTime  @default(now())
   Comment       Comment[]
   Likes         Likes[]
+  // now i need to store the user who liked the post
 }
 
 model Comment {

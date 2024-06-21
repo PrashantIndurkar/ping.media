@@ -1,4 +1,5 @@
 "use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,7 +33,7 @@ export function AlertDeletePost({
           description: response.message,
           className: "bg-red-500 text-white",
         });
-        noRedirect && router.push("/");
+        noRedirect && router.push("/feed");
         router.refresh();
       }
     });

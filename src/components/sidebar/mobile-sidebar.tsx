@@ -1,7 +1,7 @@
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Dot, Menu } from "lucide-react";
-import ThemeToggleBtn from "../common/ThemeToggleBtn";
+import ThemeToggleBtn from "../common/theme-toggle-btn";
 
 import {
   CustomSession,

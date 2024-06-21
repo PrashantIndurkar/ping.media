@@ -1,9 +1,9 @@
-import ExploreCard from "@/components/common/Explore";
-import HeaderTitle from "@/components/common/HeaderTitle";
-import Logo from "@/components/common/Logo";
+import ExploreCard from "@/components/common/explore-card";
+import HeaderTitle from "@/components/common/header-title";
+import Logo from "@/components/common/logo";
 import { MobileSidebar } from "@/components/sidebar";
 import SearchBar from "@/components/search/search-bar";
-import { exploreUsers } from "@/lib/explore/exploreUsers";
+import { exploreUsers } from "@/services/api/explore/exploreUsers";
 
 const Explore = async ({
   searchParams,

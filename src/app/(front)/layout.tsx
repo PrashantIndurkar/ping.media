@@ -10,14 +10,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import CreatePost from "@/components/ping/CreatePost";
-import { AlertDialogLogout } from "@/components/common/AlertDialogLogout";
+import CreatePost from "@/components/ping/create-post";
+import { AlertDialogLogout } from "@/components/common/alert-dialog-logout";
 import { Toaster } from "@/components/ui/toaster";
 import { CustomSession, authOptions } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import { getAvatarFallbackName } from "@/lib/utils";
 import SuggestedFollowersCard from "@/components/follow/suggest-followers-card";
 import { Sidebar } from "@/components/sidebar";
+import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",

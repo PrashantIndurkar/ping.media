@@ -1,11 +1,10 @@
 "use client";
+
 import { Dot, EllipsisVertical } from "lucide-react";
-import React, { useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
-import PostContent from "./PostContent";
-import { formateDate, getAvatarFallbackName } from "@/lib/utils";
+import PostContent from "./post-content";
 import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
@@ -13,7 +12,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AlertDeletePost } from "../common/AlertDeletePost";
+import { AlertDeletePost } from "../common/alert-delete-post";
+import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
+import { formateDate } from "@/utils/date-format";
 
 const PostCard = ({
   posts,

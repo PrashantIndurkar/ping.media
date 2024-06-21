@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { SessionProvider } from "next-auth/react";
 
@@ -6,10 +7,6 @@ import { SessionProvider } from "next-auth/react";
 // client side components can't have
 // import { getServerSession } from "next-auth"; so we need to wrap the whole app in a session provider using next-auth/react
 
-export default function CustomProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function CustomProvider({ children }: { children: React.ReactNode }) {
   return <SessionProvider>{children}</SessionProvider>;
 }

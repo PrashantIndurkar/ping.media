@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { CardContent, CardFooter } from "../ui/card";
 import {
   Bookmark,
@@ -36,6 +37,9 @@ import {
 import { useToast } from "../ui/use-toast";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import axios from "axios";
+import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
+import { getUserWhoLikedPost } from "@/services/api/getUserWhoLikedPost";
 
 const PostContent = ({
   post,
@@ -45,12 +49,25 @@ const PostContent = ({
   noRedirect?: boolean;
 }) => {
   const [show, setShow] = useState(false);
+  const [users, setUsers] = useState([]);
+  console.log("users", users);
+
   const [status, setStatus] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const [bookmark, setBookmark] = useState(true);
   const { toast } = useToast();
 
   const shareUrl = `${Env.APP_URL}/post/${post.id}`;
+
+  useEffect(() => {
+    getUserWhoLikedPost(post.id).then((users) => {
+      setUsers(users);
+      setLoading(false);
+    });
+  }, [post.id, status]);
 
   const copyUrl = () => {
     navigator.clipboard.writeText(shareUrl);
@@ -65,7 +82,10 @@ const PostContent = ({
         "bg-emerald-50 dark:bg-emerald-900/40 dark:text-emerald-300 text-emerald-700 z-100 !h-6 w-fit",
     });
   };
-  const likeDislike = (status: string) => {
+  const handleLikeDislike = (status: string) => {
+    if (loading) return;
+
+    setLoading(true);
     setStatus(status);
     axios
       .post("/api/like", {
@@ -76,9 +96,13 @@ const PostContent = ({
       .then((res) => {
         const response = res.data;
         console.log("The response is", response);
+        router.refresh();
       })
       .catch((err) => {
         console.log("The error is", err);
+      })
+      .finally(() => {
+        setLoading(false); // Reset loading state after API call completes
       });
   };
   return (
@@ -128,7 +152,9 @@ const PostContent = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
+                handleLikeDislike(status === "1" ? "0" : "1");
               }}
+              disabled={loading}
               className={`bg-gray-50 dark:bg-zinc-800/50 text-zinc-500 px-3 py-1 rounded-full flex items-center transition duration-100 ease-in-out ${
                 (post?.Likes?.length > 0 || status == "1") &&
                 "bg-rose-50  dark:bg-red-800/10 dark:text-rose-300 text-rose-400 group"
@@ -136,18 +162,14 @@ const PostContent = ({
             >
               {post?.Likes?.length > 0 || status == "1" ? (
                 <>
-                  <IoHeart
-                    onClick={() => likeDislike("0")}
-                    className="size-5 group-hover:scale-125 transition duration-200 ease-in-out"
-                  />
-                  <span className="ml-2 font-medium">{post.likes_count}</span>
+                  <IoHeart className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
                 </>
               ) : (
-                <IoHeartOutline
-                  onClick={() => likeDislike("1")}
-                  className="size-5 group-hover:scale-125 transition duration-200 ease-in-out"
-                />
+                <IoHeartOutline className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
               )}{" "}
+              {post.likes_count > 0 && (
+                <span className="ml-2 font-medium">{post.likes_count}</span>
+              )}
             </button>
             <button
               onClick={(e) => {
@@ -266,7 +288,10 @@ const PostContent = ({
                 <AvatarFallback>C</AvatarFallback>
               </Avatar>
               <Link href="#">
-                <strong className="font-medium">Prashant</strong> Liked
+                {/* <strong className="font-medium">
+                  {users.map((user) => user.).join(", ")}
+                </strong>{" "} */}
+                Liked
               </Link>
             </div>
           </div>
