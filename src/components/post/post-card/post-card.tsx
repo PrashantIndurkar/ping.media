@@ -1,10 +1,9 @@
 "use client";
 
 import { Dot, EllipsisVertical } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Card, CardHeader, CardTitle, CardDescription } from "../../ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import Link from "next/link";
-import PostContent from "./post-content";
 import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
@@ -14,16 +13,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { formateDate } from "@/utils/date-format";
-import { AlertDeletePost } from "../alert/delete-post";
+import { AlertDeletePost } from "../../alert/delete-post";
+import { PostContent } from "./post-content";
 
-const PostCard = ({
-  posts,
-  noRedirect,
-}: {
+type PostCardProps = {
   posts: Array<PostType> | [];
   noRedirect?: boolean;
   isAuthenticated?: boolean;
-}) => {
+};
+
+export const PostCard = ({ posts, noRedirect }: PostCardProps) => {
   const router = useRouter();
 
   return (
@@ -105,5 +104,3 @@ const PostCard = ({
     </>
   );
 };
-
-export default PostCard;

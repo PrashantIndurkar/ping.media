@@ -26,7 +26,7 @@ const Web = () => {
           <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
           <div>
             <Image
-              src="/images/PingLogo.png"
+              src="/images/ping-logo.png"
               alt="Ping Logo"
               width={200}
               height={200}

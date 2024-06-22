@@ -1,14 +1,13 @@
 import HeaderTitle from "@/components/common/header-title";
 import { Logo } from "@/components/logo";
 import { MobileSidebar } from "@/components/sidebar";
-import PostCard from "@/components/post/post-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dot } from "lucide-react";
-
 import EmptyCommentsLike from "@/components/comment/empty-comments-like";
 import Comments from "@/components/comment/comments";
 import CommentFilter from "@/components/comment/comment-filter";
 import { getSinglePost } from "@/services/api/getSinglePost";
+import { PostCard } from "@/components/post/post-card";
 
 const ShowPost = async ({ params }: { params: { id: number } }) => {
   const posts = await getSinglePost(params.id);

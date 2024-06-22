@@ -17,13 +17,11 @@ import { Link as LinkIcon, MapPin, Pencil, UserRoundCog } from "lucide-react";
 import Link from "next/link";
 import React, { Suspense } from "react";
 import HeaderTitle from "@/components/common/header-title";
-import PostCard from "@/components/post/post-card";
-import Await from "@/components/post/await";
-import PostCardSkeleton from "@/components/post/post-card-skeleton";
 import Comments from "@/components/comment/comments";
 import { getUser } from "@/services/api/getUser";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { formateYears } from "@/utils/date-format";
+import { PostCard, PostCardSkeleton } from "@/components/post/post-card";
 
 const ShowUser = async ({ params }: { params: { id: number } }) => {
   const user: ShowUserType | null = await getUser(params.id);

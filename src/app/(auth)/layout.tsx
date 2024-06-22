@@ -56,7 +56,7 @@ export default function RootLayout({
     <div className="mx-auto flex items-center justify-center max-w-[70rem] flex-col md:flex-row">
       <div className="flex flex-col md:items-start items-center justify-center w-full space-y-12 flex-1 ">
         <Image
-          src="/images/PingLogo.png"
+          src="/images/ping-logo.png"
           alt="Ping Logo"
           width={150}
           height={150}

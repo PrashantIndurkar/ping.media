@@ -33,7 +33,7 @@ export const Sidebar = ({ session }: { session: CustomSession | null }) => {
         <div className="flex h-14 items-center  px-4 lg:h-[60px] lg:px-6">
           <Link href="/feed" className="flex items-center gap-2 font-semibold">
             <Image
-              src="/images/PingLogo.png"
+              src="/images/ping-logo.png"
               width={100}
               height={100}
               alt="Ping Logo"

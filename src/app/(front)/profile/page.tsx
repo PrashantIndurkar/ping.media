@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { FaReact } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import {
   Card,
   CardContent,
@@ -22,14 +21,13 @@ import {
   CustomSession,
   authOptions,
 } from "@/app/api/auth/[...nextauth]/options";
-import PostCard from "@/components/post/post-card";
-import Await from "@/components/post/await";
-import PostCardSkeleton from "@/components/post/post-card-skeleton";
+import Await from "@/components/common/await";
 import Comments from "@/components/comment/comments";
 import { getUserPosts } from "@/services/api/getUserPosts";
 import { getUserComments } from "@/services/api/getUserComments";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { formateYears } from "@/utils/date-format";
+import { PostCard, PostCardSkeleton } from "@/components/post/post-card";
 
 const Profile = async () => {
   const session: CustomSession | null = await getServerSession(authOptions);

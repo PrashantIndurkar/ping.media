@@ -4,9 +4,10 @@ import {
   CardTitle,
   CardContent,
   CardFooter,
-} from "../ui/card";
-import { Skeleton } from "../ui/skeleton";
-export default function PostCardSkeleton() {
+} from "../../ui/card";
+import { Skeleton } from "../../ui/skeleton";
+
+export function PostCardSkeleton() {
   return (
     <ul>
       {[...Array(10)].map((_, index) => (

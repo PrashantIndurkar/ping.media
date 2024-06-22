@@ -8,18 +8,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+} from "../../ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { IoAdd } from "react-icons/io5";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { ImagePlus, Plus } from "lucide-react";
 import axios from "axios";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
 import { useRouter } from "next/navigation";
-import ImagePreviewCard from "../common/image-preview-card";
+import ImagePreviewCard from "../../common/image-preview-card";
 
-const CreatePost = ({ button }: { button?: boolean }) => {
+export const CreatePost = ({ button }: { button?: boolean }) => {
   const { toast } = useToast();
   const router = useRouter();
   // State to control dialog visibility
@@ -170,5 +170,3 @@ const CreatePost = ({ button }: { button?: boolean }) => {
     </Dialog>
   );
 };
-
-export default CreatePost;
