@@ -1,4 +1,4 @@
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 import { CustomErrorReporter } from "@/validations/CustomErrorReporter";
 import { loginSchema } from "@/validations/registerSchema";
 import vine, { errors } from "@vinejs/vine";
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const payload = await validator.validate(data);
 
     // * Check email
-    const findUser = await prisma.user.findUnique({
+    const findUser = await db.user.findUnique({
       where: {
         email: payload.email,
       },

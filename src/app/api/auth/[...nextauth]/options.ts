@@ -1,4 +1,4 @@
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 import { AuthOptions, ISODateString } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -46,7 +46,7 @@ export const authOptions: AuthOptions = {
       },
       // authorize: validates the provided credentials and returns user data if authentication is successful.
       async authorize(credentials, req) {
-        const user = await prisma.user.findUnique({
+        const user = await db.user.findUnique({
           where: {
             email: credentials?.email,
           },

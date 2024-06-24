@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 import { join } from "path";
 import { rmSync } from "fs";
 
@@ -13,7 +13,7 @@ export async function GET(
   if (!session) {
     return NextResponse.json({ status: 401, message: "Un-Authorized" });
   }
-  const post = await prisma.post.findUnique({
+  const post = await db.post.findUnique({
     where: {
       id: Number(params.id),
     },
@@ -57,7 +57,7 @@ export async function DELETE(
     return NextResponse.json({ status: 401, message: "Un-Authorized" });
   }
 
-  const findPost = await prisma.post.findFirst({
+  const findPost = await db.post.findFirst({
     where: {
       id: Number(params.id),
       userId: Number(session?.user?.id),
@@ -75,7 +75,7 @@ export async function DELETE(
     rmSync(path, { force: true });
   }
 
-  await prisma.post.delete({
+  await db.post.delete({
     where: {
       id: Number(params.id),
     },

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 
 export async function DELETE(
   request: NextRequest,
@@ -12,7 +12,7 @@ export async function DELETE(
     return NextResponse.json({ status: 401, message: "Un-Authorized" });
   }
 
-  const findComment = await prisma.comment.findFirst({
+  const findComment = await db.comment.findFirst({
     where: {
       id: Number(params.id),
       userId: Number(session?.user?.id),
@@ -23,16 +23,16 @@ export async function DELETE(
     return NextResponse.json({ status: 400, message: "Bad Request" });
   }
   // Begin a transaction to ensure atomicity
-  await prisma.$transaction(async (prisma) => {
+  await db.$transaction(async (db) => {
     // Delete the comment
-    await prisma.comment.delete({
+    await db.comment.delete({
       where: {
         id: Number(params.id),
       },
     });
 
     // Decrement the comment_count of the associated post
-    await prisma.post.update({
+    await db.post.update({
       where: {
         id: findComment.post_id,
       },

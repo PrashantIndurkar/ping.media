@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import { commentSchema } from "@/validations/commentSchema";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,9 +23,9 @@ export async function POST(request: NextRequest) {
     const validator = vine.compile(commentSchema);
     const payload = await validator.validate(data);
 
-    await prisma.$transaction(async (prisma) => {
+    await db.$transaction(async (db) => {
       // we need to increment the post comment count
-      await prisma.post.update({
+      await db.post.update({
         where: {
           id: Number(payload.post_id),
         },
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
       // * Add Notification
 
-      await prisma.notification.create({
+      await db.notification.create({
         data: {
           userId: session?.user?.id?.toString(),
           toUserId: payload.toUserId.toString(),
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
       // add comment in the database
 
-      await prisma.comment.create({
+      await db.comment.create({
         data: {
           authorId: session?.user?.id?.toString(),
           postId: payload.post_id.toString(),

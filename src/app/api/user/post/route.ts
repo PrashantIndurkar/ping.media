@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 
 export async function GET(req: NextRequest) {
   const session: CustomSession | null = await getServerSession(authOptions);
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       message: "You must be logged in to view this page",
     });
   }
-  const posts = await prisma.post.findMany({
+  const posts = await db.post.findMany({
     where: {
       userId: Number(session?.user?.id),
     },

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 import { CustomSession, authOptions } from "../../auth/[...nextauth]/options";
 
 // GET /api/post
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       message: "You are not logged in",
     });
   }
-  const posts = await prisma.post.findMany({
+  const posts = await db.post.findMany({
     include: {
       user: {
         select: {

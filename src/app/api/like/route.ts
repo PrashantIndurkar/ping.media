@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 
 export async function POST(request: NextRequest) {
   const session: CustomSession | null = await getServerSession(authOptions);
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
   // * Add Notification
   if (payload.status === "1") {
-    await prisma.notification.create({
+    await db.notification.create({
       data: {
         userId: Number(session.user?.id),
         toUser_id: Number(payload.toUserId),
@@ -28,8 +28,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    await prisma.$transaction([
-      prisma.post.update({
+    await db.$transaction([
+      db.post.update({
         where: {
           id: Number(payload.post_id),
         },
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     ]);
   } else if (payload.status === "0") {
     // * In crease the post like counter
-    await prisma.post.update({
+    await db.post.update({
       where: {
         id: Number(payload.post_id),
       },
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     });
 
     // * delete in like table
-    await prisma.likes.deleteMany({
+    await db.likes.deleteMany({
       where: {
         post_id: Number(payload.post_id),
         userId: Number(session?.user?.id),

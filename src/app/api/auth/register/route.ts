@@ -3,7 +3,7 @@ import { registerSchema } from "@/validations/registerSchema";
 import vine, { errors } from "@vinejs/vine";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt, { hashSync } from "bcryptjs";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     const payload = await validator.validate(data);
 
     // * Check email
-    const isEmailExist = await prisma.user.findUnique({
+    const isEmailExist = await db.user.findUnique({
       where: {
         email: payload.email,
       },
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     // * Check username
-    const isUsernameExist = await prisma.user.findUnique({
+    const isUsernameExist = await db.user.findUnique({
       where: {
         username: payload.username,
       },
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     payload.password = hashSync(payload.password, salt);
 
     // * Inset user into database
-    await prisma.user.create({
+    await db.user.create({
       data: payload,
     });
 

@@ -5,7 +5,7 @@ import { CustomErrorReporter } from "@/validations/CustomErrorReporter";
 import { postSchema } from "@/validations/postSchema";
 import { join } from "path";
 import { writeFile } from "fs/promises";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { imageValidator } from "@/validations/imageValidator";
 import { getRandomNumber } from "@/utils/random-number";
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       message: "You are not logged in",
     });
   }
-  const posts = await prisma.post.findMany({
+  const posts = await db.post.findMany({
     include: {
       user: {
         select: {
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Post In DB
-    await prisma.post.create({
+    await db.post.create({
       data: {
         content: payload.content,
         userId: Number(session?.user?.id),

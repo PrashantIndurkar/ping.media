@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 
 export async function GET(request: NextRequest) {
   const session: CustomSession | null = await getServerSession(authOptions);
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   const query = request.nextUrl.searchParams.get("query");
 
-  const users = await prisma.user.findMany({
+  const users = await db.user.findMany({
     where: {
       OR: [
         {

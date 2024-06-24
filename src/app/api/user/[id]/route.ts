@@ -1,4 +1,4 @@
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
@@ -11,7 +11,7 @@ export async function GET(
   if (!session) {
     return NextResponse.json({ status: 401, message: "Un-Authorized" });
   }
-  const users = await prisma.user.findUnique({
+  const users = await db.user.findUnique({
     where: {
       id: Number(params.id),
     },

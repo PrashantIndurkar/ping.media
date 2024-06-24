@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import prisma from "@/DB/db.config";
+import { db } from "@/database";
 
 export async function GET(request: NextRequest) {
   const session: CustomSession | null = await getServerSession(authOptions);
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ status: 401, message: "Un Authorized." });
   }
 
-  const notifications = await prisma.notification.findMany({
+  const notifications = await db.notification.findMany({
     where: {
       toUser_id: Number(session?.user?.id),
     },
