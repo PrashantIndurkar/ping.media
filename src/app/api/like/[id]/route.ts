@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       Likes: {
         take: 1,
         where: {
-          user_id: Number(session?.user?.id),
+          userId: Number(session?.user?.id),
         },
       },
     },

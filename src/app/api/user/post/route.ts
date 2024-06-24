@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   }
   const posts = await prisma.post.findMany({
     where: {
-      user_id: Number(session?.user?.id),
+      userId: Number(session?.user?.id),
     },
     include: {
       user: {
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
       Likes: {
         take: 1,
         where: {
-          user_id: Number(session?.user?.id),
+          userId: Number(session?.user?.id),
         },
       },
     },

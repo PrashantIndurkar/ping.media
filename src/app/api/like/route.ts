@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   if (payload.status === "1") {
     await prisma.notification.create({
       data: {
-        user_id: Number(session.user?.id),
+        userId: Number(session.user?.id),
         toUser_id: Number(payload.toUserId),
         content: "Liked your post.",
       },
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       // * Add Entry in like table
       prisma.likes.create({
         data: {
-          user_id: Number(session?.user?.id),
+          userId: Number(session?.user?.id),
           post_id: Number(payload.post_id),
         },
       }),
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     await prisma.likes.deleteMany({
       where: {
         post_id: Number(payload.post_id),
-        user_id: Number(session?.user?.id),
+        userId: Number(session?.user?.id),
       },
     });
   }

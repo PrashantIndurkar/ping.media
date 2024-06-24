@@ -31,8 +31,8 @@ model Profile {
 id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 bio String?
 website String?
-user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-user_id String @unique @db.Uuid
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+userId String @unique @db.Uuid
 profile_path String?
 gender String?
 age String?
@@ -56,8 +56,8 @@ created_at DateTime @default(now())
 
 model Post {
 id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-user_id String @db.Uuid
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+userId String @db.Uuid
 content String
 bookmarked Bookmark[]
 image String?
@@ -68,8 +68,8 @@ upvotes Upvote[]
 
 model Bookmark {
 id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-user_id String @unique @db.Uuid
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+userId String @unique @db.Uuid
 post Post @relation(fields: [post_id], references: [id], onDelete: Cascade)
 post_id String @db.Uuid
 created_at DateTime @default(now())
@@ -78,8 +78,8 @@ userId Int
 
 model Comment {
 id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-user_id String @unique @db.Uuid
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+userId String @unique @db.Uuid
 post Post @relation(fields: [post_id], references: [id], onDelete: Cascade)
 post_id String @db.Uuid
 content String
@@ -89,8 +89,8 @@ upvote Upvote[]
 
 model Notification {
 id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-user_id String @unique @db.Uuid
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+userId String @unique @db.Uuid
 toUser_id Int
 content String
 created_at DateTime @default(now())
@@ -108,8 +108,8 @@ post_id String @db.Uuid
     comment_reply    Comment? @relation(fields: [comment_reply_id], references: [id], onDelete: Cascade)
     comment_reply_id String?  @db.Uuid
 
-    user    User?  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-    user_id String @db.Uuid
+    user    User?  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    userId String @db.Uuid
 
 }
 

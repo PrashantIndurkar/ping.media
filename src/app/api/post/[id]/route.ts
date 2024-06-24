@@ -39,7 +39,7 @@ export async function GET(
       Likes: {
         take: 1,
         where: {
-          user_id: Number(session?.user?.id),
+          userId: Number(session?.user?.id),
         },
       },
     },
@@ -60,7 +60,7 @@ export async function DELETE(
   const findPost = await prisma.post.findFirst({
     where: {
       id: Number(params.id),
-      user_id: Number(session?.user?.id),
+      userId: Number(session?.user?.id),
     },
   });
 

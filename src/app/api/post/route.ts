@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       Likes: {
         take: 1,
         where: {
-          user_id: Number(session?.user?.id),
+          userId: Number(session?.user?.id),
         },
       },
     },
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
     await prisma.post.create({
       data: {
         content: payload.content,
-        user_id: Number(session?.user?.id),
+        userId: Number(session?.user?.id),
         image: data.image ?? null,
       },
     });

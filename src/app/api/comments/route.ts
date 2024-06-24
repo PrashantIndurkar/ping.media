@@ -29,19 +29,14 @@ export async function POST(request: NextRequest) {
         where: {
           id: Number(payload.post_id),
         },
-        data: {
-          comment_count: {
-            increment: 1,
-          },
-        },
       });
 
       // * Add Notification
 
       await prisma.notification.create({
         data: {
-          user_id: Number(session?.user?.id),
-          toUser_id: Number(payload.toUserId),
+          userId: session?.user?.id?.toString(),
+          toUserId: payload.toUserId.toString(),
           content: "Commented on your post.",
         },
       });
@@ -50,8 +45,8 @@ export async function POST(request: NextRequest) {
 
       await prisma.comment.create({
         data: {
-          user_id: Number(session?.user?.id),
-          post_id: Number(payload.post_id),
+          authorId: session?.user?.id?.toString(),
+          postId: payload.post_id.toString(),
           content: payload.content,
         },
       });

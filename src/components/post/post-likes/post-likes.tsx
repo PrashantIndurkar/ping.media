@@ -19,7 +19,7 @@ export const PostLikesActions = ({ post }: { post: PostType }) => {
       .post("/api/like", {
         status: status,
         post_id: post.id,
-        toUserId: post.user_id,
+        toUserId: post.userId,
       })
       .then((res) => {
         const response = res.data;

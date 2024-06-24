@@ -19,7 +19,7 @@ type PostErrorType = {
 
 type PostType = {
   id: number;
-  user_id: number;
+  userId: number;
   content: string;
   image?: string;
   created_at: string;
@@ -37,7 +37,7 @@ type UserType = {
 
 type CommentType = {
   id: number;
-  user_id: number;
+  userId: number;
   post_id: number;
   content: string;
   created_at: string;
@@ -56,7 +56,7 @@ type ShowUserType = {
 
 type NotificationType = {
   id: number;
-  user_id: number;
+  userId: number;
   toUser_id: number;
   content: string;
   created_at: string;
@@ -66,7 +66,7 @@ type NotificationType = {
 type PostLikeType = {
   id: number;
   post_id: number;
-  user_id: number;
+  userId: number;
 };
 
 type LikeType = {

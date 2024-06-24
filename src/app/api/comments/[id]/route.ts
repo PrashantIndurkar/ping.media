@@ -15,7 +15,7 @@ export async function DELETE(
   const findComment = await prisma.comment.findFirst({
     where: {
       id: Number(params.id),
-      user_id: Number(session?.user?.id),
+      userId: Number(session?.user?.id),
     },
   });
 
