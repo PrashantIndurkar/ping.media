@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { BiSolidUpvote, BiUpvote } from "react-icons/bi";
 
 export const PostLikesActions = ({ post }: { post: PostType }) => {
   const [status, setStatus] = useState<string>("");
@@ -41,11 +42,11 @@ export const PostLikesActions = ({ post }: { post: PostType }) => {
     >
       {post?.Likes?.length > 0 ? (
         <>
-          <IoHeart className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
+          <BiSolidUpvote className=" size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
         </>
       ) : (
-        <IoHeartOutline className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
-      )}{" "}
+        <BiUpvote className="size-5 group-hover:scale-125 transition duration-200 ease-in-out" />
+      )}
       {post.likes_count > 0 && (
         <span className="ml-2 font-medium">{post.likes_count}</span>
       )}

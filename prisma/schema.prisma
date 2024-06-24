@@ -7,79 +7,126 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Keyword {
-//   id    Int           @id @default(autoincrement())
-//   name  String        @unique
-//   users UserKeyword[]
-// }
+// Likes Types
+enum LikeType {
+  LIKE
+  DISLIKE
+}
 
-// model UserKeyword {
-//   id        Int @id @default(autoincrement())
-//   userId    Int
-//   keywordId Int
-
-//   user    User    @relation(fields: [userId], references: [id])
-//   keyword Keyword @relation(fields: [keywordId], references: [id])
-
-//   @@unique([userId, keywordId]) // Ensure that each user can have each keyword only once
-// }
+// Bookmark Types
+enum BookmarkType {
+  BOOKEMARED
+  UNBOOKMARKED
+}
 
 model User {
-  id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(70)
-  username     String         @unique @db.VarChar(100)
-  email        String         @unique @db.VarChar(100)
-  password     String?
-  created_at   DateTime       @default(now())
-  // updated_at DateTime      @updatedAt
-  // city       String?
-  // country    String?
-  // bio        String?
-  // avatar     String?
-  // keywords   UserKeyword[]
-  Post         Post[]
-  Comment      Comment[]
-  Notification Notification[]
-  Likes        Likes[]
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String         @db.VarChar(100)
+  email         String         @unique @db.VarChar(120)
+  username      String         @unique @db.VarChar(60)
+  password      String?
+  created_at    DateTime       @default(now())
+  profile       Profile?
+  posts         Post[]
+  comments      Comment[]
+  postLikes     PostLike[]
+  commentLikes  CommentLike[]
+  bookmarks     Bookmark[]
+  notifications Notification[]
+}
+
+model Profile {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  image       String?
+  // add limit to the bio field
+  bio         String?      @db.VarChar(150)
+  website     String?      @db.VarChar(150)
+  userId      String       @unique @db.Uuid
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pronouns    String?      @db.VarChar(60)
+  country     String?      @db.VarChar(120)
+  city        String?      @db.VarChar(120)
+  skills      Skill[]
+  socialLinks SocialLink[]
+}
+
+model Skill {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tag       String   @unique @db.VarChar(150)
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?  @db.Uuid
+}
+
+model SocialLink {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  link      String   @unique @db.VarChar(350)
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?  @db.Uuid
 }
 
 model Post {
-  id            Int       @id @default(autoincrement())
-  user          User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id       Int
-  content       String
-  image         String?
-  comment_count Int       @default(0)
-  likes_count   Int       @default(0)
-  created_at    DateTime  @default(now())
-  Comment       Comment[]
-  Likes         Likes[]
-  // now i need to store the user who liked the post
+  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content   String     @db.VarChar(2000)
+  imageUrl  String?
+  createdAt DateTime   @default(now())
+  authorId  String     @db.Uuid
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments  Comment[]
+  likes     PostLike[]
+  bookmarks Bookmark[]
 }
 
-model Comment {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id    Int
-  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
-  post_id    Int
-  content    String
-  created_at DateTime @default(now())
+model Bookmark {
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String       @db.Uuid
+  postId String       @db.Uuid
+  post   Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  type   BookmarkType
+
+  @@id([userId, postId])
 }
 
 model Notification {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id    Int
-  toUser_id  Int
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String   @unique @db.Uuid
+  toUserId   Int
   content    String
   created_at DateTime @default(now())
 }
 
-model Likes {
-  id      Int  @id @default(autoincrement())
-  post    Post @relation(fields: [post_id], references: [id], onDelete: Cascade)
-  post_id Int
-  user    User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id Int
+model PostLike {
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String   @db.Uuid
+  postId String   @db.Uuid
+  post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  type   LikeType
+
+  @@id([userId, postId])
+}
+
+model Comment {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content      String        @db.VarChar(2000)
+  createdAt    DateTime      @default(now())
+  postId       String        @db.Uuid
+  authorId     String        @db.Uuid
+  post         Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  replyToId    String?       @db.Uuid
+  replyTo      Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies      Comment[]     @relation(name: "ReplyTo")
+  commentId    String        @db.Uuid
+  commnetLikes CommentLike[]
+}
+
+model CommentLike {
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.Uuid
+  comment   Comment  @relation(fields: [commnetId], references: [id], onDelete: Cascade)
+  commnetId String   @db.Uuid
+  type      LikeType
+  createdAt DateTime @default(now())
+
+  @@id([userId, commnetId])
 }

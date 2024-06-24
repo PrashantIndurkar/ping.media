@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // * In crease the post like counter
     await prisma.$transaction([
       prisma.post.update({
         where: {
