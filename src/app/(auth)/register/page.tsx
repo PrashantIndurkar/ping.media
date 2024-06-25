@@ -10,10 +10,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { useRouter } from "next/navigation";
 import { IoMdArrowForward } from "react-icons/io";
-
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import * as z from "zod";
@@ -86,7 +84,7 @@ const Register = () => {
   };
 
   return (
-    <div className="grid w-full h-screen grow items-center px-4 sm:justify-center">
+    <div>
       <Form {...form}>
         <Card>
           <CardHeader>
@@ -176,8 +174,8 @@ const Register = () => {
               </Button>
             </form>
 
-            <p className="text-muted-foreground text-xs text-center !mt-8">
-              By clicking "Join Ping media you agree to our Code of Conduct,
+            <p className="text-muted-foreground text-sm text-center !mt-8 md:leading-relaxed">
+              By clicking "Join Ping" you agree to our Code of Conduct, <br />
               Terms of Service and Privacy Policy.
             </p>
             <p className="text-muted-foreground text-sm text-center !mt-8">

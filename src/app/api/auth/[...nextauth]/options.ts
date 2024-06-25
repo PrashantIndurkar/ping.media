@@ -1,10 +1,11 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/database";
-import { AuthOptions, ISODateString } from "next-auth";
+import { AuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import GoogleProvider from "next-auth/providers/google";
 
+// AuthOptions
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
   pages: {
@@ -97,3 +98,6 @@ export const authOptions: AuthOptions = {
     },
   },
 };
+
+// Helper function to get the user's session from the server
+export const getAuthSession = () => getServerSession(authOptions);

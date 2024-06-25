@@ -1,17 +1,15 @@
-"use client";
-
 import { Spotlight } from "@/components/ui/Spotlight";
-
 import { FlipWords } from "@/components/ui/flip-words";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
-import { GrFormNextLink } from "react-icons/gr";
+import { getAuthSession } from "./api/auth/[...nextauth]/options";
+import HeaderActionButtons from "./(front)/_components/header-action-buttons";
+import { words } from "@/constants/home-flip-words";
 
-const Web = () => {
-  const words = ["Developers", "Designers", "Engineers", "Job   Seekers"];
+const Web = async () => {
+  // check if user is logged in if logged in then show the button text as feed else show login and also redirect accordingly
+  const user = await getAuthSession();
+  console.log("user", user);
 
   return (
     <div className="h-screen relative">
@@ -37,27 +35,10 @@ const Web = () => {
             for{" "}
             <FlipWords
               words={words}
-              className="md:tracking-wider md:leading-relaxed"
+              className="md:tracking-wide md:leading-relaxed"
             />
           </div>
-          <div className="flex items-center justify-center gap-x-12">
-            <button
-              disabled
-              className="rounded-full border py-2 px-8 border-zinc-600 hover:border-zinc-700  hover:text-zinc-700 text-zinc-500 dark:bg-zinc-950 dark:text-zinc-400 transition group duration-200 cursor-not-allowed"
-            >
-              Skip login{" "}
-              <GrFormNextLink className="inline group-hover:translate-x-1 transition-transform duration-200" />
-            </button>
-            <Link href="/login">
-              <HoverBorderGradient
-                containerClassName="rounded-full"
-                as="button"
-                className="dark:!text-pink-100 !px-10"
-              >
-                Login
-              </HoverBorderGradient>
-            </Link>
-          </div>
+          <HeaderActionButtons user={user} />
         </div>
       </div>
     </div>
