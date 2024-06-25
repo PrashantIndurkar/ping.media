@@ -10,8 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Toaster } from "@/components/ui/toaster";
-import { CustomSession, authOptions } from "../api/auth/[...nextauth]/options";
+import { authOptions } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import SuggestedFollowersCard from "@/components/follow/suggest-followers-card";
 import { Sidebar } from "@/components/sidebar";
@@ -30,7 +29,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session: CustomSession | null = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
   const user = session?.user;
 
   return (
@@ -130,7 +129,6 @@ export default async function RootLayout({
           </div>
         </div>
       </div>
-      <Toaster />
     </>
   );
 }

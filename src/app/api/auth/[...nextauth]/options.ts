@@ -1,69 +1,92 @@
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/database";
 import { AuthOptions, ISODateString } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-export type CustomSession = {
-  user?: CustomUser;
-  expires?: ISODateString;
-};
-
-export type CustomUser = {
-  id: string | null;
-  name?: string | null;
-  username?: string | null;
-  email?: string | null;
-  created_at: ISODateString;
-};
+import { compare } from "bcryptjs";
 
 export const authOptions: AuthOptions = {
-  // custom pages
+  adapter: PrismaAdapter(db),
   pages: {
     signIn: "/login",
   },
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.user = {
-          ...user,
-        };
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      session.user = token.user as CustomUser;
-      return session;
-    },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
   },
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
       name: "Credentials",
-      // Credentials: It enables users to sign in using email and password credentials directly within your application.
-      // only for sign in or login or sign up
       credentials: {
-        email: {},
-        password: { label: "Password", type: "password" },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "you@youremail.com",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "At least 8 characters.",
+        },
       },
       // authorize: validates the provided credentials and returns user data if authentication is successful.
-      async authorize(credentials, req) {
-        const user = await db.user.findUnique({
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        const existingUser = await db.user.findUnique({
           where: {
             email: credentials?.email,
           },
-          select: {
-            id: true,
-            email: true,
-            name: true,
-            username: true,
-            created_at: true,
-          },
         });
-        if (user) {
-          return { ...user, id: user.id.toString() };
-        } else {
+
+        if (!existingUser) {
           return null;
         }
+
+        const isPasswordMatch = await compare(
+          credentials?.password,
+          existingUser.password!
+        );
+
+        if (!isPasswordMatch) {
+          return null;
+        }
+
+        return {
+          id: existingUser.id.toString(),
+          name: existingUser.name,
+          email: existingUser.email,
+        };
       },
     }),
   ],
+
+  callbacks: {
+    async jwt({ token, user }) {
+      // First time JWT callback is called, user object will be available
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Safely handle session.user being potentially undefined
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.name = token.name;
+        session.user.email = token.email;
+      } else {
+        session.user = {
+          id: token.id as string,
+          name: token.name,
+          email: token.email,
+        };
+      }
+      return session;
+    },
+  },
 };

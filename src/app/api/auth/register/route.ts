@@ -1,68 +1,60 @@
-import { CustomErrorReporter } from "./../../../../validations/CustomErrorReporter";
-import { registerSchema } from "@/validations/registerSchema";
-import vine, { errors } from "@vinejs/vine";
-import { NextRequest, NextResponse } from "next/server";
-import bcrypt, { hashSync } from "bcryptjs";
 import { db } from "@/database";
+import { hash } from "bcryptjs";
+import { NextResponse } from "next/server";
+import * as z from "zod";
 
-export async function POST(request: NextRequest) {
+// Define a schema for the request body
+
+const userRegisterSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .min(3, "Name must be at least 3 characters long"),
+  email: z.string().min(1, "Email is required").email("Invalid email"),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(8, "Password must be at least 8 characters long"),
+});
+
+export async function POST(req: Request) {
   try {
-    const data = await request.json();
+    const body = await req.json();
+    const { name, email, password } = userRegisterSchema.parse(body);
 
-    vine.errorReporter = () => new CustomErrorReporter();
-
-    const validator = vine.compile(registerSchema);
-    const payload = await validator.validate(data);
-
-    // * Check email
+    // Check if the email already exists
     const isEmailExist = await db.user.findUnique({
       where: {
-        email: payload.email,
+        email: email,
       },
     });
 
     if (isEmailExist) {
       return NextResponse.json({
+        user: null,
         status: 400,
-        errors: {
-          email: "Email already exist",
-        },
+        message: "Email already exists",
       });
     }
 
-    // * Check username
-    const isUsernameExist = await db.user.findUnique({
-      where: {
-        username: payload.username,
+    // Create user in the database
+    const hashedPassword = await hash(password, 10);
+    const newUser = await db.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
       },
     });
 
-    if (isUsernameExist) {
-      return NextResponse.json({
-        status: 400,
-        errors: {
-          username: "Username already exist",
-        },
-      });
-    }
-
-    // TODO: hash password
-    const salt = bcrypt.genSaltSync(10);
-    payload.password = hashSync(payload.password, salt);
-
-    // * Inset user into database
-    await db.user.create({
-      data: payload,
-    });
+    const { password: newUserPassword, ...rest } = newUser;
 
     return NextResponse.json({
-      status: 200,
-      message: "Account created successfully!",
+      user: rest,
+      status: 201,
+      message: "User created successfully!",
     });
   } catch (error) {
-    if (error instanceof errors.E_VALIDATION_ERROR) {
-      console.log("error.messages", error.messages);
-      return NextResponse.json({ status: 400, error: error.messages });
-    }
+    return NextResponse.json({ status: 500, message: "Something went wrong!" });
   }
 }

@@ -2,186 +2,171 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Link from "next/link";
-import axios from "axios";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
 import { useRouter } from "next/navigation";
+import { IoMdArrowForward } from "react-icons/io";
+
+import React from "react";
+import { FcGoogle } from "react-icons/fc";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
   CardContent,
-  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React, { useState } from "react";
-import { LuGithub } from "react-icons/lu";
-import { FcGoogle } from "react-icons/fc";
+import Link from "next/link";
+import { toast } from "sonner";
+
+const userRegisterSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .min(3, "Name must be at least 3 characters long"),
+  email: z.string().min(1, "Email is required").email("Invalid email"),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(8, "Password must be at least 8 characters long"),
+});
 
 const Register = () => {
-  const [errors, setErrors] = useState<AuthErrorType>({});
-  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  const [authState, setAuthState] = useState<AuthStateType>({
-    email: "",
-    password: "",
-    // password_confirmation: "",
+  const form = useForm<z.infer<typeof userRegisterSchema>>({
+    resolver: zodResolver(userRegisterSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
   });
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    axios
-      .post("/api/auth/register", authState)
-      .then((res) => {
-        setLoading(false);
-        const response = res.data;
+  const onSubmit = async (values: z.infer<typeof userRegisterSchema>) => {
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      }),
+    });
+    const result = await response.json();
 
-        if (response.status === 200) {
-          router.push(`/login?message=${response.message}`);
-        } else if (response.status === 400) {
-          setErrors(response.error);
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-      });
+    if (result.status === 201) {
+      router.push("/login");
+      toast.success("You successfully registered!");
+    } else if (result.status === 400) {
+      toast.error(result.message);
+    }
   };
-
   return (
     <div className="grid w-full h-screen grow items-center px-4 sm:justify-center">
-      <form onSubmit={onSubmit}>
-        <Card className="w-full sm:w-96">
+      <Form {...form}>
+        <Card>
           <CardHeader>
-            <CardTitle>Register your account</CardTitle>
-            {/* <CardDescription>
-              Welcome! Please fill in the details to get started.
-            </CardDescription> */}
+            <CardTitle>Register</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-y-4">
-            <section>
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  type="text"
-                  id="name"
-                  placeholder="Prashant Indurkar"
-                  autoFocus
-                  autoComplete="name"
-                  onChange={(event) =>
-                    setAuthState({ ...authState, name: event.target.value })
-                  }
-                />
-                <span className="text-xs text-zinc-900 dark:text-zinc-400">
-                  {errors?.name}
-                </span>
-              </div>
-              <div className="mt-5 space-y-2">
-                <Label htmlFor="username">Username</Label>
-                <div className="flex items-center gap-x-2 relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center px-3 pointer-events-none text-zinc-500 dark:text-zinc-400 border-r ">
-                    @
-                  </span>
-                  <Input
-                    type="text"
-                    id="username"
-                    placeholder="prashantindurkar"
-                    className="pl-12"
-                    onChange={(event) =>
-                      setAuthState({
-                        ...authState,
-                        username: event.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <span className="text-xs text-zinc-900 dark:text-zinc-400">
-                  {errors.username}
-                </span>
-              </div>
-              <div className="mt-5 space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  placeholder="example@youremail.com"
-                  onChange={(event) =>
-                    setAuthState({ ...authState, email: event.target.value })
-                  }
-                />
-                <span className="text-xs text-zinc-900 dark:text-zinc-400">
-                  {errors.email}
-                </span>
-              </div>
-              <div className="mt-5 space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  placeholder="********"
-                  onChange={(event) =>
-                    setAuthState({ ...authState, password: event.target.value })
-                  }
-                />
-                <span className="text-xs text-zinc-900 dark:text-zinc-400">
-                  {errors.password}
-                </span>
-              </div>
-              {/* <div className="mt-5 space-y-2">
-                <Label htmlFor="confirm_password">Confirm Password</Label>
-                <Input
-                  type="password"
-                  id="confirm_password"
-                  placeholder="Confirm password.."
-                  onChange={(event) =>
-                    setAuthState({
-                      ...authState,
-                      password_confirmation: event.target.value,
-                    })
-                  }
-                />
-              </div> */}
-
-              <div>
-                <Button className="w-full mt-5" disabled={loading}>
-                  {loading ? "Processing..." : "Register"}
-                </Button>
-              </div>
-              <div className="flex items-center justify-center mt-4 text-muted-foreground">
-                <Link
-                  href="/login"
-                  className="text-sm cursor-pointer hover:underline"
-                >
-                  Already have an profile?{" "}
-                  <span className="text-zinc-300">Log in</span>
-                </Link>
-              </div>
-
-              <footer className="space-y-4 mt-6">
-                <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
-                  Or continue with
-                </p>
-
-                <div className="grid grid-cols-2 gap-x-4">
-                  <Button className="cursor-not-allowed" type="button">
-                    <FcGoogle className="mr-2 size-4" />
-                    Google
-                  </Button>
-                  <Button className="cursor-not-allowed" type="button">
-                    <LuGithub className="mr-2 size-4" />
-                    Github
-                  </Button>
-                </div>
-
-                <p className="text-muted-foreground text-xs text-center !mt-8">
-                  By clicking on register, you agree to our Terms of Service and
-                  Privacy Policy
-                </p>
-              </footer>
-            </section>
+          <CardContent>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Prashant Indurkar"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="you@youremail.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="At least 8 characters."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full rounded-full text-xl font-semibold"
+              >
+                Join Ping <IoMdArrowForward className="ml-2 text-xl" />
+              </Button>
+            </form>
           </CardContent>
+          <CardFooter className="flex flex-col space-y-4">
+            <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border border-muted-zinc-200 after:h-px after:flex-1 after:bg-border border-muted-zinc-200">
+              Or continue with
+            </p>
+
+            <Button
+              size="lg"
+              type="button"
+              className="cursor-not-allowed w-full"
+            >
+              <FcGoogle className="mr-2 size-4" />
+              Google
+            </Button>
+
+            <p className="text-muted-foreground text-xs text-center !mt-8">
+              By clicking "Join Ping media you agree to our Code of Conduct,
+              Terms of Service and Privacy Policy.
+            </p>
+            <p className="text-muted-foreground text-sm text-center !mt-8">
+              Already have a profile? <Link href="/login">Login</Link>
+            </p>
+          </CardFooter>
         </Card>
-      </form>
+      </Form>
     </div>
   );
 };

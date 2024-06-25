@@ -22,10 +22,10 @@ enum BookmarkType {
 model User {
   id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String         @db.VarChar(100)
-  email         String         @unique @db.VarChar(120)
-  username      String         @unique @db.VarChar(60)
+  email         String         @unique
   password      String?
   created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
   profile       Profile?
   posts         Post[]
   comments      Comment[]

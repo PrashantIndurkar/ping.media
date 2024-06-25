@@ -53,8 +53,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="mx-auto flex items-center justify-center max-w-[70rem] flex-col md:flex-row">
-      <div className="flex flex-col md:items-start items-center justify-center w-full space-y-12 flex-1 ">
+    <div className="px-4 sm:px-20 mx-auto flex items-center justify-center max-w-[70rem] flex-col md:flex-row h-screen">
+      <div className="hidden xl:flex flex-col md:items-start items-center justify-center space-y-12 w-1/2 ">
         <Image
           src="/images/ping-logo.png"
           alt="Ping Logo"
@@ -73,7 +73,7 @@ export default function RootLayout({
           </span>
         </div>
       </div>
-      <div className="flex-1">{children}</div>
+      <div className="w-full md:w-2/4 lg:w-1/2">{children}</div>
     </div>
   );
 }

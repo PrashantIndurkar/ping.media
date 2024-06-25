@@ -1,3 +1,5 @@
+# Understanding the Comment Schema
+
 Certainly! Let's delve into practical examples using the `replyToId`, `replyTo`, and `replies` relationships based on the schema you provided. This will help illustrate how comments and their replies are structured and linked together.
 
 ### Example Scenario
