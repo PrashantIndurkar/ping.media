@@ -3,6 +3,7 @@ import { db } from "@/database";
 import { AuthOptions, ISODateString } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db),
@@ -15,6 +16,10 @@ export const authOptions: AuthOptions = {
   },
   // Configure one or more authentication providers
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -45,13 +50,15 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        const isPasswordMatch = await compare(
-          credentials?.password,
-          existingUser.password!
-        );
+        if (existingUser.password) {
+          const isPasswordMatch = await compare(
+            credentials?.password,
+            existingUser.password
+          );
 
-        if (!isPasswordMatch) {
-          return null;
+          if (!isPasswordMatch) {
+            return null;
+          }
         }
 
         return {

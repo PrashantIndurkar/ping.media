@@ -34,7 +34,11 @@ const Web = () => {
           </div>
           <div className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-300 to-neutral-500 py-8 text-center">
             Social Media Platform <br />
-            for <FlipWords words={words} />
+            for{" "}
+            <FlipWords
+              words={words}
+              className="md:tracking-wider md:leading-relaxed"
+            />
           </div>
           <div className="flex items-center justify-center gap-x-12">
             <button

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const { fontFamily } = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 
 const svgToDataUri = require("mini-svg-data-uri");
@@ -60,6 +61,9 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      fontFamily: {
+        instrumentSerif: ["var(--font-instrument-serif)", ...fontFamily.sans],
       },
       borderRadius: {
         lg: "var(--radius)",

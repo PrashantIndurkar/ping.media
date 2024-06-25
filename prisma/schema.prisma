@@ -19,29 +19,13 @@ enum BookmarkType {
   UNBOOKMARKED
 }
 
-model User {
-  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String         @db.VarChar(100)
-  email         String         @unique
-  password      String?
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @updatedAt
-  profile       Profile?
-  posts         Post[]
-  comments      Comment[]
-  postLikes     PostLike[]
-  commentLikes  CommentLike[]
-  bookmarks     Bookmark[]
-  notifications Notification[]
-}
-
 model Profile {
   id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   image       String?
   // add limit to the bio field
   bio         String?      @db.VarChar(150)
   website     String?      @db.VarChar(150)
-  userId      String       @unique @db.Uuid
+  userId      String       @unique
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   pronouns    String?      @db.VarChar(60)
   country     String?      @db.VarChar(120)
@@ -69,7 +53,7 @@ model Post {
   content   String     @db.VarChar(2000)
   imageUrl  String?
   createdAt DateTime   @default(now())
-  authorId  String     @db.Uuid
+  authorId  String
   author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments  Comment[]
   likes     PostLike[]
@@ -78,7 +62,7 @@ model Post {
 
 model Bookmark {
   user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String       @db.Uuid
+  userId String
   postId String       @db.Uuid
   post   Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
   type   BookmarkType
@@ -89,7 +73,7 @@ model Bookmark {
 model Notification {
   id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String   @unique @db.Uuid
+  userId     String
   toUserId   Int
   content    String
   created_at DateTime @default(now())
@@ -97,7 +81,7 @@ model Notification {
 
 model PostLike {
   user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String   @db.Uuid
+  userId String
   postId String   @db.Uuid
   post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   type   LikeType
@@ -110,7 +94,7 @@ model Comment {
   content      String        @db.VarChar(2000)
   createdAt    DateTime      @default(now())
   postId       String        @db.Uuid
-  authorId     String        @db.Uuid
+  authorId     String
   post         Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
   author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
   replyToId    String?       @db.Uuid
@@ -122,11 +106,92 @@ model Comment {
 
 model CommentLike {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @db.Uuid
+  userId    String
   comment   Comment  @relation(fields: [commnetId], references: [id], onDelete: Cascade)
   commnetId String   @db.Uuid
   type      LikeType
   createdAt DateTime @default(now())
 
   @@id([userId, commnetId])
+}
+
+// Google Auth Schema
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  password      String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile       Profile?
+  posts         Post[]
+  comments      Comment[]
+  postLikes     PostLike[]
+  commentLikes  CommentLike[]
+  bookmarks     Bookmark[]
+  notifications Notification[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
 }

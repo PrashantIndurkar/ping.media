@@ -53,15 +53,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="px-4 sm:px-20 mx-auto flex items-center justify-center max-w-[70rem] flex-col md:flex-row h-screen">
+    <div className="px-4 sm:px-20 mx-auto flex items-center justify-center max-w-[80rem] flex-col md:flex-row h-screen gap-x-12">
       <div className="hidden xl:flex flex-col md:items-start items-center justify-center space-y-12 w-1/2 ">
-        <Image
-          src="/images/ping-logo.png"
-          alt="Ping Logo"
-          width={150}
-          height={150}
-        />
-        <h1 className="text-4xl font-semibold max-w-lg leading-relaxed">
+        <div className="flex gap-x-4 items-center justify-center">
+          <Image
+            src="/images/logo.png"
+            alt="Ping Logo"
+            width={55}
+            height={55}
+          />
+          <h1 className="text-4xl font-semibold max-w-lg leading-relaxed">
+            PingMedia
+          </h1>
+        </div>
+        <h1 className="text-5xl font-semibold max-w-lg leading-relaxed md:leading-relaxed font-instrumentSerif md:tracking-wider italic">
           Connect with top-tier Engineers & designers!
         </h1>
         <div className="flex items-start justify-center flex-col space-y-6">
