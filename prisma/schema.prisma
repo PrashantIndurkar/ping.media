@@ -101,7 +101,7 @@ model Comment {
   replyTo      Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies      Comment[]     @relation(name: "ReplyTo")
   commentId    String        @db.Uuid
-  commnetLikes CommentLike[]
+  commentLikes CommentLike[]
 }
 
 model CommentLike {

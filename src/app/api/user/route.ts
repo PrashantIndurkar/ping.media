@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
-import { getServerSession } from "next-auth";
 import { db } from "@/database";
+import { getAuthSession } from "../auth/[...nextauth]/options";
 
 export async function GET(req: NextRequest) {
-  const session: CustomSession | null = await getServerSession(authOptions);
-
+  const session = await getAuthSession();
   if (!session) {
     return NextResponse.json({
       status: 401,
@@ -15,13 +13,12 @@ export async function GET(req: NextRequest) {
   const users = await db.user.findMany({
     where: {
       NOT: {
-        id: Number(session?.user?.id),
+        id: session?.user?.id,
       },
     },
     select: {
       id: true,
       name: true,
-      username: true,
     },
   });
 

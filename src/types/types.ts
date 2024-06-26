@@ -19,30 +19,36 @@ type PostErrorType = {
 
 type PostType = {
   id: number;
-  userId: number;
+  authorId: number;
   content: string;
-  image?: string;
-  created_at: string;
-  comment_count: number;
-  likes_count: number;
+  imageUrl?: string;
+  createdAt: string;
+  author: UserType;
+  likes: Array<PostLikeType> | [];
+  comments: Array<CommentType> | [];
+  bookmarks: Array<BookmarkType> | [];
+};
+
+type BookmarkType = {
   user: UserType;
-  Likes: Array<PostLikeType> | [];
+  post: PostType;
 };
 
 type UserType = {
   id: number;
-  username: string;
   name: string;
+  email: string;
 };
 
 type CommentType = {
   id: number;
-  userId: number;
-  post_id: number;
+  authorId: number;
+  postId: number;
   content: string;
-  created_at: string;
-  user: UserType;
+  createdAt: string;
+  author: UserType;
 };
+
 type ShowUserType = {
   name: string;
   id: string;

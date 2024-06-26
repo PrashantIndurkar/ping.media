@@ -9,8 +9,9 @@ import CommentFilter from "@/components/comment/comment-filter";
 import { getSinglePost } from "@/services/api/getSinglePost";
 import { PostCard } from "@/components/post/post-card";
 
-const ShowPost = async ({ params }: { params: { id: number } }) => {
+const ShowPost = async ({ params }: { params: { id: string } }) => {
   const posts = await getSinglePost(params.id);
+
   return (
     <div>
       <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center bg-white justify-between w-full ">
@@ -18,7 +19,7 @@ const ShowPost = async ({ params }: { params: { id: number } }) => {
           <MobileSidebar />
           <Logo />
         </div>
-        <HeaderTitle title={`Post by ${posts.user.name}`} />
+        {/* <HeaderTitle title={`Post by ${posts.user.name}`} /> */}
       </header>
       <PostCard posts={[posts]} noRedirect />
 

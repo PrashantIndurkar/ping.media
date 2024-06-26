@@ -12,18 +12,17 @@ import {
   UserRoundSearch,
 } from "lucide-react";
 import { Badge } from "../ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CustomSession } from "@/app/api/auth/[...nextauth]/options";
-import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { AlertDialogLogout } from "../alert/logout";
+import { UserAvatar } from "../user-avatar";
+import { User } from "next-auth";
 
-export const MobileSidebarLinks = ({
-  session,
-}: {
-  session: CustomSession | null;
-}) => {
+type MobileSidebarLinksProps = {
+  user: User | null;
+};
+
+export const MobileSidebarLinks = ({ user }: MobileSidebarLinksProps) => {
   const pathname = usePathname();
   const [active, setActive] = useState<string>("");
 
@@ -108,7 +107,7 @@ export const MobileSidebarLinks = ({
         Bookmarks
       </Link>
       <div className="flex items-center justify-between mt-12 ">
-        <Link
+        {/* <Link
           href="/profile"
           className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 my-2 text-muted-foreground hover:text-foreground"
         >
@@ -119,6 +118,13 @@ export const MobileSidebarLinks = ({
             </AvatarFallback>
           </Avatar>
           {session?.user?.name ?? ""}
+        </Link> */}
+        <Link
+          href={`/user/${user?.id}`}
+          className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
+        >
+          <UserAvatar user={user} url={`/user/${user?.id}`} size="size-6" />
+          {user?.name ?? ""}
         </Link>
         <AlertDialogLogout />
       </div>

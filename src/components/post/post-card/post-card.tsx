@@ -15,14 +15,17 @@ import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { formateDate } from "@/utils/date-format";
 import { AlertDeletePost } from "../../alert/delete-post";
 import { PostContent } from "./post-content";
+import { User } from "next-auth";
+import { UserAvatar } from "@/components/user-avatar";
 
 type PostCardProps = {
+  user: User | null;
   posts: Array<PostType> | [];
   noRedirect?: boolean;
   isAuthenticated?: boolean;
 };
 
-export const PostCard = ({ posts, noRedirect }: PostCardProps) => {
+export const PostCard = ({ user, posts, noRedirect }: PostCardProps) => {
   const router = useRouter();
 
   return (
@@ -40,11 +43,11 @@ export const PostCard = ({ posts, noRedirect }: PostCardProps) => {
           >
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex items-center flex-row gap-x-2">
-                <Avatar
+                {/* <Avatar
                   className="h-10 w-10"
                   onClick={(e) => {
                     e.stopPropagation();
-                    router.push(`/profile/${post.user.id}`);
+                    router.push(`/profile/${post.authorId}`);
                   }}
                 >
                   <AvatarImage
@@ -52,24 +55,32 @@ export const PostCard = ({ posts, noRedirect }: PostCardProps) => {
                     alt="profile image"
                   />
                   <AvatarFallback>
-                    {getAvatarFallbackName(post.user.name)}
+                    {getAvatarFallbackName(post.author.name)}
                   </AvatarFallback>
-                </Avatar>
+                </Avatar> */}
+                <div
+                // onClick={(e) => {
+                //   e.stopPropagation();
+                //   router.push(`/profile/${post.authorId}`);
+                // }}
+                >
+                  <UserAvatar user={user} url={`/user/${post.authorId}`} />
+                </div>
                 <div className="">
                   <CardTitle
                     className="text-md font-medium hover:underline"
                     onClick={(e) => {
                       e.stopPropagation();
-                      router.push(`/profile/${post.user.id}`);
+                      router.push(`/profile/${post.author.id}`);
                     }}
                   >
-                    {post.user.name}
+                    {post.author.name}
                   </CardTitle>
                   <CardDescription className="space-x-1">
                     <Link href="#">@prashant</Link>
                     <Dot className="inline text-gray-600" />
                     <span className="text-xs">
-                      {formateDate(post.created_at)}
+                      {formateDate(post.createdAt)}
                     </span>
                   </CardDescription>
                 </div>

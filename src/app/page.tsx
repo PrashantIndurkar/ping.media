@@ -9,7 +9,6 @@ import { words } from "@/constants/home-flip-words";
 const Web = async () => {
   // check if user is logged in if logged in then show the button text as feed else show login and also redirect accordingly
   const user = await getAuthSession();
-  console.log("user", user);
 
   return (
     <div className="h-screen relative">

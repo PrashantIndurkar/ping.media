@@ -1,56 +1,72 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 import vine, { errors } from "@vinejs/vine";
 import { CustomErrorReporter } from "@/validations/CustomErrorReporter";
 import { postSchema } from "@/validations/postSchema";
 import { join } from "path";
 import { writeFile } from "fs/promises";
 import { db } from "@/database";
-import { CustomSession, authOptions } from "../auth/[...nextauth]/options";
 import { imageValidator } from "@/validations/imageValidator";
 import { getRandomNumber } from "@/utils/random-number";
+import { getAuthSession } from "../auth/[...nextauth]/options";
 
 // GET /api/post
 export async function GET(request: NextRequest) {
-  const session: CustomSession | null = await getServerSession(authOptions);
-  if (!session) {
+  try {
+    const session = await getAuthSession();
+
+    if (!session) {
+      return NextResponse.json({
+        status: 401,
+        message: "You are not logged in",
+      });
+    }
+
+    const posts = await db.post.findMany({
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        comments: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            replies: true,
+            commentLikes: true,
+          },
+        },
+        likes: true,
+        bookmarks: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
     return NextResponse.json({
-      status: 401,
-      message: "You are not logged in",
+      status: 200,
+      data: posts,
+    });
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return NextResponse.json({
+      status: 500,
+      message: "Internal Server Error",
     });
   }
-  const posts = await db.post.findMany({
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          username: true,
-        },
-      },
-      Likes: {
-        take: 1,
-        where: {
-          userId: Number(session?.user?.id),
-        },
-      },
-    },
-    orderBy: {
-      id: "desc",
-    },
-  });
-
-  return NextResponse.json({
-    status: 200,
-    data: posts,
-  });
 }
 
 // only authenticated users can access this endpoint
 export async function POST(request: NextRequest) {
   try {
     // * Get session -----------------------------------------------
-    const session: CustomSession | null = await getServerSession(authOptions);
+    const session = await getAuthSession();
     if (!session) {
       return NextResponse.json({
         status: 401,
@@ -111,8 +127,8 @@ export async function POST(request: NextRequest) {
     await db.post.create({
       data: {
         content: payload.content,
-        userId: Number(session?.user?.id),
-        image: data.image ?? null,
+        authorId: session?.user?.id,
+        imageUrl: data.image ?? null,
       },
     });
 

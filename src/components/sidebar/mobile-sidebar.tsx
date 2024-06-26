@@ -2,17 +2,11 @@ import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Dot, Menu } from "lucide-react";
 import ThemeToggleBtn from "../common/theme-toggle-btn";
-
-import {
-  CustomSession,
-  authOptions,
-} from "@/app/api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth";
-
 import { MobileSidebarLinks } from ".";
+import { getAuthSession } from "@/app/api/auth/[...nextauth]/options";
 
 export const MobileSidebar = async () => {
-  const session: CustomSession | null = await getServerSession(authOptions);
+  const session = await getAuthSession();
 
   return (
     <Sheet>
@@ -23,7 +17,7 @@ export const MobileSidebar = async () => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
-        <MobileSidebarLinks session={session} />
+        <MobileSidebarLinks user={session?.user ?? null} />
 
         <div className="mt-auto">
           <div className="mt-auto p-4 space-y-8">

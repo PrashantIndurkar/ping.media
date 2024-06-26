@@ -1,7 +1,7 @@
 import Env from "@/config/env";
 import { headers } from "next/headers";
 
-export async function getSinglePost(id: number) {
+export async function getSinglePost(id: string) {
   const res = await fetch(`${Env.APP_URL}/api/post/${id}`, {
     cache: "no-cache",
     headers: new Headers(headers()),

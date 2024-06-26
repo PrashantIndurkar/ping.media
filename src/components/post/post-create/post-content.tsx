@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { IoAdd } from "react-icons/io5";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "../../ui/button";
@@ -18,8 +17,15 @@ import axios from "axios";
 import { useToast } from "../../ui/use-toast";
 import { useRouter } from "next/navigation";
 import ImagePreviewCard from "../../common/image-preview-card";
+import { UserAvatar } from "@/components/user-avatar";
+import { User } from "next-auth";
 
-export const CreatePost = ({ button }: { button?: boolean }) => {
+interface CreatePostProps {
+  user: User | null;
+  button?: boolean;
+}
+
+export const CreatePost = ({ button, user }: CreatePostProps) => {
   const { toast } = useToast();
   const router = useRouter();
   // State to control dialog visibility
@@ -104,13 +110,9 @@ export const CreatePost = ({ button }: { button?: boolean }) => {
           </section>
         ) : (
           <div className="relative rounded-full mx-10 transition duration-200 ease-in-out group-hover:shadow-xl  ">
-            <Avatar className="absolute left-2 top-1/2 transform -translate-y-1/2 h-8 w-8">
-              <AvatarImage
-                src="https://github.com/shadcn.png"
-                alt="user avatar"
-              />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+            <div className="absolute left-2 top-1/2 transform -translate-y-1/2">
+              <UserAvatar user={user} size="size-8" url={`/user/${user?.id}`} />
+            </div>
             <div className="h-12 pl-14 rounded-full w-full cursor-pointer border focus-visible:ring-0 focus-visible:ring-offset-0 bg-white dark:bg-zinc-900 group-hover:dark:bg-zinc-800 flex items-center ">
               <span className="text-zinc-500">Write your post here...</span>
             </div>

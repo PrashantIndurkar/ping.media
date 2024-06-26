@@ -13,13 +13,16 @@ import {
   Search,
   UserRoundSearch,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
-import { CustomSession } from "@/app/api/auth/[...nextauth]/options";
 import { usePathname } from "next/navigation";
-import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
+import { User } from "next-auth";
+import { UserAvatar } from "../user-avatar";
 
-export const Sidebar = ({ session }: { session: CustomSession | null }) => {
+type SidebarProps = {
+  user: User | null;
+};
+
+export const Sidebar = ({ user }: SidebarProps) => {
   const pathname = usePathname();
   const [active, setActive] = useState<string>(pathname);
 
@@ -112,7 +115,7 @@ export const Sidebar = ({ session }: { session: CustomSession | null }) => {
               Bookmarks
             </Link>
 
-            <Link
+            {/* <Link
               href="/profile"
               className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
             >
@@ -126,6 +129,13 @@ export const Sidebar = ({ session }: { session: CustomSession | null }) => {
                 </AvatarFallback>
               </Avatar>
               {session?.user?.name ?? ""}
+            </Link> */}
+            <Link
+              href={`/profile/${user?.id}`}
+              className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
+            >
+              <UserAvatar user={user} url={`/user/${user?.id}`} size="size-6" />
+              {user?.name ?? ""}
             </Link>
           </nav>
         </div>

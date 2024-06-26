@@ -10,13 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { authOptions } from "../api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth";
 import SuggestedFollowersCard from "@/components/follow/suggest-followers-card";
 import { Sidebar } from "@/components/sidebar";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { AlertDialogLogout } from "@/components/alert/logout";
 import { CreatePost } from "@/components/post/post-create";
+import { getAuthSession } from "../api/auth/[...nextauth]/options";
+import { User } from "next-auth";
+import { generateUsernameFromEmail } from "@/utils/username";
+import { UserAvatar } from "@/components/user-avatar";
 
 export const metadata: Metadata = {
   title: "Home · Ping Media",
@@ -29,15 +31,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const session = await getAuthSession();
+  const user: User | null = session?.user ?? null;
 
+  console.log("user", user);
   return (
     <>
       <div className="xl:max-w-[85rem] mx-auto overflow-hidden">
         <div className="flex h-screen">
           {/* left sidebar */}
-          <Sidebar session={session} />
+          <Sidebar user={user} />
           {/* main content */}
           <div className="flex-1 flex flex-col">
             <section className="flex-1 overflow-y-auto hide-scrollbar ">
@@ -50,19 +53,14 @@ export default async function RootLayout({
               <Card className="rounded-2xl flex items-center gap-4 px-3 py-2.5 my-2 transition-all hover:text-primary justify-between">
                 <Link href="/profile">
                   <div className="flex gap-2 items-center">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage alt="@shadcn" />
-                      <AvatarFallback className="text-sm">
-                        {getAvatarFallbackName(user?.name ?? "")}
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar user={user} url={`/user/${user?.id}`} />
 
                     <div className="space-y-1">
                       <span className="text-zinc-700 dark:text-zinc-300 font-bold text-sm block">
-                        {user?.username}
+                        {user?.name ?? ""}
                       </span>
                       <span className="block text-sm dark:text-zinc-400 text-zinc-500">
-                        {user?.name ?? ""}
+                        {generateUsernameFromEmail(user?.email ?? "")}
                       </span>
                     </div>
                   </div>
@@ -100,23 +98,17 @@ export default async function RootLayout({
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-row gap-x-2">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        alt="profile image"
-                      />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+                    <UserAvatar user={user} url={`/user/${user?.id}`} />
                     <div className="">
                       <CardTitle className="text-md font-medium ">
-                        jone doe <Dot className="inline text-gray-600" />{" "}
+                        Johe doe <Dot className="inline text-gray-600" />{" "}
                         <span className="text-zinc-500 text-xs">
                           3 days ago
                         </span>
                       </CardTitle>
                       <CardDescription className="space-x-1 text-sm">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Deserunt, rerum.
+                        dolor sit amet consectetur, adipisicing elit.
+                        Deserunt,Lorem ipsum rerum.
                       </CardDescription>
                     </div>
                   </div>
@@ -125,7 +117,7 @@ export default async function RootLayout({
             </section>
 
             {/* Model */}
-            <CreatePost button />
+            <CreatePost button user={user} />
           </div>
         </div>
       </div>

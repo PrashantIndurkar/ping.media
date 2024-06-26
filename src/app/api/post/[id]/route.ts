@@ -1,45 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CustomSession, authOptions } from "../../auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import { db } from "@/database";
 import { join } from "path";
 import { rmSync } from "fs";
+import { getAuthSession } from "../../auth/[...nextauth]/options";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
-  const session: CustomSession | null = await getServerSession(authOptions);
+  const session = await getAuthSession();
   if (!session) {
     return NextResponse.json({ status: 401, message: "Un-Authorized" });
   }
   const post = await db.post.findUnique({
     where: {
-      id: Number(params.id),
+      id: params.id,
     },
     include: {
-      user: {
+      author: {
         select: {
           id: true,
           name: true,
-          username: true,
         },
       },
-      Comment: {
+      comments: {
         include: {
-          user: {
+          author: {
             select: {
               id: true,
               name: true,
-              username: true,
             },
           },
         },
       },
-      Likes: {
+      likes: {
         take: 1,
         where: {
-          userId: Number(session?.user?.id),
+          userId: session?.user?.id,
         },
       },
     },
@@ -50,17 +48,17 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
-  const session: CustomSession | null = await getServerSession(authOptions);
+  const session = await getAuthSession();
   if (!session) {
     return NextResponse.json({ status: 401, message: "Un-Authorized" });
   }
 
   const findPost = await db.post.findFirst({
     where: {
-      id: Number(params.id),
-      userId: Number(session?.user?.id),
+      id: params.id,
+      authorId: session?.user?.id,
     },
   });
 
@@ -69,15 +67,15 @@ export async function DELETE(
   }
 
   // * remove the file
-  if (findPost.image !== "" && findPost.image !== null) {
+  if (findPost.imageUrl !== "" && findPost.imageUrl !== null) {
     const dir = join(process.cwd(), "public", "/uploads");
-    const path = dir + "/" + findPost?.image;
+    const path = dir + "/" + findPost?.imageUrl;
     rmSync(path, { force: true });
   }
 
   await db.post.delete({
     where: {
-      id: Number(params.id),
+      id: params.id,
     },
   });
 
