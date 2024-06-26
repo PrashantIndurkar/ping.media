@@ -20,7 +20,7 @@ enum BookmarkType {
 }
 
 model Profile {
-  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String       @id @default(cuid())
   image       String?
   // add limit to the bio field
   bio         String?      @db.VarChar(150)
@@ -35,21 +35,21 @@ model Profile {
 }
 
 model Skill {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String   @id @default(cuid())
   tag       String   @unique @db.VarChar(150)
   profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?  @db.Uuid
+  profileId String?
 }
 
 model SocialLink {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String   @id @default(cuid())
   link      String   @unique @db.VarChar(350)
   profile   Profile? @relation(fields: [profileId], references: [id])
-  profileId String?  @db.Uuid
+  profileId String?
 }
 
 model Post {
-  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String     @id @default(cuid())
   content   String     @db.VarChar(2000)
   imageUrl  String?
   createdAt DateTime   @default(now())
@@ -63,7 +63,7 @@ model Post {
 model Bookmark {
   user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  postId String       @db.Uuid
+  postId String
   post   Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
   type   BookmarkType
 
@@ -71,7 +71,7 @@ model Bookmark {
 }
 
 model Notification {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id         String   @id @default(cuid())
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   toUserId   Int
@@ -82,7 +82,7 @@ model Notification {
 model PostLike {
   user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  postId String   @db.Uuid
+  postId String
   post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   type   LikeType
 
@@ -90,17 +90,17 @@ model PostLike {
 }
 
 model Comment {
-  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id           String        @id @default(cuid())
   content      String        @db.VarChar(2000)
   createdAt    DateTime      @default(now())
-  postId       String        @db.Uuid
+  postId       String
   authorId     String
   post         Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
   author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  replyToId    String?       @db.Uuid
+  replyToId    String?
   replyTo      Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies      Comment[]     @relation(name: "ReplyTo")
-  commentId    String        @db.Uuid
+  commentId    String
   commentLikes CommentLike[]
 }
 
@@ -108,7 +108,7 @@ model CommentLike {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   comment   Comment  @relation(fields: [commnetId], references: [id], onDelete: Cascade)
-  commnetId String   @db.Uuid
+  commnetId String
   type      LikeType
   createdAt DateTime @default(now())
 

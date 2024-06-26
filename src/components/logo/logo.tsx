@@ -11,12 +11,13 @@ export const Logo = () => {
       className="md:hidden flex items-center gap-2 font-semibold"
     >
       <Image
-        src="/images/ping-logo.png"
-        width={100}
-        height={100}
+        src="/images/logo.png"
+        width={25}
+        height={25}
         alt="Ping Logo"
         className="ml-4"
       />
+      <h1 className="text-xl font-semibold">Ping</h1>
     </Link>
   );
 };

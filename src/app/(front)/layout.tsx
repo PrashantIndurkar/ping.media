@@ -53,19 +53,42 @@ export default async function RootLayout({
               <Card className="rounded-2xl flex items-center gap-4 px-3 py-2.5 my-2 transition-all hover:text-primary justify-between">
                 <Link href="/profile">
                   <div className="flex gap-2 items-center">
-                    <UserAvatar user={user} url={`/user/${user?.id}`} />
+                    <UserAvatar
+                      name={user?.name ?? ""}
+                      email={user?.email ?? ""}
+                      imageUrl={user?.image ?? ""}
+                      className="size-10"
+                      url={`/user/${user?.id}`}
+                    />
 
                     <div className="space-y-1">
                       <span className="text-zinc-700 dark:text-zinc-300 font-bold text-sm block">
-                        {user?.name ?? ""}
+                        {user ? (
+                          user?.name
+                        ) : (
+                          <div className="h-2 w-24 rounded-md bg-zinc-200/20"></div>
+                        )}
                       </span>
                       <span className="block text-sm dark:text-zinc-400 text-zinc-500">
-                        {generateUsernameFromEmail(user?.email ?? "")}
+                        {user ? (
+                          generateUsernameFromEmail(user?.email ?? "")
+                        ) : (
+                          <div className="h-2 w-12 rounded-md bg-zinc-200/20"></div>
+                        )}
                       </span>
                     </div>
                   </div>
                 </Link>
-                <AlertDialogLogout />
+                {user ? (
+                  <AlertDialogLogout />
+                ) : (
+                  <Link
+                    href="/login"
+                    className="dark:text-zinc-400 text-zinc-500 dark:hover:text-zinc-500 transition duration-150 ease-in-out text-xs border-none"
+                  >
+                    Sing in
+                  </Link>
+                )}
               </Card>
 
               {/* In the rotes filter the users those who are most active
@@ -98,7 +121,12 @@ export default async function RootLayout({
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-row gap-x-2">
-                    <UserAvatar user={user} url={`/user/${user?.id}`} />
+                    <UserAvatar
+                      name={user?.name ?? ""}
+                      email={user?.email ?? ""}
+                      imageUrl={user?.image ?? ""}
+                      url={`/user/${user?.id}`}
+                    />
                     <div className="">
                       <CardTitle className="text-md font-medium ">
                         Johe doe <Dot className="inline text-gray-600" />{" "}

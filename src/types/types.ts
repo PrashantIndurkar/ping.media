@@ -18,7 +18,7 @@ type PostErrorType = {
 };
 
 type PostType = {
-  id: number;
+  id: string;
   authorId: number;
   content: string;
   imageUrl?: string;
@@ -38,6 +38,7 @@ type UserType = {
   id: number;
   name: string;
   email: string;
+  image?: string;
 };
 
 type CommentType = {

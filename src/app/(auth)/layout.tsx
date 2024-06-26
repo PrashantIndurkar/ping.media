@@ -19,7 +19,7 @@ export default function RootLayout({
             height={55}
           />
           <h1 className="text-4xl font-semibold max-w-lg leading-relaxed">
-            PingMedia
+            Ping
           </h1>
         </div>
         <h1 className="text-5xl max-w-lg leading-relaxed md:leading-relaxed font-instrumentSerif md:tracking-wider italic">

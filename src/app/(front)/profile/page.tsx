@@ -26,6 +26,7 @@ import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { formateYears } from "@/utils/date-format";
 import { PostCard, PostCardSkeleton } from "@/components/post/post-card";
 import { getAuthSession } from "@/app/api/auth/[...nextauth]/options";
+import { generateUsernameFromEmail } from "@/utils/username";
 
 const Profile = async () => {
   const session = await getAuthSession();
@@ -34,7 +35,7 @@ const Profile = async () => {
 
   return (
     <>
-      <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center justify-between w-full ">
+      <header className="h-[4.5rem] border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center justify-between w-full ">
         <div className="flex items-center justify-betweens md:hidden">
           <MobileSidebar />
           <Logo />
@@ -74,13 +75,16 @@ const Profile = async () => {
             <div className="flex items-center justify-center flex-col gap-2">
               <CardTitle>{session?.user?.name}</CardTitle>
               <CardDescription className="cursor-pointer  hover:underline text-pink-400 w-fit">
-                {session?.user?.username ?? "asdf"}
+                {generateUsernameFromEmail(session?.user?.email ?? "")}
               </CardDescription>
               <CardDescription>Full Stack Developer</CardDescription>
               <div className="space-x-2 mt-6 text-zinc-500 dark:text-zinc-400">
                 <span className="items-center inline-flex">
                   <UserRoundCog className="h-4 w-4 inline mr-1" />
-                  Member since {formateYears(session?.user?.created_at ?? "")}
+                  Member since
+                  {/* {formateYears(
+                    session?.user?.createdAt ?? ""
+                  )} */}
                 </span>
                 <span className="items-center inline-flex">
                   <MapPin className="h-4 w-4 inline mr-1" />

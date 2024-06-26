@@ -16,7 +16,7 @@ export default async function Home() {
   return (
     <>
       {/* {session && (JSON.stringify(session) as string)} */}
-      <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-gray-900/15  flex items-center justify-betweens w-full ">
+      <header className="h-[4.5rem] border-b sticky top-0 left-0 right-0 px-4 dark:bg-gray-900/15  flex items-center justify-betweens w-full ">
         <>
           <MobileSidebar />
           <Logo />
@@ -32,7 +32,6 @@ export default async function Home() {
           <Await promise={postsPromise}>
             {(data) => <PostCard posts={data} user={user} />}
           </Await>
-          {/* <PostCard posts={posts} /> */}
         </Suspense>
       </main>
     </>

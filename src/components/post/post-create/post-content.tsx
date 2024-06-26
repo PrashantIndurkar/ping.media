@@ -111,7 +111,13 @@ export const CreatePost = ({ button, user }: CreatePostProps) => {
         ) : (
           <div className="relative rounded-full mx-10 transition duration-200 ease-in-out group-hover:shadow-xl  ">
             <div className="absolute left-2 top-1/2 transform -translate-y-1/2">
-              <UserAvatar user={user} size="size-8" url={`/user/${user?.id}`} />
+              <UserAvatar
+                name={user?.name ?? ""}
+                email={user?.email ?? ""}
+                imageUrl={user?.image ?? ""}
+                className="size-8"
+                url={`/user/${user?.id}`}
+              />
             </div>
             <div className="h-12 pl-14 rounded-full w-full cursor-pointer border focus-visible:ring-0 focus-visible:ring-offset-0 bg-white dark:bg-zinc-900 group-hover:dark:bg-zinc-800 flex items-center ">
               <span className="text-zinc-500">Write your post here...</span>

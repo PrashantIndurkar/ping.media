@@ -5,34 +5,39 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { User } from "next-auth";
 import { useRouter } from "next/navigation";
+import { AvatarProps } from "@radix-ui/react-avatar";
 
-interface UserAvatarProps {
-  user: User | null;
-  size?: string;
+interface UserAvatarProps extends AvatarProps {
+  name: string;
+  imageUrl: string;
+  email: string;
   url: string;
 }
 
 export const UserAvatar = ({
-  user,
+  name,
+  imageUrl,
+  email,
   url,
-  size = "size-10",
+  ...props
 }: UserAvatarProps) => {
   const router = useRouter();
 
   return (
     <Avatar
-      className={`${size}`}
+      {...props}
+      className={props.className}
       onClick={(e) => {
         e.stopPropagation();
         router.push(`${url}`);
       }}
     >
       <AvatarImage
-        alt={user?.name ?? ""}
-        src={user?.image ?? "/app-images/emptyDP.png"}
+        alt={name ?? ""}
+        src={imageUrl ?? "/app-images/emptyDP.png"}
       />
-      <AvatarFallback className="text-sm">
-        {getAvatarFallbackName(user?.name ?? "")}
+      <AvatarFallback className={props.className}>
+        {getAvatarFallbackName(email ?? "")}
       </AvatarFallback>
     </Avatar>
   );

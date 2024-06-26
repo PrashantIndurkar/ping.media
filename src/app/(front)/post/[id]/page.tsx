@@ -8,10 +8,13 @@ import Comments from "@/components/comment/comments";
 import CommentFilter from "@/components/comment/comment-filter";
 import { getSinglePost } from "@/services/api/getSinglePost";
 import { PostCard } from "@/components/post/post-card";
+import { getAuthSession } from "@/app/api/auth/[...nextauth]/options";
 
 const ShowPost = async ({ params }: { params: { id: string } }) => {
   const posts = await getSinglePost(params.id);
+  const session = await getAuthSession();
 
+  console.log("posts", posts);
   return (
     <div>
       <header className="h-14 border-b sticky top-0 left-0 right-0 px-4 dark:bg-zinc-900 z-10 flex items-center bg-white justify-between w-full ">
@@ -19,9 +22,9 @@ const ShowPost = async ({ params }: { params: { id: string } }) => {
           <MobileSidebar />
           <Logo />
         </div>
-        {/* <HeaderTitle title={`Post by ${posts.user.name}`} /> */}
+        {/* <HeaderTitle title={`Post by ${posts.author.name}`} /> */}
       </header>
-      <PostCard posts={[posts]} noRedirect />
+      <PostCard posts={[posts]} noRedirect user={session?.user ?? null} />
 
       <Tabs defaultValue="comments" className="w-full border-none">
         <TabsList className="flex flex-wrap gap-2 bg-transparent rounded-none border-t-0 border-b gap-x-12">

@@ -19,7 +19,7 @@ export function AlertDeletePost({
   postId,
   noRedirect,
 }: {
-  postId: number;
+  postId: string;
   noRedirect?: boolean;
 }) {
   const { toast } = useToast();

@@ -37,7 +37,7 @@ export const MobileSidebarLinks = ({ user }: MobileSidebarLinksProps) => {
         className="flex items-center gap-2 text-lg font-semibold"
       >
         <Image src="/images/Logo.png" width={30} height={30} alt="Ping Logo" />
-        <span className="sr-only">Ping media</span>
+        <h1 className="text-lg font-semibold">Ping</h1>
       </Link>
 
       <Link
@@ -123,8 +123,19 @@ export const MobileSidebarLinks = ({ user }: MobileSidebarLinksProps) => {
           href={`/user/${user?.id}`}
           className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
         >
-          <UserAvatar user={user} url={`/user/${user?.id}`} size="size-6" />
-          {user?.name ?? ""}
+          <UserAvatar
+            name={user?.name ?? ""}
+            email={user?.email ?? ""}
+            imageUrl={user?.image ?? ""}
+            url={`/user/${user?.id}`}
+            className="size-10"
+          />
+
+          {user ? (
+            user?.name ?? ""
+          ) : (
+            <div className="h-2 w-24 rounded-md bg-zinc-200/20"></div>
+          )}
         </Link>
         <AlertDialogLogout />
       </div>

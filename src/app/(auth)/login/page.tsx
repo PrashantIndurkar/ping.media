@@ -66,7 +66,7 @@ const Login = () => {
 
   const signInWithGoogle = async () => {
     signIn("google", {
-      callbackUrl: "http://localhost:3000/",
+      callbackUrl: "/feed",
       redirect: true,
     });
   };

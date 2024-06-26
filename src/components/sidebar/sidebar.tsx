@@ -33,14 +33,15 @@ export const Sidebar = ({ user }: SidebarProps) => {
   return (
     <div className="hidden border-r md:block">
       <div className="flex h-full max-h-screen flex-col gap-2 w-64">
-        <div className="flex h-14 items-center  px-4 lg:h-[60px] lg:px-6">
+        <div className="flex items-center px-4 mb-6 mt-2 lg:h-[60px] lg:px-6">
           <Link href="/feed" className="flex items-center gap-2 font-semibold">
             <Image
-              src="/images/ping-logo.png"
-              width={100}
-              height={100}
+              src="/images/logo.png"
+              width={35}
+              height={35}
               alt="Ping Logo"
             />
+            <h1 className="text-2xl font-semibold">Ping</h1>
           </Link>
         </div>
         <div className="flex-1">
@@ -130,13 +131,21 @@ export const Sidebar = ({ user }: SidebarProps) => {
               </Avatar>
               {session?.user?.name ?? ""}
             </Link> */}
-            <Link
-              href={`/profile/${user?.id}`}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
-            >
-              <UserAvatar user={user} url={`/user/${user?.id}`} size="size-6" />
-              {user?.name ?? ""}
-            </Link>
+            {user && (
+              <Link
+                href={`/profile/${user?.id}`}
+                className="flex items-center gap-3 rounded-lg px-3 py-2 my-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <UserAvatar
+                  name={user?.name ?? ""}
+                  email={user?.email ?? ""}
+                  imageUrl={user?.image ?? ""}
+                  url={`/user/${user?.id}`}
+                  className="size-6"
+                />
+                {user?.name ?? ""}
+              </Link>
+            )}
           </nav>
         </div>
         <div className="mt-auto p-4 space-y-8">

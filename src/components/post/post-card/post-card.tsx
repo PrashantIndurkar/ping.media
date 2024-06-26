@@ -2,7 +2,6 @@
 
 import { Dot, EllipsisVertical } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription } from "../../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -11,22 +10,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 import { formateDate } from "@/utils/date-format";
 import { AlertDeletePost } from "../../alert/delete-post";
 import { PostContent } from "./post-content";
-import { User } from "next-auth";
 import { UserAvatar } from "@/components/user-avatar";
 
 type PostCardProps = {
-  user: User | null;
   posts: Array<PostType> | [];
   noRedirect?: boolean;
   isAuthenticated?: boolean;
 };
 
-export const PostCard = ({ user, posts, noRedirect }: PostCardProps) => {
+export const PostCard = ({ posts, noRedirect }: PostCardProps) => {
   const router = useRouter();
+  // console.log("posts", posts[0].author.image);
 
   return (
     <>
@@ -64,7 +61,13 @@ export const PostCard = ({ user, posts, noRedirect }: PostCardProps) => {
                 //   router.push(`/profile/${post.authorId}`);
                 // }}
                 >
-                  <UserAvatar user={user} url={`/user/${post.authorId}`} />
+                  <UserAvatar
+                    name={post.author.name}
+                    email={post.author.email}
+                    imageUrl={post.author.image ?? ""}
+                    className="size-10"
+                    url={`/user/${post.authorId}`}
+                  />
                 </div>
                 <div className="">
                   <CardTitle

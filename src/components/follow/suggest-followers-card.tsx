@@ -1,36 +1,39 @@
 import React from "react";
 import { CardDescription, CardTitle } from "../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { getUsers } from "@/services/api/getUsers";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
+import { generateUsernameFromEmail } from "@/utils/username";
+import { UserAvatar } from "../user-avatar";
+import { getAuthSession } from "@/app/api/auth/[...nextauth]/options";
+import { User } from "next-auth";
 
 const SuggestedFollowersCard = async () => {
   const users: Array<UserType> = await getUsers();
+  const session = await getAuthSession();
+  const user: User | null = session?.user ?? null;
 
   return (
     <>
       {users?.map((user) => {
-        return (
+        return user.id !== user.id ? (
           <div
             key={user.id}
             className="flex flex-row items-center justify-between space-y-0 gap-x-3"
           >
             <Link href={`/user/${user.id}`} className="flex gap-x-2">
-              <Avatar className="h-8 w-8">
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="profile image"
-                />
-                <AvatarFallback className="text-zinc-400 text-xs">
-                  {getAvatarFallbackName(user.name)}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar
+                className="size-8"
+                name={user.name}
+                email={user.email}
+                imageUrl={user.image ?? ""}
+                url={`/user/${user.id}`}
+              />
               <div>
                 <CardTitle className="text-sm">{user.name}</CardTitle>
                 <CardDescription className="inline-block text-xs -mt-1 ">
-                  @{user.username}
+                  {generateUsernameFromEmail(user.email ?? "")}
                 </CardDescription>
               </div>
             </Link>
@@ -39,14 +42,18 @@ const SuggestedFollowersCard = async () => {
               Follow
             </Button>
           </div>
+        ) : (
+          <p className="text-muted-foreground text-sm">
+            Currently, We don't have any active users!
+          </p>
         );
       })}
       {users?.length > 0 && (
         <Link
-          className="hover:text-indigo-400 text-indigo-400/90 transition duration-150 mt-4 text-sm inline-block "
+          className="transition duration-150 mt-4 text-sm inline-block text-muted-foreground hover:text-zinc-300 hover:underline"
           href="/search"
         >
-          Show more
+          Show more...
         </Link>
       )}
       {users?.length < 1 && (

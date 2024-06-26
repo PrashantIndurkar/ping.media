@@ -13,7 +13,7 @@ const HeaderTitle = ({
 }) => {
   const router = useRouter();
   return (
-    <div className="flex items-center justify">
+    <div className="flex items-center  justify">
       {!back && (
         <button
           onClick={() => {
