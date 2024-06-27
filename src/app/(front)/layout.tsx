@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { Dot } from "lucide-react";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
   CardContent,

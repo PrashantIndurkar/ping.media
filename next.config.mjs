@@ -4,7 +4,14 @@ const nextConfig = {
     missingSuspenseWithCSRBailout: false,
   },
   images: {
-    domains: ["images.unsplash.com", "localhost"],
+    domains: ["images.unsplash.com", "localhost", "plus.unsplash.com"],
+    remotePatterns: [
+      { protocol: "https", hostname: "utfs.io" },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+    ],
   },
 };
 

@@ -1,24 +1,37 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
 import { IoAdd } from "react-icons/io5";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "../../ui/button";
-import { ImagePlus, Plus } from "lucide-react";
-import axios from "axios";
-import { useToast } from "../../ui/use-toast";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ImagePreviewCard from "../../common/image-preview-card";
 import { UserAvatar } from "@/components/user-avatar";
 import { User } from "next-auth";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormItem,
+  FormControl,
+  FormField,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { CreatePostSchema } from "@/validations/postSchema";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import Image from "next/image";
+import { toast } from "sonner";
+import { UploadButton } from "@/types/uploadthings";
+import Error from "@/components/error";
+import { createPost } from "@/services/api/post/create-post";
 
 interface CreatePostProps {
   user: User | null;
@@ -26,79 +39,30 @@ interface CreatePostProps {
 }
 
 export const CreatePost = ({ button, user }: CreatePostProps) => {
-  const { toast } = useToast();
   const router = useRouter();
   // State to control dialog visibility
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const imageRef = useRef<HTMLInputElement | null>(null);
+  const form = useForm<z.infer<typeof CreatePostSchema>>({
+    resolver: zodResolver(CreatePostSchema),
+    defaultValues: {
+      content: "",
+      imageUrl: undefined,
+    },
+  });
+  const imageUrl = form.watch("imageUrl");
 
-  const [image, setImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | undefined>();
-  const [content, setContent] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<PostErrorType>({});
+  //TODO: We need to be fast first store the imageUrl in the state and show the image preview and then after we submit upload the image to uploadThings
 
-  const handleClick = () => {
-    if (imageRef.current) {
-      imageRef.current.click();
+  const onSubmit = async (data: z.infer<typeof CreatePostSchema>) => {
+    const res = await createPost(data);
+    if (res) {
+      toast.error(<Error res={res} />);
+    } else {
+      setIsDialogOpen(false);
+      toast.success("Post created successfully!");
+      form.reset();
     }
-  };
-
-  // Handle the image change
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      setImage(selectedFile);
-      const imageUrl = URL.createObjectURL(selectedFile);
-      setPreviewUrl(imageUrl);
-    }
-  };
-
-  // Remove the preview image
-  const removePreviewImage = () => {
-    setImage(null);
-    setPreviewUrl(undefined);
-  };
-
-  // Submit the post
-  const submitPost = async () => {
-    setIsLoading(true);
-    const formData = new FormData();
-    formData.append("content", content);
-    if (image) formData.append("image", image!);
-
-    axios
-      .post("/api/post", formData)
-      .then((res) => {
-        setIsLoading(false);
-        const response = res.data;
-        if (response.status == 400) {
-          setIsError(response.errors);
-        } else if (response.status == 200) {
-          setContent("");
-          setImage(null);
-          setPreviewUrl(undefined);
-          setIsError({});
-          toast({
-            title: "Success",
-            description: response.message,
-            className: "bg-green-400",
-          });
-          router.refresh();
-          setIsDialogOpen(false);
-        } else if (response.status == 500) {
-          toast({
-            title: "Error",
-            description: response.message,
-            className: "bg-red-300",
-          });
-        }
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log("Error in Creating post", err);
-      });
   };
 
   return (
@@ -134,46 +98,76 @@ export const CreatePost = ({ button, user }: CreatePostProps) => {
           <DialogTitle className="border-b py-4 flex items-center px-3">
             Create Post
           </DialogTitle>
-          <DialogDescription>
-            <Textarea
-              placeholder="Type your message here."
-              className="focus-visible:ring-0 text-lg text-zinc-700 dark:text-zinc-200 min-h-60 focus-visible:ring-offset-0 border-none max-h-[60vh] overflow-y-auto"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-            {previewUrl && (
-              <ImagePreviewCard
-                image={previewUrl}
-                callback={removePreviewImage}
-              />
-            )}
-          </DialogDescription>
-          {isError && <span className="text-red-500">{isError.content}</span>}
         </DialogHeader>
-        <footer className="border-t p-3 flex items-center justify-between">
-          <div
-            className="h-10 w-10 border-r border-b border-l border-t border-zinc-200 dark:border-zinc-700 flex items-center justify-center rounded-full cursor-pointer hover:bg-emerald-200/70 dark:hover:bg-emerald-300/50 transition duration-500 ease-in-out"
-            onClick={handleClick}
-          >
-            <input
-              type="file"
-              ref={imageRef}
-              className="hidden"
-              onChange={handleImageChange}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Type your message here."
+                      className="focus-visible:ring-0 text-lg text-zinc-700 dark:text-zinc-200 min-h-60 focus-visible:ring-offset-0 border-none max-h-[60vh] overflow-y-auto resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <ImagePlus className="h-5 inline-block w-5 text-emerald-700 group-hover:rotate-180 dark:text-zinc-50 transition duration-500 ease-in-out group-hover:text-zinc-50" />
-          </div>
-          <Button
-            disabled={content?.length < 1 || isLoading ? true : false}
-            variant="primary"
-            className={`rounded-full px-5 ${
-              content?.length < 1 ? "disabled !bg-gray-200" : ""
-            }`}
-            onClick={submitPost}
-          >
-            Post
-          </Button>
-        </footer>
+            {!!imageUrl && (
+              <div className="overflow-hidden rounded-md p-3 max-h-1/2">
+                <AspectRatio
+                  ratio={16 / 9}
+                  className="bg-muted mt-5 rounded-lg"
+                >
+                  <Image
+                    src={imageUrl}
+                    alt="Post preview"
+                    fill
+                    className="rounded-lg object-cover cursor-pointer"
+                  />
+                </AspectRatio>
+              </div>
+            )}
+
+            <footer className="border-t p-3 flex items-center justify-between">
+              <FormField
+                control={form.control}
+                name="imageUrl"
+                render={() => (
+                  <FormItem>
+                    <FormControl>
+                      <UploadButton
+                        endpoint="imageUploader"
+                        onClientUploadComplete={(res) => {
+                          form.setValue("imageUrl", res[0].url);
+                          toast.success("Upload complete");
+                        }}
+                        onUploadError={(error: Error) => {
+                          console.error(error);
+                          toast.error("Upload failed");
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                disabled={form.formState.isSubmitting}
+                variant="primary"
+                className="rounded-full px-5 disabled:bg-gray-200"
+                type="submit"
+              >
+                Post
+              </Button>
+            </footer>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

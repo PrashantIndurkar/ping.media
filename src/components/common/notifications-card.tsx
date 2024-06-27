@@ -3,6 +3,7 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { formateDate } from "@/utils/date-format";
 import { UserRoundPlus } from "lucide-react";
 import React from "react";
+import { UserAvatar } from "../user-avatar";
 
 const NotificationsCard = ({
   notification,
@@ -14,10 +15,13 @@ const NotificationsCard = ({
       <div className="flex gap-x-4">
         <UserRoundPlus className="text-gray-400 dark:text-gray-600" />
         <div className="flex gap-x-4 items-center">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            name={notification.user.name}
+            email={notification.user.email}
+            imageUrl={notification.user.image ?? ""}
+            url={`/user/${notification.user.id}`}
+            className="size-8"
+          />
 
           <CardDescription>
             <span className="font-semibold hover:underline dark:text-zinc-100 text-zinc-800 text-sm inline">

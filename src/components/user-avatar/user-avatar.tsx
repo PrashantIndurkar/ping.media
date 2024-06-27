@@ -9,7 +9,7 @@ import { AvatarProps } from "@radix-ui/react-avatar";
 
 interface UserAvatarProps extends AvatarProps {
   name: string;
-  imageUrl: string;
+  imageUrl: string | null;
   email: string;
   url: string;
 }

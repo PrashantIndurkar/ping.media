@@ -64,7 +64,7 @@ export const PostCard = ({ posts, noRedirect }: PostCardProps) => {
                   <UserAvatar
                     name={post.author.name}
                     email={post.author.email}
-                    imageUrl={post.author.image ?? ""}
+                    imageUrl={post.author.image ?? null}
                     className="size-10"
                     url={`/user/${post.authorId}`}
                   />

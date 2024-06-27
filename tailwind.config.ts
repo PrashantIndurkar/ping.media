@@ -1,6 +1,6 @@
+import { withUt } from "uploadthing/tw";
 import type { Config } from "tailwindcss";
 const { fontFamily } = require("tailwindcss/defaultTheme");
-/** @type {import('tailwindcss').Config} */
 
 const svgToDataUri = require("mini-svg-data-uri");
 
@@ -9,7 +9,7 @@ const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
-const config = {
+export default withUt({
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -132,9 +132,7 @@ const config = {
       );
     },
   ],
-} satisfies Config;
-
-export default config;
+}) satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));

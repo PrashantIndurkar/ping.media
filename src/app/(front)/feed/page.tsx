@@ -5,13 +5,21 @@ import { getPosts } from "@/services/api/getPosts";
 import { Logo } from "@/components/logo";
 import { CreatePost } from "@/components/post/post-create";
 import { PostCard, PostCardSkeleton } from "@/components/post/post-card";
-import { getAuthSession } from "@/app/api/auth/[...nextauth]/options";
 import { User } from "next-auth";
+import { useMutation } from "@tanstack/react-query";
+import { getAuthSession } from "@/app/api/auth/[...nextauth]/options";
 
 export default async function Home() {
-  const postsPromise = getPosts();
+  const postsPromise = await getPosts();
   const session = await getAuthSession();
   const user: User | null = session?.user ?? null;
+
+  // const { mutate } = useMutation({
+  //   mutationFn: getPosts,
+  //   onError: (err) => {
+  //     if(err instanceof )
+  //   }
+  // });
 
   return (
     <>
@@ -30,7 +38,7 @@ export default async function Home() {
       <main className="w-full">
         <Suspense fallback={<PostCardSkeleton />}>
           <Await promise={postsPromise}>
-            {(data) => <PostCard posts={data} user={user} />}
+            {(data) => <PostCard posts={data as any} />}
           </Await>
         </Suspense>
       </main>
