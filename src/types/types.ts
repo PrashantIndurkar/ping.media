@@ -1,38 +1,24 @@
-type AuthStateType = {
-  email?: string;
-  name?: string;
-  username?: string;
-  password?: string;
-  // password_confirmation?: string;
+import {
+  User,
+  Post,
+  PostLike,
+  Comment,
+  Bookmark,
+  CommentLike,
+} from "@prisma/client";
+
+export type PostType = Post & {
+  likes: PostLike;
+  comments: Comment;
+  bookmark: Bookmark;
+  author: User;
 };
 
-type AuthErrorType = {
-  email?: string;
-  name?: string;
-  username?: string;
-  password?: string;
+export type PostLikeType = PostLike & {
+  user: User;
 };
 
-type PostErrorType = {
-  content?: string;
-};
-
-type PostType = {
-  id: string;
-  authorId: number;
-  content: string;
-  imageUrl?: string;
-  createdAt: string;
-  author: UserType;
-  likes: Array<PostLikeType> | [];
-  comments: Array<CommentType> | [];
-  bookmarks: Array<BookmarkType> | [];
-};
-
-type BookmarkType = {
-  user: UserType;
-  post: PostType;
-};
+// ===== old types =====
 
 type UserType = {
   id: number;
@@ -70,11 +56,11 @@ type NotificationType = {
   user: UserType;
 };
 
-type PostLikeType = {
-  id: number;
-  post_id: number;
-  userId: number;
-};
+// type PostLikeType = {
+//   id: number;
+//   post_id: number;
+//   userId: number;
+// };
 
 type LikeType = {
   post_id: string;

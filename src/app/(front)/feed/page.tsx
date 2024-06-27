@@ -1,29 +1,21 @@
 import { Suspense } from "react";
 import Await from "@/components/common/await";
 import { MobileSidebar } from "@/components/sidebar";
-import { getPosts } from "@/services/api/getPosts";
 import { Logo } from "@/components/logo";
 import { CreatePost } from "@/components/post/post-create";
 import { PostCard, PostCardSkeleton } from "@/components/post/post-card";
 import { User } from "next-auth";
-import { useMutation } from "@tanstack/react-query";
 import { getAuthSession } from "@/app/api/auth/[...nextauth]/options";
+import { getPosts } from "@/services/api/post/get-posts";
 
 export default async function Home() {
-  const postsPromise = await getPosts();
   const session = await getAuthSession();
   const user: User | null = session?.user ?? null;
 
-  // const { mutate } = useMutation({
-  //   mutationFn: getPosts,
-  //   onError: (err) => {
-  //     if(err instanceof )
-  //   }
-  // });
+  const posts = getPosts();
 
   return (
     <>
-      {/* {session && (JSON.stringify(session) as string)} */}
       <header className="h-[4.5rem] border-b sticky top-0 left-0 right-0 px-4 dark:bg-gray-900/15  flex items-center justify-betweens w-full ">
         <>
           <MobileSidebar />
@@ -37,7 +29,7 @@ export default async function Home() {
 
       <main className="w-full">
         <Suspense fallback={<PostCardSkeleton />}>
-          <Await promise={postsPromise}>
+          <Await promise={posts}>
             {(data) => <PostCard posts={data as any} />}
           </Await>
         </Suspense>

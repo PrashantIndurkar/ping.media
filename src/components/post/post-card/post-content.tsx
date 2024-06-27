@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CardContent, CardFooter } from "../../ui/card";
 import AddComment from "../../comment/add-comment";
 import { PostCommentsActions } from "../post-comments";
@@ -9,6 +9,7 @@ import { PostBookmarksActions } from "../post-bookmarks";
 import { PostShare } from "../post-share";
 import { PostLikedUsers } from "../post-liked";
 import { PostImageDialog } from "../post-image-dialog";
+import { PostType } from "@/types/types";
 
 type PostContentProps = {
   post: PostType;
@@ -25,7 +26,7 @@ export const PostContent = ({ post, noRedirect }: PostContentProps) => {
           {post?.content}
         </p>
         {/* Popup for image */}
-        <PostImageDialog post={post} />
+        <PostImageDialog imageUrl={post.imageUrl ?? ""} />
       </CardContent>
 
       <CardFooter className={`flex-col ${!noRedirect && "pl-[4.5rem]"}`}>
@@ -54,7 +55,7 @@ export const PostContent = ({ post, noRedirect }: PostContentProps) => {
         </div>
 
         {/* shows the who liked this post on the bottom of the post */}
-        {post?.Likes?.length > 0 && <PostLikedUsers />}
+        {<PostLikedUsers post={post} />}
 
         {/*  show the comments on the bottom of the post */}
         {(show || noRedirect) && (

@@ -5,18 +5,19 @@ import Image from "next/image";
 import React from "react";
 
 type PostImageDialogProps = {
-  post: PostType;
+  imageUrl: string;
 };
 
-export const PostImageDialog = ({ post }: PostImageDialogProps) => {
+export const PostImageDialog = ({ imageUrl }: PostImageDialogProps) => {
+  console.log("imageUrl", imageUrl);
   return (
     <div onClick={(e) => e.stopPropagation()}>
       <Dialog>
         <DialogTrigger asChild>
-          {post?.image && (
+          {imageUrl && (
             <AspectRatio ratio={16 / 9} className="bg-muted mt-5 rounded-lg">
               <Image
-                src={`${Env.APP_URL}/uploads/${post?.image}`}
+                src={imageUrl}
                 alt="Photo by Drew Beamer"
                 fill
                 className="rounded-lg object-cover cursor-pointer"
@@ -25,9 +26,9 @@ export const PostImageDialog = ({ post }: PostImageDialogProps) => {
           )}
         </DialogTrigger>
         <DialogContent className="h-[90vh] w-[60vw]">
-          {post?.image && (
+          {imageUrl && (
             <Image
-              src={`${Env.APP_URL}/uploads/${post?.image}`}
+              src={imageUrl}
               alt="Photo by Drew Beamer"
               fill
               className="rounded-lg object-contain"

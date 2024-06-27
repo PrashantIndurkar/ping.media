@@ -1,4 +1,3 @@
-import HeaderTitle from "@/components/common/header-title";
 import { Logo } from "@/components/logo";
 import { MobileSidebar } from "@/components/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
