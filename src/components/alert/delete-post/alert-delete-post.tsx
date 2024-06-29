@@ -11,33 +11,35 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useToast } from "../../ui/use-toast";
+import { DeletePostSchema } from "@/validations/postSchema";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { deletePost } from "@/services/api/post/delete-post";
+import Error from "@/components/error";
+import { toast } from "sonner";
+import { Form } from "@/components/ui/form";
 
-export function AlertDeletePost({
-  postId,
-  noRedirect,
-}: {
-  postId: string;
-  noRedirect?: boolean;
-}) {
-  const { toast } = useToast();
+export function AlertDeletePost({ postId }: { postId: string }) {
   const router = useRouter();
-  const deletePost = () => {
-    axios.delete(`/api/post/${postId}`).then((res) => {
-      const response = res.data;
-      if (response.status == 200) {
-        toast({
-          title: "Post Deleted",
-          description: response.message,
-          className: "bg-red-500 text-white",
-        });
-        noRedirect && router.push("/feed");
-        router.refresh();
-      }
-    });
+
+  const form = useForm<z.infer<typeof DeletePostSchema>>({
+    resolver: zodResolver(DeletePostSchema),
+    defaultValues: {
+      id: postId,
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof DeletePostSchema>) => {
+    const res = await deletePost(data);
+    if (res) {
+      toast.error(<Error res={res} />);
+    } else {
+      toast.success("Post deleted successfully!");
+    }
   };
+
   return (
     <div
       onClick={(e) => {
@@ -46,7 +48,7 @@ export function AlertDeletePost({
     >
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <button className="text-sm w-fit">Delete</button>
+          <button className="text-sm text-center w-full">Delete</button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -59,12 +61,17 @@ export function AlertDeletePost({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={deletePost}
-              className="bg-red-500 hover:bg-red-600 text-white"
-            >
-              Yes, Remove
-            </AlertDialogAction>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <AlertDialogAction
+                  type="submit"
+                  asChild
+                  className="bg-red-500 hover:bg-red-600 text-white"
+                >
+                  <button type="submit">Yes, Remove</button>
+                </AlertDialogAction>
+              </form>
+            </Form>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

@@ -8,10 +8,10 @@ datasource db {
 }
 
 // Likes Types
-enum LikeType {
-  LIKE
-  DISLIKE
-}
+// enum LikeType {
+//   LIKE
+//   DISLIKE
+// }
 
 // Bookmark Types
 enum BookmarkType {
@@ -80,11 +80,11 @@ model Notification {
 }
 
 model PostLike {
-  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
   postId String
-  post   Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  type   LikeType
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  // type   LikeType
 
   @@id([userId, postId])
 }
@@ -109,7 +109,7 @@ model CommentLike {
   userId    String
   comment   Comment  @relation(fields: [commnetId], references: [id], onDelete: Cascade)
   commnetId String
-  type      LikeType
+  // type      LikeType
   createdAt DateTime @default(now())
 
   @@id([userId, commnetId])

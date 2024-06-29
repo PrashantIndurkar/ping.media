@@ -5,54 +5,45 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Input } from "../ui/input";
 import { ArrowUp } from "lucide-react";
 import { useSession } from "next-auth/react";
-import axios from "axios";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
 import { getAvatarFallbackName } from "@/utils/avatar-fallback-name";
 
-const AddComment = ({
-  post,
-  noRedirect,
-}: {
-  post: PostType;
-  noRedirect?: boolean;
-}) => {
+const AddComment = () => {
   const { data } = useSession();
   const [content, setContent] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<PostErrorType>({});
-  const { toast } = useToast();
   const router = useRouter();
 
-  const submitComment = async () => {
-    setIsLoading(true);
-    axios
-      .post("/api/comments", {
-        content: content,
-        post_id: post.id,
-        toUserId: post.user.id,
-      })
-      .then((res) => {
-        const response = res.data;
+  // const submitComment = async () => {
+  //   setIsLoading(true);
+  //   axios
+  //     .post("/api/comments", {
+  //       content: content,
+  //       post_id: post.id,
+  //       toUserId: post.user.id,
+  //     })
+  //     .then((res) => {
+  //       const response = res.data;
 
-        if (response.status == 400) {
-          setIsError(response.error);
-        } else if (response.status == 200) {
-          router.refresh();
-          setIsError({});
-          setContent("");
-          toast({
-            title: "Comment added successfully",
-            description: response.message,
-            className: "bg-zinc-500 text-white h-12 min-h-fit w-fit",
-          });
-        }
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log("error from submit comment", error);
-      });
-  };
+  //       if (response.status == 400) {
+  //         setIsError(response.error);
+  //       } else if (response.status == 200) {
+  //         router.refresh();
+  //         setIsError({});
+  //         setContent("");
+  //         toast({
+  //           title: "Comment added successfully",
+  //           description: response.message,
+  //           className: "bg-zinc-500 text-white h-12 min-h-fit w-fit",
+  //         });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setIsLoading(false);
+  //       console.log("error from submit comment", error);
+  //     });
+  // };
+
   return (
     <>
       <div
@@ -74,16 +65,10 @@ const AddComment = ({
         />
         <button
           type="submit"
-          onClick={submitComment}
           className="absolute right-2 top-1/2 transform -translate-y-1/2 border p-1 rounded-full bg-green-700/80 dark:bg-green-700/550 flex items-center justify-center text-gray-50 hover:bg-green-700/90"
         >
           <ArrowUp className="h-5 w-5" />
         </button>
-      </div>
-      <div>
-        <span className="text-xs text-start mt-1 text-red-400">
-          {isError?.content}
-        </span>
       </div>
     </>
   );

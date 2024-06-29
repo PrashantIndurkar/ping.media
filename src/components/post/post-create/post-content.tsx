@@ -39,8 +39,6 @@ interface CreatePostProps {
 }
 
 export const CreatePost = ({ button, user }: CreatePostProps) => {
-  const router = useRouter();
-  // State to control dialog visibility
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const form = useForm<z.infer<typeof CreatePostSchema>>({

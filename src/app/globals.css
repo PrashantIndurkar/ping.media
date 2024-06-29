@@ -85,4 +85,34 @@
     background-color: #e45070;
     color: white;
   }
+
+  @keyframes count-up {
+    0% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes count-down {
+    0% {
+      transform: translateY(-80px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-count-up {
+    animation: count-up 1.6s ease-in-out;
+  }
+
+  .animate-count-down {
+    animation: count-down 1.6s ease-in-out;
+  }
 }

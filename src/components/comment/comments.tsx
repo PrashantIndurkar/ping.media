@@ -17,7 +17,7 @@ import {
 import axios from "axios";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
-import { formateDate } from "@/utils/date-format";
+import { CommentType } from "@/types/types";
 
 const Comments = ({ comment }: { comment: CommentType }) => {
   const { toast } = useToast();
@@ -52,16 +52,16 @@ const Comments = ({ comment }: { comment: CommentType }) => {
           // }}
         >
           <Link
-            href={`/profile/${comment.user.id}`}
+            href={`/profile/${comment.author.id}`}
             className="hover:underline"
           >
             {" "}
-            {comment.user.name}
+            {comment.author.name}
           </Link>
           <Dot className="inline text-gray-600" />
-          <span className="text-xs text-zinc-400">
-            {formateDate(comment.created_at)}
-          </span>
+          {/* <span className="text-xs text-zinc-400">
+            {formateDate(comment.createdAt)}
+          </span> */}
         </CardTitle>
         <CardDescription className="text-sm">{comment.content}</CardDescription>
         <CardFooter className="px-0 mt-2 gap-x-8">

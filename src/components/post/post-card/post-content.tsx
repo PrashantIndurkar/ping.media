@@ -13,12 +13,9 @@ import { PostType } from "@/types/types";
 
 type PostContentProps = {
   post: PostType;
-  noRedirect?: boolean;
 };
 
-export const PostContent = ({ post, noRedirect }: PostContentProps) => {
-  const [show, setShow] = useState(false);
-
+export const PostContent = ({ post }: PostContentProps) => {
   return (
     <div>
       <CardContent className="-mt-2 pl-[4.5rem]">
@@ -28,40 +25,6 @@ export const PostContent = ({ post, noRedirect }: PostContentProps) => {
         {/* Popup for image */}
         <PostImageDialog imageUrl={post.imageUrl ?? ""} />
       </CardContent>
-
-      <CardFooter className={`flex-col ${!noRedirect && "pl-[4.5rem]"}`}>
-        <div
-          className={`flex items-center justify-between w-full ${
-            noRedirect && "pl-10 pb-6 border-b"
-          }`}
-        >
-          <div className="flex items-center justify-between gap-x-10">
-            <PostLikesActions post={post} />
-
-            <PostCommentsActions
-              post={post}
-              setShow={setShow}
-              noRedirect={noRedirect}
-              show={show}
-            />
-          </div>
-
-          <div className="flex items-center justify-between gap-10">
-            {/*TODO: add sound when clicked */}
-            <PostBookmarksActions />
-
-            <PostShare post={post} />
-          </div>
-        </div>
-
-        {/* shows the who liked this post on the bottom of the post */}
-        {<PostLikedUsers post={post} />}
-
-        {/*  show the comments on the bottom of the post */}
-        {(show || noRedirect) && (
-          <AddComment post={post} noRedirect={noRedirect} />
-        )}
-      </CardFooter>
     </div>
   );
 };

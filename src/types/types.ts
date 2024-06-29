@@ -8,14 +8,22 @@ import {
 } from "@prisma/client";
 
 export type PostType = Post & {
-  likes: PostLike;
-  comments: Comment;
-  bookmark: Bookmark;
   author: User;
+  likes: PostLike[];
+  comments: Comment[];
+  bookmark: Bookmark[];
 };
 
 export type PostLikeType = PostLike & {
   user: User;
+};
+
+export type CommentType = Comment & {
+  post: Post;
+  author: User;
+  replyTo: Comment;
+  replies: Comment[];
+  commentLikes: CommentLike[];
 };
 
 // ===== old types =====
@@ -27,14 +35,14 @@ type UserType = {
   image?: string;
 };
 
-type CommentType = {
-  id: number;
-  authorId: number;
-  postId: number;
-  content: string;
-  createdAt: string;
-  author: UserType;
-};
+// type CommentType = {
+//   id: number;
+//   authorId: number;
+//   postId: number;
+//   content: string;
+//   createdAt: string;
+//   author: User;
+// };
 
 type ShowUserType = {
   name: string;

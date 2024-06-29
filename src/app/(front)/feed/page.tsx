@@ -30,7 +30,7 @@ export default async function Home() {
       <main className="w-full">
         <Suspense fallback={<PostCardSkeleton />}>
           <Await promise={posts}>
-            {(data) => <PostCard posts={data as any} />}
+            {(data) => <PostCard posts={data as any} user={user} />}
           </Await>
         </Suspense>
       </main>

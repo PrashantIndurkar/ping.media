@@ -8,6 +8,7 @@ import CommentFilter from "@/components/comment/comment-filter";
 import { getSinglePost } from "@/services/api/getSinglePost";
 import { PostCard } from "@/components/post/post-card";
 import { getAuthSession } from "@/app/api/auth/[...nextauth]/options";
+import { CommentType } from "@/types/types";
 
 const ShowPost = async ({ params }: { params: { id: string } }) => {
   const posts = await getSinglePost(params.id);
@@ -23,13 +24,15 @@ const ShowPost = async ({ params }: { params: { id: string } }) => {
         </div>
         {/* <HeaderTitle title={`Post by ${posts.author.name}`} /> */}
       </header>
-      <PostCard posts={[posts]} noRedirect user={session?.user ?? null} />
+      <PostCard posts={[posts]} user={session?.user ?? null} />
 
       <Tabs defaultValue="comments" className="w-full border-none">
         <TabsList className="flex flex-wrap gap-2 bg-transparent rounded-none border-t-0 border-b gap-x-12">
           <TabsTrigger value="comments" className="text-xs">
             COMMENTS <Dot />{" "}
-            <span className="text-xs">{posts.Comment?.length}</span>
+            {/* <span className="text-xs">
+              {posts.comments?.length > 0 ? posts.Comment?.length : 0}
+            </span> */}
           </TabsTrigger>
           <TabsTrigger value="likes" className="text-xs">
             LIKES <Dot /> <span className="text-xs">3</span>
@@ -38,7 +41,7 @@ const ShowPost = async ({ params }: { params: { id: string } }) => {
         <section className="px-5 ">
           <TabsContent value="comments">
             <CommentFilter />
-            {posts.Comment && posts.Comment?.length > 0 ? (
+            {/* {posts.Comment && posts.Comment?.length > 0 ? (
               <>
                 {posts.Comment.map((comment: CommentType) => {
                   return <Comments key={comment.id} comment={comment} />;
@@ -51,7 +54,7 @@ const ShowPost = async ({ params }: { params: { id: string } }) => {
               </>
             ) : (
               <EmptyCommentsLike />
-            )}
+            )} */}
           </TabsContent>
           <TabsContent value="likes">
             <EmptyCommentsLike />
